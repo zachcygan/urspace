@@ -1,7 +1,6 @@
-const { Schema, model } = require('mongoose');
-import Comment from './Comment.js';
+import { Schema } from 'mongoose';
 
-const postSchema = new Schema(
+const commentSchema = new Schema(
     {
         userId: {
             type: Schema.Types.ObjectId,
@@ -11,15 +10,20 @@ const postSchema = new Schema(
         content: {
             type: String,
             default: '',
+            required: true,
         },
         createdAt: {
             type: Date,
             default: Date.now,
         },
-        comments: [comment]
     },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+        },
+        id: false,
+    }
 );
 
-const Post = model('Post', postSchema);
-
-module.exports = Post;
+export default commentSchema;
