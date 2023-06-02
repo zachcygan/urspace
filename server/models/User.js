@@ -60,6 +60,21 @@ const userSchema = new Schema(
     }
 );
 
+userSchema
+    .virtual('followerCount')
+    .get(function () {
+        if (this.followers) return this.followers.length
+    })
+userSchema
+    .virtual('followingCount')
+    .get(function () {
+        if (this.following) return this.following.length
+    })
+userSchema
+    .virtual('postCount')
+    .get(function () {
+        if (this.posts) return this.posts.length
+    })
 
 userSchema.pre('save', async function (next) {
     if (this.isNew || this.isModified('password')) {
