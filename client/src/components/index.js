@@ -6,6 +6,6 @@ import MusicCard from './MusicCard';
 import MusicDisplay from './MusicDisplay';
 import Posts from './Posts';
 import Searchbar from './Searchbar';
+import PlayPause from './PlayPause';
 
-
-export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar};
+export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause};
