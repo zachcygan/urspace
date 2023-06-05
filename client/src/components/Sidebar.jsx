@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+
 import { NavLink } from 'react-router-dom';
 
 const links = [
@@ -20,8 +20,8 @@ const links = [
     icons: HiOutlineMenu
     },
     {
-        name: 'Chat',
-        to: '/chat',
+        name: 'Login',
+        to: '/login',
         icons: HiOutlineHashtag
     }
 ];
@@ -42,7 +42,7 @@ const Sidebar = () => {
     // navlinks knows which link is active
     return(
         <div className='md: flex flex-col w-[240px] py-10 px-4 bg-[#191624]'>
-            <h1>Urspace</h1>
+            <h1 className=' text-gray-400 font-bold '>Urspace</h1>
             <NavLinks />
         </div>
 
