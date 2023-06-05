@@ -2,7 +2,7 @@
 import {useSelector} from 'react-redux';
 import { Link,Route,Routes} from 'react-router-dom';
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
-import {Footer,Likes,Comments,MusicCard,Navbar,Posts,Searchbar} from './components';
+import {Footer,Likes,Comments,MusicCard,Navbar,Posts,Searchbar,Sidebar} from './components';
 import MusicPlayer from './components/MusicPlayer';
 import { Home, Login, Profile, MusicSearchField } from './pages';
 
@@ -12,6 +12,7 @@ function App() {
 
   return (
     <div className='relative flex'>
+      <Sidebar />
       <header className='w-full flex justify-between items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'></header>
       <Routes>
         <Route path='/' element={<Home />} />

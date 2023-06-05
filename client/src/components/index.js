@@ -7,5 +7,6 @@ import MusicDisplay from './MusicDisplay';
 import Posts from './Posts';
 import Searchbar from './Searchbar';
 import PlayPause from './PlayPause';
+import Sidebar from './Sidebar';
 
-export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause};
+export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar};
