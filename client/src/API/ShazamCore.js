@@ -1,7 +1,7 @@
 
 import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-const dotenv = require('dotenv');
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config();
 // const options = {
 //     method: 'GET',
 //     headers: {
@@ -18,7 +18,7 @@ dotenv.config();
 export const shazamCoreApi = createApi({
   reducerPath:'shazamCoreApi',
   baseQuery:fetchBaseQuery({
-    baseUrl:process.env.baseQuery,
+    baseUrl:'https://shazam-core.p.rapidapi.com/v1',
     prepareHeaders:(headers)=>{
       headers.set('X-RapidAPI-Key','d70bb1b6e1mshe04c414a121c6dep153cc2jsn32fdffc7620f');
       return headers;
