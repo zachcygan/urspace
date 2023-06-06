@@ -40,8 +40,8 @@ const resolvers = {
       return { token, user };
     },
 
-    uploadFile: async (parent, { file }) => {
-
+    uploadImage: async (parent, { file }) => {
+      
     },
 
     saveBook: async (parent, book, context) => {
