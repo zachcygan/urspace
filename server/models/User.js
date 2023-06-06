@@ -33,6 +33,9 @@ const userSchema = new Schema(
         bio: {
             type: String,
         },
+        profilePic: {
+            type: String,
+        },
         following: [
             {
                 type: Schema.Types.ObjectId,
