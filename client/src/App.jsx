@@ -13,13 +13,17 @@ function App() {
   return (
     <div className='relative flex'>
       <Sidebar />
-      <header className='w-full flex justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
+      <header className='w-full h-screen flex justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
+        <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+        <div className="flex-1 h-fit pb-40">
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/posts' element={<CommunityPost />} />
       </Routes>
+      </div>
+      </div>
       </header>
       
       {/* <Link to={'/'}>

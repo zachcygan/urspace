@@ -1,6 +1,11 @@
 import React,{useState,useEffect} from 'react';
 
 const Profile = () => {
-    <div>Profile</div>
+    return(<div className='flex w-screen items-center justify-center'>
+
+    
+        <div className=' font-extrabold text-[30px]'>Profile</div>
+        </div>
+    )
 }
 export default Profile;

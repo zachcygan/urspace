@@ -34,7 +34,7 @@ const CommunityPost = () => {
 
     
     return(
-        <div className='flex flex-col'>
+        <div className=' flex flex-col'>
         {templatePost.map((post)=>{
             return(
         <div className=" bg-gray-100 p-4 ">
