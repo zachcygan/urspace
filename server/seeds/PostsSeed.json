@@ -1,0 +1,22 @@
+[
+    {
+        "title":"I like peanuts",
+        "description":"I really enjoy peanuts byut I am allergic to them butasdasdadqweqwslfjaskld",
+        "likes":512,
+        "comments":5,
+        "user": "John Doe",
+        "profileImage": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg",
+        "images": "https://steamuserimages-a.akamaihd.net/ugc/1644340994747007967/853B20CD7694F5CF40E83AAC670572A3FE1E3D35/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+        
+    },
+    {
+        "title":"I hate league of legends",
+        "description":"Absolute dogshit game wasdhjalsfjsaldfjasdhfalsdf;asdhfashjf",
+        "likes":912312,
+        "comments":123123,
+        "user": "Andrew Tate",
+        "profileImage": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg",
+        "images": "https://steamuserimages-a.akamaihd.net/ugc/1644340994747007967/853B20CD7694F5CF40E83AAC670572A3FE1E3D35/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true"
+        
+    }
+]

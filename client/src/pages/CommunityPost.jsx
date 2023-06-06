@@ -3,51 +3,41 @@ import cool from '../assets/cool.jpg';
 import profile from '../assets/profile.jpg';
 import andrew from '../assets/andrew.jpg';
 import League from '../assets/League.jpg';
+import { Link } from 'react-router-dom';
+import{useQuery} from '@apollo/client';
+import GET_POSTS from '../utils/queries'
 
 import {AiFillLike} from 'react-icons/ai';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
 
 const CommunityPost = () => {
-    const templatePost =   [
-        {
-            title:'I like peanuts',
-            description:'I really enjoy peanuts byut I am allergic to them butasdasdadqweqwslfjaskld',
-            likes:512,
-            comments:5,
-            user: "John Doe",
-            image: cool,
-            profile: profile,
-            location:'Irvine, CA'
-        },
-        {
-            title:'I hate league of legends',
-            description:'Absolute dogshit game wasdhjalsfjsaldfjasdhfalsdf;asdhfashjf',
-            likes:912312,
-            comments:123123,
-            user: "Andrew Tate",
-            image: League,
-            profile: andrew,
-            location:'Austin, Texas'
-        },
-    ];
-
     
+
+    const {loading,data} = useQuery(GET_POSTS);
+    const postData = data?.posts||[];
+    console.log(postData);
     return(
         <div className=' flex flex-col'>
-        {templatePost.map((post)=>{
+          <div className='w-full flex justify-between items-center bg-white'>
+          <h1 className='font-extrabold text-[32px]'>Community</h1>
+          <Link to='/createpost' className='font-inter font-medium bg-[#6469ff] text-white px-4 py-2 rounded-md'>Create Post</Link>
+          </div>
+        
+
+        {postData.map((post)=>{
             return(
         <div className=" bg-gray-100 p-4">
         <div className="bg-white border rounded-sm max-w-md">
           <div className="flex items-center px-4 py-3">
-            <img className="h-8 w-8 rounded-full" src={post.profile}/>
+            <img className="h-8 w-8 rounded-full" src={post.profileImage}/>
             <div className="ml-3 ">
               <span className="text-sm font-semibold antialiased block leading-tight">{post.user}</span>
-              <span className="text-gray-600 text-xs block">{post.location}</span>
+            
             </div>
           </div>
-          <img src={post.image}/>
-          <div classNameName="flex items-center justify-between mx-4 mt-3 mb-2">
+          <img src={post.images}/>
+          <div className="flex items-center justify-between mx-4 mt-3 mb-2">
             <div className="flex gap-5">
             
               <AiFillLike size='24px'/>
