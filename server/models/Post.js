@@ -1,22 +1,36 @@
 const { Schema, model } = require('mongoose');
-const Comment = require('./Comment.js');
+const CommentSchema = require('./Comment');
 
 const postSchema = new Schema(
     {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
+        
+        title:{
+            type: String,
+
         },
-        content: {
+        description: {
             type: String,
             default: '',
         },
-        createdAt: {
-            type: Date,
-            default: Date.now,
+        likes:{
+            type: Number,
+            default: 0,
         },
-        comments: [Comment]
+        comments: {
+            type: Number,
+            default: 0,
+        },
+        images:{
+            type: String,
+            default: '',
+        },
+        profileImage:{
+            type: String,
+            default: '',
+        },
+        user:{
+            type: String,
+        }
     },
 );
 
