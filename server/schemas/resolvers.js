@@ -2,6 +2,7 @@
 const { User, Comment, Post } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
+const { uploadFile } = require("../utils/s3");
 
 const resolvers = {
   Query: {
@@ -32,6 +33,10 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    
+    uploadFile: async (parent, { file }) => {
+
     },
 
     saveBook: async (parent, book, context) => {
