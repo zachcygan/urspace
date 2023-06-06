@@ -1,11 +1,14 @@
 
+
 import {useSelector} from 'react-redux';
 import { Link,Route,Routes} from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
-import {Footer,Likes,Comments,MusicCard,Navbar,Posts,Searchbar,Sidebar} from './components';
+import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
+
 import { Home, Login, Profile, MusicSearchField,CommunityPost,CreatePost } from './pages';
 
 const client = new ApolloClient({
@@ -13,13 +16,15 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+
 function App() {
-  const {activeSong} = useSelector((state)=>state.player);
+  const { activeSong } = useSelector((state) => state.player);
 
 
   return (
     <ApolloProvider client={client}>
     <div className='relative flex'>
+
       <Sidebar />
       <header className='w-full h-screen flex justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
         <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
@@ -33,8 +38,9 @@ function App() {
       </Routes>
       </div>
       </div>
+
       </header>
-      
+
       {/* <Link to={'/'}>
         <h1 className='w-30 object-contain'>UrSpace</h1>
       </Link> */}
@@ -43,8 +49,10 @@ function App() {
           <MusicPlayer />
         </div>
       )}
+
       </div>
       </ApolloProvider>
+
   )
 }
 
