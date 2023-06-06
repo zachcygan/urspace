@@ -1,4 +1,5 @@
-import Post from './Post.js';
-import User from './User.js';
+
+const Post = require('./Post.js');
+const User = require('./User.js')
 
 module.exports = { Post, User };
