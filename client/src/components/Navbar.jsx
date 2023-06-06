@@ -5,16 +5,20 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 
-function Navbar({ currentPage, handlePageChange }) {
-    return (
-        <Disclosure as="nav" className="bg-white shadow">
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+export default function Navbar() {
+  return (
+    <Disclosure as="nav" className="bg-white shadow absolute justify-between w-full">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex px-2 lg:px-0">
-                <div className="flex flex-shrink-0 items-center">
-                 <a href='#home'><h2>URSPACE</h2></a>
+                <div className="flex flex-shrink-0 items-center text-cyan-950 text-xl font-extrabold ">
+                <h2>URSPACE</h2>
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
@@ -84,7 +88,7 @@ function Navbar({ currentPage, handlePageChange }) {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Profile
+                            Profile
                           </a>
                         )}
                       </Menu.Item>
@@ -114,7 +118,7 @@ function Navbar({ currentPage, handlePageChange }) {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Sign out
+                            Log out
                           </a>
                         )}
                       </Menu.Item>
@@ -175,7 +179,5 @@ function Navbar({ currentPage, handlePageChange }) {
         </>
       )}
     </Disclosure>
-    )
+  )
 }
-
-export default Navbar;
