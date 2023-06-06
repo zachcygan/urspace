@@ -37,7 +37,7 @@ const CommunityPost = () => {
         <div className=' flex flex-col'>
         {templatePost.map((post)=>{
             return(
-        <div className=" bg-gray-100 p-4 ">
+        <div className=" bg-gray-100 p-4">
         <div className="bg-white border rounded-sm max-w-md">
           <div className="flex items-center px-4 py-3">
             <img className="h-8 w-8 rounded-full" src={post.profile}/>
