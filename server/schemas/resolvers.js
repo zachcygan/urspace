@@ -3,6 +3,11 @@ const { User, Comment, Post } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const { uploadFile } = require("../utils/s3");
+import multer from "multer";
+
+const upload = multer({ 
+  dest: "uploads/" 
+});
 
 const resolvers = {
   Query: {
@@ -34,7 +39,7 @@ const resolvers = {
 
       return { token, user };
     },
-    
+
     uploadFile: async (parent, { file }) => {
 
     },
