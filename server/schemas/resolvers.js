@@ -2,12 +2,6 @@
 const { User, Comment, Post } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
-const { uploadFile } = require("../utils/s3");
-import multer from "multer";
-
-const upload = multer({ 
-  dest: "uploads/" 
-});
 
 const resolvers = {
   Query: {
@@ -40,32 +34,37 @@ const resolvers = {
       return { token, user };
     },
 
-    uploadImage: async (parent, { file }) => {
-      
+    createPost: async (parent, { content }, context) => {
+      if (context.user) {
+        const post = new Post({
+          userId: context.user._id,
+          content,
+          createdAt: new Date().toISOString(),
+        });
+        return post.save();
+      }
+      throw new AuthenticationError("You need to be logged in to perform this action")
     },
 
-    saveBook: async (parent, book, context) => {
+    createComment: async (parent, { input }, context) => {
       if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedBooks: book } },
-          { new: true, runValidators: true }
+        const { postId, content } = input;
+        const comment = new Comment({
+          userId: context.user._id,
+          content,
+          createdAt: new Date().toISOString(),
+        });
+        const post = await Post.findOneAndUpdate(
+          { _id: postId },
+          { $push: { comments: comment } },
+          { new: true }
         );
+        if (!post) {
+          throw new Error("Post not found");
+        }
+        return comment;
       }
-      throw new AuthenticationError(
-        "You need to be logged in to perform this action"
-      );
-    },
-
-    removeBook: async (parent, { bookId }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-            { _id: context.user._id },
-            { $pull: { savedBooks: { bookId: bookId } } },
-            { new: true }
-        );
-      }
-      throw new AuthenticationError('You must be logged in to perform this action');
+      throw new AuthenticationError("You need to be logged in to perform this action")
     },
   },
 };
