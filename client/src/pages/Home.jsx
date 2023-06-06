@@ -1,5 +1,7 @@
 import { useDispatch,useSelector } from 'react-redux';
 import React,{useState,useEffect} from 'react';
+import {useQuery} from '@apollo/client';
+
 import {genres} from '../assets/constants'
 import { MusicCard } from '../components';
 import { useGetTopChartsQuery } from '../API/ShazamCore';

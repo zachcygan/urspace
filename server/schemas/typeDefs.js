@@ -8,54 +8,38 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
-    firstName: String
-    lastName: String
-    bio: String
-    profilePic: String
-    following: [User]
-    followers: [User]
-    posts: [Post]
-    followerCount: Int
-    followingCount: Int
-    postCount: Int
   }
 
-  type Post {
-    _id: ID!
-    userId: User!
-    content: String
-    createdAt: String
-    comments: [Comment]
-  }
-
-  type Comment {
-    _id: ID!
-    userId: User!
-    content: String!
-    createdAt: String!
-  }
 
   type Auth {
     token: ID!
     user: User!
   }
+  type Post{
+    _id: ID!
+    title: String!
+    description: String!
+    likes: Int
+    comments: Int
+    images: String!
+    profileImage: String!
+    user: String!
+  }
 
   type Query {
   me: User
+  posts: [Post]
   }
+  
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
+    createPost(title: String!, description: String!, images: String!, profileImage: String!, user: String!): Post
     login(email: String!, password: String!): Auth
-    createComment(input: CreateCommentInput!): Comment
-    createPost(content: String!): Post
-   
+    createComment(postId: ID!, content: String!): Post
   }
 
-  input CreateCommentInput {
-    postId: ID!
-    content: String!
-  }
+  
 `;
 
 module.exports = typeDefs;
