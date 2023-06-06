@@ -3,20 +3,27 @@ const Comment = require('./Comment.js');
 
 const postSchema = new Schema(
     {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
+        
+        title:{
+            type: String,
+
         },
-        content: {
+        description: {
             type: String,
             default: '',
         },
-        createdAt: {
-            type: Date,
-            default: Date.now,
+        likes:{
+            type: Number,
+            default: 0,
         },
-        comments: [Comment]
+        comments: {
+            type: Number,
+
+        },
+        user:{
+            type: String,
+            required: true,
+        }
     },
 );
 

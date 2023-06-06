@@ -18,7 +18,7 @@ const CommunityPost = () => {
             user: "John Doe",
             image: cool,
             profile: profile,
-            location:'Irvine, CA'
+            
         },
         {
             title:'I hate league of legends',
@@ -28,7 +28,7 @@ const CommunityPost = () => {
             user: "Andrew Tate",
             image: League,
             profile: andrew,
-            location:'Austin, Texas'
+            
         },
     ];
 
@@ -43,7 +43,7 @@ const CommunityPost = () => {
             <img className="h-8 w-8 rounded-full" src={post.profile}/>
             <div className="ml-3 ">
               <span className="text-sm font-semibold antialiased block leading-tight">{post.user}</span>
-              <span className="text-gray-600 text-xs block">{post.location}</span>
+            
             </div>
           </div>
           <img src={post.image}/>

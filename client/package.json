@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.15",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@reduxjs/toolkit": "^1.9.5",
     "dotenv": "^16.1.4",
     "file-saver": "^2.0.5",
+    "graphql": "^16.6.0",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.18",
     "react": "^18.2.0",

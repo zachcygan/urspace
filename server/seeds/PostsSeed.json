@@ -1,0 +1,18 @@
+[
+    {
+        "title":"I like peanuts",
+        "description":"I really enjoy peanuts byut I am allergic to them butasdasdadqweqwslfjaskld",
+        "likes":512,
+        "comments":5,
+        "user": "John Doe"
+        
+    },
+    {
+        "title":"I hate league of legends",
+        "description":"Absolute dogshit game wasdhjalsfjsaldfjasdhfalsdf;asdhfashjf",
+        "likes":912312,
+        "comments":123123,
+        "user": "Andrew Tate"
+        
+    }
+]

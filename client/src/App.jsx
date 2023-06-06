@@ -1,16 +1,24 @@
 
 import {useSelector} from 'react-redux';
 import { Link,Route,Routes} from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
 import {Footer,Likes,Comments,MusicCard,Navbar,Posts,Searchbar,Sidebar} from './components';
 import MusicPlayer from './components/MusicPlayer';
 import { Home, Login, Profile, MusicSearchField,CommunityPost } from './pages';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:3002/graphql',
+  cache: new InMemoryCache()
+});
 
 function App() {
   const {activeSong} = useSelector((state)=>state.player);
 
 
   return (
+    <ApolloProvider client={client}>
     <div className='relative flex'>
       <Sidebar />
       <header className='w-full h-screen flex justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
@@ -35,6 +43,7 @@ function App() {
         </div>
       )}
       </div>
+      </ApolloProvider>
   )
 }
 

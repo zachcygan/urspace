@@ -34,29 +34,9 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, book, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedBooks: book } },
-          { new: true, runValidators: true }
-        );
-      }
-      throw new AuthenticationError(
-        "You need to be logged in to perform this action"
-      );
-    },
+ 
 
-    removeBook: async (parent, { bookId }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-            { _id: context.user._id },
-            { $pull: { savedBooks: { bookId: bookId } } },
-            { new: true }
-        );
-      }
-      throw new AuthenticationError('You must be logged in to perform this action');
-    },
+
   },
 };
 
