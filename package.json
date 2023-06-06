@@ -6,10 +6,13 @@
   "scripts": {
        "client-install": "npm install --prefix client",
         "client": "npm run dev --prefix client",
-        "server": "node server/index.js",
-        "build": "npm run build --prefix client",
-        "start": "concurrently \"npm run server\" \"npm run client\"",
-        "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+        "server": "node server/server.js",
+        "build": "cd client && npm run build",
+        "start": "node server/server.js",
+        "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+        "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+        "install": "cd server && npm i && cd ../client && npm i"
+
   },
   "keywords": [],
   "author": "",

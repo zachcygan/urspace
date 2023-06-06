@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-import Comment from './Comment.js';
+const Comment = require('./Comment.js');
 
 const postSchema = new Schema(
     {
