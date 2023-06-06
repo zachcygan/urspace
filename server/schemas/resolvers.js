@@ -2,6 +2,13 @@
 const { User, Comment, Post } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
+const fs = require('fs')
+const util = require('util')
+const unlinkFile = util.promisify(fs.unlink)
+
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const { uploadFile, getFileStream } = require('../utils/s3')
 
 const resolvers = {
   Query: {
@@ -44,6 +51,14 @@ const resolvers = {
         return post.save();
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
+    },
+
+    uploadImage: async (parent, { file }, context) => {
+      const result = await uploadFile(file)
+      await unlinkFile(file.path)
+      console.log(result)
+      
+      return {imagePath: `/images/${result.Key}`}
     },
 
     createComment: async (parent, { input }, context) => {
