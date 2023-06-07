@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import{useQuery} from '@apollo/client';
-import GET_POSTS from '../utils/queries'
+import { GET_POSTS } from '../utils/queries'
 
 import {AiFillLike} from 'react-icons/ai';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
