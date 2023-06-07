@@ -29,6 +29,8 @@ export const GET_USERS = gql`
   }
 `;
 
+
+
 export const QUERY_GET_ME = gql`
   query me {
     me {
@@ -38,3 +40,4 @@ export const QUERY_GET_ME = gql`
     }
   }
 `;
+
