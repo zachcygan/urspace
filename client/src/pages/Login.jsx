@@ -1,7 +1,51 @@
 import React,{useState,useEffect} from 'react';
+import { useMutation } from '@apollo/client';
+import Auth from '../utils/auth';
+import { LOGIN_USER } from '../utils/mutations'; 
 
-const Login = () => {
-    
+
+const LoginForm = () => {
+  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [loginUser, {error}] = useMutation(LOGIN_USER);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value});
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    try {
+      const response = await loginUser(userFormData);
+
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+
+      const { token, user } = await response.json();
+      console.log(user);
+      Auth.login(token);
+    } catch (err) {
+      console.error(err);
+      setShowAlert(true);
+    }
+
+    setUserFormData({
+      username: '',
+      email: '',
+      password: '',
+    });
+  };
+
     return (
         <div class="flex w-screen min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -42,5 +86,7 @@ const Login = () => {
       </div>
 
     )
-}
-export default Login;
+};
+
+
+export default LoginForm;
