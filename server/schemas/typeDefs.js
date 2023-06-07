@@ -19,12 +19,12 @@ const typeDefs = gql`
 
   type Music{
     _id: ID!
-    artists: String!
-    coverart: String!
-    title: String!
-    genre: String!
-    url: String!
-    year: Int!
+    artist: String
+    coverart: String
+    title: String
+    url: String
+
+  }
   type Following {
     _id: ID!
     username: String!
@@ -60,6 +60,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    saveMusic(title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
     createPost(title: String!, description: String!, images: String!, profileImage: String!, user: String!): Post
     login(email: String!, password: String!): Auth

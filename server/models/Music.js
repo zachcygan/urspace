@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const musicSchema = new Schema(
 
     {
-        artists:{
+        artist:{
             type: String,
             default: '',
         },
@@ -14,15 +14,10 @@ const musicSchema = new Schema(
         title:{
             type: String,
         },
-        genre:{
-            type: String,
-        },
         url:{
             type: String,
         },
-        year:{
-            type: Number
-        }
+    
 
     }
     );
