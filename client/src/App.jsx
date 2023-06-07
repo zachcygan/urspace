@@ -24,11 +24,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <div className='relative flex'>
-
-      <Sidebar />
+     
+      {/* <Sidebar /> */}
       <header className='flex-1 flex-col justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
-        <Searchbar />
-        <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
+         <Navbar />
+        {/* <Searchbar /> */}
+        <div className="px-6 h-[calc(100vh-72px)] mt-10 pt-5 overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
         <div className="flex-1 h-fit pb-40">
       <Routes>
         <Route path='/' element={<Home />} />
