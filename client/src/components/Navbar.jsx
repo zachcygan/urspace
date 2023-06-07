@@ -17,8 +17,8 @@ export default function Navbar() {
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex px-2 lg:px-0">
-                <div className="flex flex-shrink-0 items-center text-cyan-950 text-xl font-extrabold ">
-                <h2>URSPACE</h2>
+                <div className="flex flex-shrink-0 items-center text-cyan-950 text-2xl  ">
+                <h2>U R S P A C E</h2>
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
