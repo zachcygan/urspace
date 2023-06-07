@@ -55,5 +55,21 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const REGISTER = gql`
+mutation Register($username: String!, $email: String!, $password: String!, $firstName: String!, $lastName: String!) {
+    register(username: $username, email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
+      token
+      user {
+        _id
+        username
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+
+`;
+
 export default CREATE_POST;
 

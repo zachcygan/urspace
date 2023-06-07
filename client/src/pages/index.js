@@ -8,4 +8,5 @@ import SearchPage from './SearchPage';
 import musicPage from './musicPage';
 import ArtistPage from './ArtistPage';
 import SavedMusic from './SavedMusic';
-export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,musicPage,ArtistPage,SavedMusic};
+import Register from './Register';
+export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,musicPage,ArtistPage,SavedMusic,Register};

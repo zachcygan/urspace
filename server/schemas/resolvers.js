@@ -122,6 +122,11 @@ const resolvers = {
         throw new Error('Error creating music');
       }
     },
+    register: async (parent, { username, email, password,firstName,lastName }) => {
+      const user = await User.create({username, email, password,firstName,lastName});
+      const token = signToken(user);
+      return { token, user };
+    },
   },
 };
 
