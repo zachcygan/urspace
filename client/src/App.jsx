@@ -9,7 +9,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
-import { Home, Login, Profile, MusicSearchField,CommunityPost,CreatePost } from './pages';
+import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage } from './pages';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3002/graphql',
@@ -26,7 +26,8 @@ function App() {
     <div className='relative flex'>
 
       <Sidebar />
-      <header className='w-full h-screen flex justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
+      <header className='flex-1 flex-col justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
+        <Searchbar />
         <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse">
         <div className="flex-1 h-fit pb-40">
       <Routes>
@@ -35,6 +36,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/posts' element={<CommunityPost />} />
         <Route path='/createpost' element={<CreatePost />} />
+        <Route path='/search/:searchTerm' element={<SearchPage />} />
       </Routes>
       </div>
       </div>

@@ -1,8 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import cool from '../assets/cool.jpg';
-import profile from '../assets/profile.jpg';
-import andrew from '../assets/andrew.jpg';
-import League from '../assets/League.jpg';
 import { Link } from 'react-router-dom';
 import{useQuery} from '@apollo/client';
 import GET_POSTS from '../utils/queries'

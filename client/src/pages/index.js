@@ -4,4 +4,5 @@ import MusicSearchField from './MusicSearchField';
 import Profile from './Profile';
 import CommunityPost from './CommunityPost';
 import CreatePost from './CreatePost';
-export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost };
+import SearchPage from './SearchPage';
+export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage };
