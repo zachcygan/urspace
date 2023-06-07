@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import {Searchbar} from '../components';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -26,7 +26,7 @@ export default function Navbar() {
                   <label htmlFor="search" className="sr-only">
                     Search
                   </label>
-                  <div className="relative">
+                  {/* <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
@@ -37,7 +37,8 @@ export default function Navbar() {
                       placeholder="Search"
                       type="search"
                     />
-                  </div>
+                  </div> */}
+                  <Searchbar/>
                 </div>
               </div>
               <div className="flex items-center lg:hidden">

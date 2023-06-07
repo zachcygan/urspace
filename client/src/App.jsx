@@ -25,7 +25,7 @@ function App() {
     <ApolloProvider client={client}>
     <div className='relative flex'>
      
-      {/* <Sidebar /> */}
+      <Sidebar />
       <header className='flex-1 flex-col justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
          <Navbar />
         {/* <Searchbar /> */}
