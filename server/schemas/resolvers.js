@@ -27,7 +27,11 @@ const resolvers = {
     users: async () => {
       const user = await User.find();
       return user;
-    }
+    },
+    musics: async () => {
+      const music = await Music.find();
+      return music;
+    },
   },
   Mutation: {
     login: async (parent, { email, password }) => {
