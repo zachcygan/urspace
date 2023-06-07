@@ -20,7 +20,7 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: true,
-            minLength: 8,
+            minLength: 8,   
         },
         firstName: {
             type: String,
@@ -33,7 +33,7 @@ const userSchema = new Schema(
         bio: {
             type: String,
         },
-        profilePic: {
+        profileImage: {
             type: String,
         },
         following: [

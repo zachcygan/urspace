@@ -8,6 +8,13 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
+    firstName: String
+    lastName: String
+    bio: String
+    profileImage: String
+    following: [Following]
+    followers: [Followers]
+    posts: [Post]
   }
 
   type Music{
@@ -18,12 +25,21 @@ const typeDefs = gql`
     genre: String!
     url: String!
     year: Int!
+  type Following {
+    _id: ID!
+    username: String!
+  }
+
+  type Followers {
+    _id: ID!
+    username: String!
   }
 
   type Auth {
     token: ID!
     user: User!
   }
+
   type Post{
     _id: ID!
     title: String!
@@ -40,8 +56,8 @@ const typeDefs = gql`
   posts: [Post]
   musics: [Music]
   music(_id: ID!): Music
+  users: [User]
   }
-  
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
