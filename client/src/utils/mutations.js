@@ -25,6 +25,18 @@ export const ADD_USER = gql`
         }
     }
 `;
+export const SAVE_MUSIC = gql`
+    mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
+        saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
+            artist
+            coverart
+            title
+            url
+            
+        }
+    }
+
+`;
 
 
 
@@ -41,6 +53,22 @@ export const LOGIN_USER = gql`
       }
     }
   }
+`;
+
+export const REGISTER = gql`
+mutation Register($username: String!, $email: String!, $password: String!, $firstName: String!, $lastName: String!) {
+    register(username: $username, email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
+      token
+      user {
+        _id
+        username
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+
 `;
 
 export default CREATE_POST;

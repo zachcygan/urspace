@@ -15,6 +15,7 @@ const MusicCard =({song,i,isPlaying,activeSong,data})=>{
         dispatch(setActiveSong({song,data,i}));
         dispatch(playPause(true));
     }
+   
     return(
     <div className="flex flex-col w-[200px] px-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg curson-pointer" key={i}>
         <div className='relative w-full h-56 group'>
@@ -28,7 +29,7 @@ const MusicCard =({song,i,isPlaying,activeSong,data})=>{
 
                 ></PlayPause>
             </div>
-            <img src={song.images?.coverart} alt="songImage" className='w-full h-full object-cover rounded-lg'/>
+            <img src={song.images?.coverart} alt="songImage" className='w-full h-full object-cover rounded-lg' />
         </div>
         <div className='mt-4 flex flex-col'>
             <p className='font-semibold text-lg  truncate'>
