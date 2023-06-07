@@ -2,6 +2,13 @@
 const { User, Comment, Post } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
+const fs = require('fs')
+const util = require('util')
+const unlinkFile = util.promisify(fs.unlink)
+
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const { uploadFile, getFileStream } = require('../utils/s3')
 
 const resolvers = {
   Query: {
@@ -16,6 +23,10 @@ const resolvers = {
     posts: async () => {
       const posts = await Post.find();
       return posts;
+    },
+    users: async () => {
+      const user = await User.find();
+      return user;
     }
   },
   Mutation: {
@@ -67,6 +78,14 @@ const resolvers = {
         throw new Error("Error creating post");
       }
     },
+
+    // uploadImage: async (parent, { file }, context) => {
+    //   const result = await uploadFile(file)
+    //   await unlinkFile(file.path)
+    //   console.log(result)
+      
+    //   return {imagePath: `/images/${result.Key}`}
+    // },
 
     createComment: async (parent, { input }, context) => {
       if (context.user) {

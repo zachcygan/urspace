@@ -8,13 +8,30 @@ const typeDefs = gql`
     username: String!
     email: String!
     password: String!
+    firstName: String
+    lastName: String
+    bio: String
+    profileImage: String
+    following: [Following]
+    followers: [Followers]
+    posts: [Post]
   }
 
+  type Following {
+    _id: ID!
+    username: String!
+  }
+
+  type Followers {
+    _id: ID!
+    username: String!
+  }
 
   type Auth {
     token: ID!
     user: User!
   }
+
   type Post{
     _id: ID!
     title: String!
@@ -29,8 +46,8 @@ const typeDefs = gql`
   type Query {
   me: User
   posts: [Post]
+  users: [User]
   }
-  
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
