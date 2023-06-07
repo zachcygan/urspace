@@ -44,37 +44,36 @@ const Profile = () => {
 
 
     return (
-        <div className="bg-white py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                    <div className='flex justify-between'>    
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.users[0]?.username}</h2>
-                        <img className='rounded-full' src="https://static.wikia.nocookie.net/muppet/images/5/5a/Elmo-elmo-elmo.jpg/revision/latest?cb=20110917000614" alt="" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
+            
+            {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
+            <div className="container mx-auto sm:px-6 lg:px-8">{/* Content goes here */}
+                <div className='rounded-lg bg-white shadow mt-10'>
+                    <div className=''>
+                        <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
                     </div>
-                    <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
-                        <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
-                            <p className="text-xl leading-8 text-gray-600">
-                                Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam
-                                eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget.
-                                Eleifend egestas fringilla sapien.
-                            </p>
-                            <p className="mt-10 max-w-xl text-base leading-7 text-gray-700">
-                                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
-                                vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque
-                                erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
-                                semper sed amet vitae sed turpis id.
-                            </p>
+                    <div className=''>
+                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src="/src/assets/coco.jpg" alt="" />
+                        <div className='flex pt-5'>
+                            <div className='ml-36 font-bold text-2xl'>zachcygan</div>
+                            <div className='ml-28 font-bold text-2xl'><span className='text-4xl'>22</span>Followers</div>
+                            <div className='ml-28 font-bold text-2xl'><span className='text-4xl'>623</span>Following</div>
+                            <div className='ml-28 font-bold text-2xl'><span className='text-4xl'>54</span>Posts</div>
                         </div>
-                        <div className="lg:flex lg:flex-auto lg:justify-center">
-                            <dl className="w-64 space-y-8 xl:w-80">
-                                {stats.map((stat) => (
-                                    <div key={stat.label} className="flex flex-col-reverse gap-y-4">
-                                        <dt className="text-base leading-7 text-gray-600">{stat.label}</dt>
-                                        <dd className="text-5xl font-semibold tracking-tight text-gray-900">{stat.value}</dd>
-                                    </div>
-                                ))}
-                            </dl>
+                        <div className='text-lg pt-10 pl-10'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id molestie purus, id consequat tel
                         </div>
+                        <div className='text-lg pt-10 pl-10 pb-10'>
+                            ACCOUNT CREATION DATE
+                        </div>
+                    </div>
+                </div>
+                <div className='columns-2 mt-10'>
+                    <div className='rounded-lg bg-white shadow'>
+                        Test
+                    </div>
+                    <div className='rounded-lg bg-white shadow'>
+                        Test
                     </div>
                 </div>
             </div>
