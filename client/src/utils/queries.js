@@ -15,3 +15,13 @@ const GET_POSTS = gql`
 `;
 
 export default GET_POSTS;
+
+export const QUERY_GET_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+    }
+  }
+`;
