@@ -10,6 +10,15 @@ const typeDefs = gql`
     password: String!
   }
 
+  type Music{
+    _id: ID!
+    artists: String!
+    coverart: String!
+    title: String!
+    genre: String!
+    url: String!
+    year: Int!
+  }
 
   type Auth {
     token: ID!
@@ -29,6 +38,8 @@ const typeDefs = gql`
   type Query {
   me: User
   posts: [Post]
+  musics: [Music]
+  music(_id: ID!): Music
   }
   
 
