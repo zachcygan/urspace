@@ -29,6 +29,39 @@ export const GET_USERS = gql`
   }
 `;
 
+export const GET_SINGLE_USER = gql`
+  query GetSingleUser($username: String!) {
+    singleUser(username: $username) {
+      _id
+      username
+      email
+      password
+      firstName
+      lastName
+      followers {
+        _id
+        username
+      }
+      following {
+        _id
+        username
+      }
+      posts {
+        _id
+        title
+        description
+        likes
+        comments
+        images
+        profileImage
+        user
+      }
+      bio
+      profileImage
+    } 
+  }
+`;
+
 
 
 export const QUERY_GET_ME = gql`

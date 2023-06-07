@@ -28,6 +28,10 @@ const resolvers = {
       const user = await User.find();
       return user;
     },
+    singleUser: async (parent, args, context) => {
+      const user = await User.findOne({ username: args.username });
+      return user;
+    },
     musics: async () => {
       const music = await Music.find();
       return music;
