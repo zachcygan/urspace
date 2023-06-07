@@ -1,6 +1,6 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
-const GET_POSTS = gql`
+export const GET_POSTS = gql`
   query GetPosts {
     posts {
       title
@@ -14,4 +14,18 @@ const GET_POSTS = gql`
   }
 `;
 
-export default GET_POSTS;
+export const GET_USERS = gql`
+  query getUser {
+    users {
+      _id
+      username
+      email
+      password
+      firstName
+      lastName
+      bio
+      profileImage
+    } 
+  }
+`;
+

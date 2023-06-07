@@ -23,6 +23,10 @@ const resolvers = {
     posts: async () => {
       const posts = await Post.find();
       return posts;
+    },
+    users: async () => {
+      const user = await User.find();
+      return user;
     }
   },
   Mutation: {
@@ -75,13 +79,13 @@ const resolvers = {
       }
     },
 
-    uploadImage: async (parent, { file }, context) => {
-      const result = await uploadFile(file)
-      await unlinkFile(file.path)
-      console.log(result)
+    // uploadImage: async (parent, { file }, context) => {
+    //   const result = await uploadFile(file)
+    //   await unlinkFile(file.path)
+    //   console.log(result)
       
-      return {imagePath: `/images/${result.Key}`}
-    },
+    //   return {imagePath: `/images/${result.Key}`}
+    // },
 
     createComment: async (parent, { input }, context) => {
       if (context.user) {
