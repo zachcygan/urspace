@@ -47,7 +47,10 @@ const Profile = () => {
         <div className="bg-white py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.users[0]?.username}</h2>
+                    <div className='flex justify-between'>    
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.users[0]?.username}</h2>
+                        <img className='rounded-full' src="https://static.wikia.nocookie.net/muppet/images/5/5a/Elmo-elmo-elmo.jpg/revision/latest?cb=20110917000614" alt="" />
+                    </div>
                     <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
                         <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
                             <p className="text-xl leading-8 text-gray-600">
