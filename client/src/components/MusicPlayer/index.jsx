@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useMutation } from '@apollo/client';
+import { SAVE_MUSIC } from '../../utils/mutations';
 import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
@@ -16,12 +17,28 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
+
+
+  // saveMusic with likes
+  const [saveMusic] = useMutation(SAVE_MUSIC);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (currentSongs&&currentSongs.length) dispatch(playPause(true));
   }, [currentIndex]);
 
+
+  const handleSaveMusic=()=>{
+    saveMusic({variables:{
+      title:activeSong.title,
+      artist:activeSong.subtitle,
+      
+      url:activeSong.url,
+      coverart:activeSong.images.coverart,
+    
+    }});
+    
+  }
   const handlePlayPause = () => {
     if (!isActive) return;
 
@@ -67,6 +84,7 @@ const MusicPlayer = () => {
           handlePlayPause={handlePlayPause}
           handlePrevSong={handlePrevSong}
           handleNextSong={handleNextSong}
+          handleSaveMusic={handleSaveMusic}
         />
         <Seekbar
           value={appTime}

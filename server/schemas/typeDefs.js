@@ -17,6 +17,14 @@ const typeDefs = gql`
     posts: [Post]
   }
 
+  type Music{
+    _id: ID!
+    artist: String
+    coverart: String
+    title: String
+    url: String
+
+  }
   type Following {
     _id: ID!
     username: String!
@@ -46,14 +54,19 @@ const typeDefs = gql`
   type Query {
   me: User
   posts: [Post]
+  musics: [Music]
+  music(_id: ID!): Music
   users: [User]
   }
 
   type Mutation {
+    saveMusic(title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
     createPost(title: String!, description: String!, images: String!, profileImage: String!, user: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
+
+    register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
   }
 
   

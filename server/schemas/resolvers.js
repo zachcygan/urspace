@@ -1,5 +1,5 @@
 
-const { User, Comment, Post } = require("../models");
+const { User, Comment, Post,Music } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const fs = require('fs')
@@ -27,7 +27,11 @@ const resolvers = {
     users: async () => {
       const user = await User.find();
       return user;
-    }
+    },
+    musics: async () => {
+      const music = await Music.find();
+      return music;
+    },
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -106,6 +110,22 @@ const resolvers = {
         return comment;
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
+    },
+    saveMusic: async(parent,{title,artist,url,coverart})=>{
+      console.log(title,artist,url,coverart);
+      try {
+        const music = new Music({title,artist,url,coverart});
+        return await music.save();
+      } catch (error) {
+        console.error(error);
+        
+        throw new Error('Error creating music');
+      }
+    },
+    register: async (parent, { username, email, password,firstName,lastName }) => {
+      const user = await User.create({username, email, password,firstName,lastName});
+      const token = signToken(user);
+      return { token, user };
     },
   },
 };

@@ -23,27 +23,27 @@ const CreatePost = () => {
         },
       });
 
-    // const uploadToCloudinary = async (file) => {
-    //     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
+    const uploadToCloudinary = async (file) => {
+        const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
 
-    //     const formData = new FormData();
+        const formData = new FormData();
 
-    //     formData.append('file',file);
-    //     formData.append('upload_preset','qe6d0r4x');
+        formData.append('file',file);
+        formData.append('upload_preset','qe6d0r4x');
 
-    //     const response = await fetch(url,{
-    //         method:'POST',
-    //         body:formData,
-    //     })
-    //     if(response.ok){
-    //         const jsonResponse = await response.json();
-    //         return jsonResponse.url;
-    //     }else{
-    //         console.error('Upload Failed');
-    //         return null;
-    //     }
+        const response = await fetch(url,{
+            method:'POST',
+            body:formData,
+        })
+        if(response.ok){
+            const jsonResponse = await response.json();
+            return jsonResponse.url;
+        }else{
+            console.error('Upload Failed');
+            return null;
+        }
 
-    // };
+    };
     const handleSubmit = async(e) => {
         e.preventDefault();
 
