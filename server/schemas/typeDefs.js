@@ -52,13 +52,24 @@ const typeDefs = gql`
   }
 
   type Query {
+<<<<<<< HEAD
   me: User
   posts: [Post]
   musics: [Music]
   music(_id: ID!): Music
   users: [User]
   profile: User
+=======
+    me: User
+    posts: [Post]
+    musics: [Music]
+    music(_id: ID!): Music
+    users: [User]
+    singleUser(username: String!): User
+>>>>>>> 73aa443933212c3d9d692189786da65f5b380fc8
   }
+
+  
 
   type Mutation {
     saveMusic(title: String, artist: String, url: String, coverart: String): Music
@@ -66,12 +77,13 @@ const typeDefs = gql`
     createPost(title: String!, description: String!, images: String!, profileImage: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
+<<<<<<< HEAD
 
     logout: User
+=======
+>>>>>>> 73aa443933212c3d9d692189786da65f5b380fc8
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
-  }
-
-  
+  }  
 `;
 
 module.exports = typeDefs;

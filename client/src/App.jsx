@@ -50,7 +50,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/:username' element={<Profile />} />
         <Route path='/posts' element={<CommunityPost />} />
         <Route path='/createpost' element={<CreatePost />} />
         <Route path='/search/:searchTerm' element={<SearchPage />} />
