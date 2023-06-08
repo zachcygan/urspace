@@ -10,7 +10,7 @@ import { setContext } from '@apollo/client/link/context';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
-import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage,Register } from './pages';
+import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage,Register, MusicPage,ArtistPage } from './pages';
 
 
 const httpLink = createHttpLink({
@@ -55,6 +55,8 @@ function App() {
         <Route path='/createpost' element={<CreatePost />} />
         <Route path='/search/:searchTerm' element={<SearchPage />} />
         <Route path='/login/register' element={<Register />} />
+        <Route path='/songs/:songid' element={<MusicPage />} />
+        <Route path='artists/:id' element={<ArtistPage />} />
       </Routes>
       </div>
       </div>

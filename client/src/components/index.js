@@ -8,5 +8,7 @@ import Posts from './Posts';
 import Searchbar from './Searchbar';
 import PlayPause from './PlayPause';
 import Sidebar from './Sidebar';
-
-export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar};
+import DetailsHeader from './DetailsHeader';
+import RelatedSongs from './RelatedSongs';
+import SongBar from './SongBar';
+export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar,DetailsHeader,RelatedSongs,SongBar};

@@ -16,7 +16,7 @@ const links = [
     },
     {
     name: 'Profile',
-    to: '/profile',
+    to: '/profile/:username',
     icons: HiOutlineMenu
     },
     {
