@@ -13,7 +13,6 @@ mutation CreatePost($title: String!, $description: String!, $images: String!, $p
 `;
 
 export const ADD_USER = gql`
-
     mutation addUser($username: String!, $email: String!, $password: String!) {
         addUser(username: $username, email: $email, password: $password) {
             token
@@ -38,9 +37,14 @@ export const SAVE_MUSIC = gql`
 
 `;
 
-
-
-
+export const SAVE_PROFILE_PICTURE = gql`
+  mutation saveProfilePicture($profileImage: String!, $_id: ID!) {
+    saveProfilePicture(profileImage: $profileImage, _id: $_id) {
+      _id
+      profileImage
+    }
+  }
+`;
 
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
@@ -72,4 +76,3 @@ mutation Register($username: String!, $email: String!, $password: String!, $firs
 `;
 
 export default CREATE_POST;
-
