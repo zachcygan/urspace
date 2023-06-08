@@ -1,7 +1,10 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup } from 'react-icons/hi';
-
+import { useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
+import { GET_ME } from '../utils/queries';
+
+
 
 const links = [
     {
@@ -10,14 +13,14 @@ const links = [
         icons: HiOutlineHome
     },
     {
-    name: 'Posts',
-    to: '/posts',
-    icons: HiOutlineUserGroup
+        name: 'Posts',
+        to: '/posts',
+        icons: HiOutlineUserGroup
     },
     {
-    name: 'Profile',
-    to: '/profile',
-    icons: HiOutlineMenu
+        name: 'Profile',
+        to: `/profile/:username`,
+        icons: HiOutlineMenu
     },
     {
         name: 'Login',
@@ -37,6 +40,7 @@ const NavLinks = ({handleClick})=>(
     </div>
 )
 const Sidebar = () => {
+    const [user, setUser] = useState(useQuery(GET_ME));
     
     const [mobileMenu, setMobileMenu] = useState(false);
     // navlinks knows which link is active

@@ -66,6 +66,20 @@ const resolvers = {
 
       return user
     },
+    updateUser: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { username: args.username },
+        {
+          email: args.email,
+          firstName: args.firstName, 
+          lastName: args.lastName,
+          bio: args.bio 
+        },
+        { new: true }
+      )
+
+      return user
+    },
 
     // createPost: async (parent, { content }, context) => {
     //   if (context.user) {

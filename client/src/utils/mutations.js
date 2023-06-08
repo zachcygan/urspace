@@ -34,8 +34,19 @@ export const SAVE_MUSIC = gql`
             
         }
     }
-
 `;
+
+export const updateUser = gql`
+  mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
+    updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {
+      username
+      email
+      firstName
+      lastName
+      bio
+    }
+  }
+`
 
 export const UPLOAD_PROFILE_PICTURE = gql`
   mutation uploadProfilePicture($profileImage: String!, $username: String!) {
@@ -74,5 +85,3 @@ mutation Register($username: String!, $email: String!, $password: String!, $firs
   }
 
 `;
-
-export default CREATE_POST;

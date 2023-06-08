@@ -9,7 +9,16 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
-import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage,Register } from './pages';
+import { 
+  Home, 
+  Login, 
+  Profile,
+  CommunityPost,
+  CreatePost,
+  SearchPage,
+  Register,
+  ProfileEdit
+} from './pages';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3002/graphql',
@@ -39,6 +48,7 @@ function App() {
         <Route path='/createpost' element={<CreatePost />} />
         <Route path='/search/:searchTerm' element={<SearchPage />} />
         <Route path='/login/register' element={<Register />} />
+        <Route path='/profile/:username/edit' element={<ProfileEdit />} />
       </Routes>
       </div>
       </div>
