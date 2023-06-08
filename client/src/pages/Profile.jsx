@@ -5,7 +5,6 @@ import { GET_USERS, GET_SINGLE_USER } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
 import { UPLOAD_PROFILE_PICTURE } from '../utils/mutations';
-import { Link } from 'react-router-dom';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -45,6 +44,8 @@ const Profile = () => {
 
     if (loading) {
         return <h2>LOADING...</h2>;
+    } else {
+        
     }
 
     const uploadImage = async (e) => {
@@ -85,16 +86,16 @@ const Profile = () => {
                             <div className='ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
                         <div className='text-lg pt-10 pl-10'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id molestie purus, id consequat tel
+                            {data.singleUser.bio}
                         </div>
                         <div className='flex justify-between'>
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div>
+                            <div className='mt-10 flex '>
                                 {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
-                                <button value='Upload Photo' className='mt-10 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
-                                    <input title='' className='opacity-0 w-1'  type="file" accept=".png, .jpg, .jpeg"
+                                <label className='block h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                                    <input hidden type="file" className='absolute' accept=".png, .jpg, .jpeg"
                                         onChange={
                                             (e) => {
                                                 uploadImage(e);
@@ -102,7 +103,7 @@ const Profile = () => {
                                         }
                                     />
                                     Upload Image
-                                </button>
+                                </label>
                                 <button className='m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <a href={urlString}> Edit Profile</a>
                                 </button>

@@ -54,7 +54,6 @@ export const GET_SINGLE_USER = gql`
         comments
         images
         profileImage
-        user
       }
       bio
       profileImage
@@ -71,14 +70,14 @@ export const GET_ME = gql`
       _id
       username
       email
-      password
       firstName
       lastName
-      followers {
+      profileImage
+      following {
         _id
         username
       }
-      following {
+      followers {
         _id
         username
       }
@@ -90,10 +89,8 @@ export const GET_ME = gql`
         comments
         images
         profileImage
-        user
       }
       bio
-      profileImage
       creationDate
     }
   }

@@ -33,6 +33,7 @@ const userSchema = new Schema(
         },
         bio: {
             type: String,
+            default: 'Edit your profile to add a bio',
         },
         profileImage: {
             type: String,

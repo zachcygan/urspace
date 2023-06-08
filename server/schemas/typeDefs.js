@@ -53,12 +53,12 @@ const typeDefs = gql`
   }
 
   type Query {
-  me: User
-  posts: [Post]
-  musics: [Music]
-  music(_id: ID!): Music
-  users: [User]
-  profile: User
+    me: User
+    posts: [Post]
+    musics: [Music]
+    music(_id: ID!): Music
+    users: [User]
+    profile: User
     singleUser(username: String!): User
   }
   
@@ -68,7 +68,6 @@ const typeDefs = gql`
     createPost(title: String!, description: String!, images: String!, profileImage: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
-
     logout: User
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
     uploadProfilePicture(profileImage: String!, username: String!): User

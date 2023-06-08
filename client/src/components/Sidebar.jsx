@@ -4,8 +4,6 @@ import { useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
 import { GET_ME } from '../utils/queries';
 
-
-
 const links = [
     {
         name: 'Home',
@@ -40,8 +38,11 @@ const NavLinks = ({handleClick})=>(
     </div>
 )
 const Sidebar = () => {
-    const [user, setUser] = useState(useQuery(GET_ME));
+    const [user, setUser] = useState({});
+    const { loading, error, data } = useQuery(GET_ME);
     
+    console.log(data);
+
     const [mobileMenu, setMobileMenu] = useState(false);
     // navlinks knows which link is active
     return(
