@@ -35,6 +35,7 @@ const userSchema = new Schema(
         },
         profileImage: {
             type: String,
+            default: 'https://m.media-amazon.com/images/M/MV5BYWE4YzVlNWUtMGRjYi00YzM3LTk4NTEtZTY4MDQ3YmQ2OGUwXkEyXkFqcGdeQXVyMTQ3ODE2MDc5._V1_.jpg'
         },
         following: [
             {

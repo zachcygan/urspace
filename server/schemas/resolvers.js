@@ -20,7 +20,9 @@ const resolvers = {
         "You must be logged in to perform this action"
       )   
     },
-    posts: async () => {
+    posts: async (parent,args,context) => {
+
+      console.log(context.user._id)
       const posts = await Post.find();
       return posts;
     },
@@ -56,35 +58,44 @@ const resolvers = {
 
       return { token, user };
     },
-
-    // createPost: async (parent, { content }, context) => {
-    //   if (context.user) {
-    //     const post = new Post({
-    //       userId: context.user._id,
-    //       content,
-    //       createdAt: new Date().toISOString(),
+    // will change later after login with auth working
+    // createPost:async(parent,{user,title,description,images,profileImage})=>{
+    //   try {
+    //     const newPost = new Post({
+    //       user,
+    //       title,
+    //       description,
+    //       images,
+    //       profileImage,
     //     });
-    //     return post.save();
+    //     const savedPost = await newPost.save();
+    //     return savedPost;
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw new Error("Error creating post");
     //   }
-    //   throw new AuthenticationError("You need to be logged in to perform this action")
     // },
 
-    // will change later after login with auth working
-    createPost:async(parent,{user,title,description,images,profileImage})=>{
-      try {
-        const newPost = new Post({
-          user,
-          title,
-          description,
-          images,
-          profileImage,
-        });
-        const savedPost = await newPost.save();
-        return savedPost;
-      } catch (error) {
-        console.error(error);
-        throw new Error("Error creating post");
+    createPost: async(parent, { title, description, images, profileImage }, context) => {
+
+      console.log(context.user);
+      if (context.user) {
+        try {
+          const newPost = new Post({
+            user: context.user._id, 
+            title,
+            description,
+            images,
+            profileImage,
+          });
+          const savedPost = await newPost.save();
+          return savedPost;
+        } catch (error) {
+          console.error(error);
+          throw new Error("Error creating post");
+        }
       }
+      throw new Error('Authentication Error. Please sign in.');
     },
 
     // uploadImage: async (parent, { file }, context) => {
@@ -131,6 +142,7 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    
   },
 };
 

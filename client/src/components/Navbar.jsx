@@ -4,12 +4,22 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Searchbar} from '../components';
+import {useQuery} from '@apollo/client';
+import { QUERY_GET_ME } from '../utils/queries';
+import Auth from '../utils/auth';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+
+  const {loading,data} = useQuery(QUERY_GET_ME);
+  const logout = (e)=>{
+    e.preventDefault();
+    Auth.logout();
+  }
+  console.log(data);
   return (
     <Disclosure as="nav" className="bg-white shadow absolute justify-between w-full">
       {({ open }) => (
@@ -68,8 +78,8 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        src={data?.me?.profileImage || "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}
+                        alt="profilePic"
                       />
                     </Menu.Button>
                   </div>
@@ -118,7 +128,8 @@ export default function Navbar() {
                           <a
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
+                          onClick={logout
+                          } >
                             Log out
                           </a>
                         )}

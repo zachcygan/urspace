@@ -1,6 +1,6 @@
 import {useMutation} from '@apollo/client';
 import { REGISTER } from '../utils/mutations';
-
+import Auth from '../utils/auth';
 const Register = () => {
 
     const [register, {data,error}] = useMutation(REGISTER);
@@ -15,7 +15,11 @@ const Register = () => {
         const lastName = formData.get('lastName');
         try {
             const{data} = await register({variables:{username,email,password,firstName,lastName}});
-            console.log(data.register);            
+            console.log(data.register);   
+            
+            const{token,user} = await data.register;
+            Auth.login(token);
+            
         } catch (error) {
             console.log(error);
         }
