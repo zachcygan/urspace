@@ -48,7 +48,7 @@ const typeDefs = gql`
     comments: Int
     images: String!
     profileImage: String!
-    user: String!
+    user: User!
   }
 
   type Query {
@@ -57,15 +57,17 @@ const typeDefs = gql`
   musics: [Music]
   music(_id: ID!): Music
   users: [User]
+  profile: User
   }
 
   type Mutation {
     saveMusic(title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
-    createPost(title: String!, description: String!, images: String!, profileImage: String!, user: String!): Post
+    createPost(title: String!, description: String!, images: String!, profileImage: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
 
+    logout: User
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
   }
 

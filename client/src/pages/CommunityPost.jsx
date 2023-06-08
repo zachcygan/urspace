@@ -6,13 +6,15 @@ import { GET_POSTS } from '../utils/queries'
 import {AiFillLike} from 'react-icons/ai';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
-
+import { GET_USERS } from '../utils/queries';
 const CommunityPost = () => {
     
 
-    const {loading,data} = useQuery(GET_POSTS);
+    // const {loading,data} = useQuery(GET_POSTS);
+    const {data} = useQuery(GET_POSTS);
+    const id = data?.posts[0]._id;
     const postData = data?.posts||[];
-    console.log(postData);
+    console.log(id);
     return(
         <div className=' flex flex-col'>
           <div className='w-full flex justify-between items-center bg-white'>
