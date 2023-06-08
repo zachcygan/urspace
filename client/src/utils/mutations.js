@@ -37,10 +37,10 @@ export const SAVE_MUSIC = gql`
 
 `;
 
-export const SAVE_PROFILE_PICTURE = gql`
-  mutation saveProfilePicture($profileImage: String!, $_id: ID!) {
-    saveProfilePicture(profileImage: $profileImage, _id: $_id) {
-      _id
+export const UPLOAD_PROFILE_PICTURE = gql`
+  mutation uploadProfilePicture($profileImage: String!, $username: String!) {
+    uploadProfilePicture(profileImage: $profileImage, username: $username) {
+      username
       profileImage
     }
   }

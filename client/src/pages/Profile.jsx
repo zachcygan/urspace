@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_USERS, GET_SINGLE_USER } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
+import { UPLOAD_PROFILE_PICTURE } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -27,15 +28,13 @@ const uploadToCloudinary = async (file) => {
 };
 
 
-
 const Profile = () => {
     const { username } = useParams();
     const { loading, error, data } = useQuery(GET_SINGLE_USER, {
         variables: { username: username },
     });
-    
+    const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
 
-    
     console.log(data)
     if (error) {
         console.log('error'+error)
@@ -45,10 +44,40 @@ const Profile = () => {
         return <h2>LOADING...</h2>;
     }
 
+    // const [createPost] = useMutation(CREATE_POST, {
+    //     update(cache, { data: { createPost } }) {
+    //       const existingPosts = cache.readQuery({ query: GET_POSTS });
+      
+    //       // If existingPosts is null, use an empty array instead
+    //       const newPosts = existingPosts ? [createPost, ...existingPosts.posts] : [createPost];
+      
+    //       cache.writeQuery({
+    //         query: GET_POSTS,
+    //         data: { posts: newPosts },
+    //       });
+    //     },
+    // });
+
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        const url = await uploadToCloudinary(file);
-        console.log(url);
+        // const url = await uploadToCloudinary(file);
+        console.log(file);
+        if (file.type == 'image/jpeg' || file.type == 'image/png') {
+            let response = await uploadToCloudinary(file);
+
+            
+
+            uploadProfilePicture({
+                variables: { 
+                    profileImage: response,
+                    username: username,
+             },
+            });
+
+            window.location.reload();
+        } else {
+            console.log('not an image');
+        }
     }
 
     return (
@@ -62,9 +91,13 @@ const Profile = () => {
                     </div>
                     <div className=''>
                         <input type="file" 
-                            onChange={uploadImage}
+                            onChange = {
+                                (e) => {
+                                    uploadImage(e);
+                                }
+                            }
                         />
-                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src="/src/assets/coco.jpg" alt="Placeholder" />
+                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
                         <div className='flex pt-5 font-bold text-2xl'>
                             <div className='ml-36'>{data.singleUser.username}</div>
                             <div className='ml-28'><span className='text-4xl'>{data.singleUser.followers.length}</span>Followers</div>

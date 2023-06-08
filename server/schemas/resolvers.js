@@ -56,6 +56,16 @@ const resolvers = {
 
       return { token, user };
     },
+    uploadProfilePicture: async (parent, args, context) => {
+      console.log(args)
+      const user = await User.findOneAndUpdate(
+        { username: args.username },
+        { profileImage: args.profileImage },
+        { new: true }
+      )
+
+      return user
+    },
 
     // createPost: async (parent, { content }, context) => {
     //   if (context.user) {

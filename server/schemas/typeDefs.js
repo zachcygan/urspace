@@ -69,6 +69,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
+    uploadProfilePicture(profileImage: String!, username: String!): User
   }  
 `;
 
