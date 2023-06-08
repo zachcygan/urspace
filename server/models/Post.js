@@ -29,7 +29,8 @@ const postSchema = new Schema(
             default: '',
         },
         user:{
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref:'User',
         }
     },
 );

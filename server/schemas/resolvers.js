@@ -1,5 +1,5 @@
 
-const { User, Comment, Post } = require("../models");
+const { User, Comment, Post,Music } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const fs = require('fs')
@@ -20,14 +20,24 @@ const resolvers = {
         "You must be logged in to perform this action"
       )   
     },
-    posts: async () => {
+    posts: async (parent,args,context) => {
+
+      console.log(context.user._id)
       const posts = await Post.find();
       return posts;
     },
     users: async () => {
       const user = await User.find();
       return user;
-    }
+    },
+    singleUser: async (parent, args, context) => {
+      const user = await User.findOne({ username: args.username });
+      return user;
+    },
+    musics: async () => {
+      const music = await Music.find();
+      return music;
+    },
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -48,35 +58,44 @@ const resolvers = {
 
       return { token, user };
     },
-
-    // createPost: async (parent, { content }, context) => {
-    //   if (context.user) {
-    //     const post = new Post({
-    //       userId: context.user._id,
-    //       content,
-    //       createdAt: new Date().toISOString(),
+    // will change later after login with auth working
+    // createPost:async(parent,{user,title,description,images,profileImage})=>{
+    //   try {
+    //     const newPost = new Post({
+    //       user,
+    //       title,
+    //       description,
+    //       images,
+    //       profileImage,
     //     });
-    //     return post.save();
+    //     const savedPost = await newPost.save();
+    //     return savedPost;
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw new Error("Error creating post");
     //   }
-    //   throw new AuthenticationError("You need to be logged in to perform this action")
     // },
 
-    // will change later after login with auth working
-    createPost:async(parent,{user,title,description,images,profileImage})=>{
-      try {
-        const newPost = new Post({
-          user,
-          title,
-          description,
-          images,
-          profileImage,
-        });
-        const savedPost = await newPost.save();
-        return savedPost;
-      } catch (error) {
-        console.error(error);
-        throw new Error("Error creating post");
+    createPost: async(parent, { title, description, images, profileImage }, context) => {
+
+      console.log(context.user);
+      if (context.user) {
+        try {
+          const newPost = new Post({
+            user: context.user._id, 
+            title,
+            description,
+            images,
+            profileImage,
+          });
+          const savedPost = await newPost.save();
+          return savedPost;
+        } catch (error) {
+          console.error(error);
+          throw new Error("Error creating post");
+        }
       }
+      throw new Error('Authentication Error. Please sign in.');
     },
 
     // uploadImage: async (parent, { file }, context) => {
@@ -107,6 +126,23 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
+    saveMusic: async(parent,{title,artist,url,coverart})=>{
+      console.log(title,artist,url,coverart);
+      try {
+        const music = new Music({title,artist,url,coverart});
+        return await music.save();
+      } catch (error) {
+        console.error(error);
+        
+        throw new Error('Error creating music');
+      }
+    },
+    register: async (parent, { username, email, password,firstName,lastName }) => {
+      const user = await User.create({username, email, password,firstName,lastName});
+      const token = signToken(user);
+      return { token, user };
+    },
+    
   },
 };
 

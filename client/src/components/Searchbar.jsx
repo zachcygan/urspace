@@ -12,12 +12,12 @@ const SearchBar = () => {
     }
 
     return (
-    <form onSubmit={handleSubmit} autoComplete='off' className=' bg-gray-300 p-2 text-gray-400 focus-within:text-gray-600 rounded-lg'>
+    <form onSubmit={handleSubmit} autoComplete='off' className=' '>
         <label htmlFor='search' className='sr-only'>Search</label>
         <div className='flex flex-row justify-start items-center'>
 
             <FiSearch className='w-5 h-5 ml-4'size='24px'/>
-            <input name='search-field' autoComplete='off' id='search-field' placeholder='Search' type='search' value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} className='flex-1 bg-transparent  border-none outline-none placeholder-gray-400 text-base text-white p-4'
+            <input name='search-field' autoComplete='off' id='search-field' placeholder='Search' type='search' value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} className='block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
             >
 
             </input>

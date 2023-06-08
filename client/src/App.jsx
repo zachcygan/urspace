@@ -2,17 +2,33 @@
 
 import {useSelector} from 'react-redux';
 import { Link,Route,Routes} from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider,createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
-import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage } from './pages';
+import { Home, Login, Profile,CommunityPost,CreatePost,SearchPage,Register } from './pages';
 
-const client = new ApolloClient({
+
+const httpLink = createHttpLink({
   uri: 'http://localhost:3002/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+    const token=localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  // uri: 'http://localhost:3002/graphql',
   cache: new InMemoryCache()
 });
 
@@ -25,7 +41,7 @@ function App() {
     <ApolloProvider client={client}>
     <div className='relative flex'>
      
-      {/* <Sidebar /> */}
+      <Sidebar />
       <header className='flex-1 flex-col justify-center items-center bg-white sm:px-8 px-4 py-4 border-b border-b-white'>
          <Navbar />
         {/* <Searchbar /> */}
@@ -34,10 +50,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/:username' element={<Profile />} />
         <Route path='/posts' element={<CommunityPost />} />
         <Route path='/createpost' element={<CreatePost />} />
         <Route path='/search/:searchTerm' element={<SearchPage />} />
+        <Route path='/login/register' element={<Register />} />
       </Routes>
       </div>
       </div>

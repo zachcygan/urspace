@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_USERS } from '../utils/queries';
+import { GET_USERS, GET_SINGLE_USER } from '../utils/queries';
+import Posts from '../components/Posts';
+import SavedSongs from '../components/savedSongs';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -26,53 +29,63 @@ const uploadToCloudinary = async (file) => {
 
 
 const Profile = () => {
-    const { loading, error, data } = useQuery(GET_USERS);
-    if (error) {
-        console.log(error)
-    }
+    const { username } = useParams();
+    const { loading, error, data } = useQuery(GET_SINGLE_USER, {
+        variables: { username: username },
+    });
+    
+
+    
     console.log(data)
+    if (error) {
+        console.log('error'+error)
+    }
 
     if (loading) {
         return <h2>LOADING...</h2>;
     }
 
-    const stats = [
-        { label: 'Followers', value: '44 million' },
-        { label: 'Assets under holding', value: '$119 trillion' },
-        { label: 'New users annually', value: '46,000' },
-    ]
-
+    const uploadImage = async (e) => {
+        const file = e.target.files[0];
+        const url = await uploadToCloudinary(file);
+        console.log(url);
+    }
 
     return (
-        <div className="bg-white py-32">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{data?.users[0]?.username}</h2>
-                    <div className="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
-                        <div className="lg:w-full lg:max-w-2xl lg:flex-auto">
-                            <p className="text-xl leading-8 text-gray-600">
-                                Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam
-                                eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget.
-                                Eleifend egestas fringilla sapien.
-                            </p>
-                            <p className="mt-10 max-w-xl text-base leading-7 text-gray-700">
-                                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
-                                vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque
-                                erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
-                                semper sed amet vitae sed turpis id.
-                            </p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
+
+            {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
+            <div className="container mx-auto sm:px-6 lg:px-8">{/* Content goes here */}
+                <div className='rounded-lg bg-white shadow mt-10'>
+                    <div className=''>
+                        <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
+                    </div>
+                    <div className=''>
+                        <input type="file" 
+                            onChange={uploadImage}
+                        />
+                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src="/src/assets/coco.jpg" alt="Placeholder" />
+                        <div className='flex pt-5 font-bold text-2xl'>
+                            <div className='ml-36'>{data.singleUser.username}</div>
+                            <div className='ml-28'><span className='text-4xl'>{data.singleUser.followers.length}</span>Followers</div>
+                            <div className='ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
+                            <div className='ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
-                        <div className="lg:flex lg:flex-auto lg:justify-center">
-                            <dl className="w-64 space-y-8 xl:w-80">
-                                {stats.map((stat) => (
-                                    <div key={stat.label} className="flex flex-col-reverse gap-y-4">
-                                        <dt className="text-base leading-7 text-gray-600">{stat.label}</dt>
-                                        <dd className="text-5xl font-semibold tracking-tight text-gray-900">{stat.value}</dd>
-                                    </div>
-                                ))}
-                            </dl>
+                        <div className='text-lg pt-10 pl-10'>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id molestie purus, id consequat tel
+                        </div>
+                        <div className='text-lg pt-10 pl-10 pb-10'>
+                            ACCOUNT CREATION DATE
                         </div>
                     </div>
+                </div>
+                
+                <div className='rounded-lg bg-white shadow mt-10'>
+                    <Posts />
+                </div>
+                
+                <div className='rounded-lg bg-white shadow mt-10'>
+                    <SavedSongs />
                 </div>
             </div>
         </div>
