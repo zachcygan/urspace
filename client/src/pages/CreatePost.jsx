@@ -100,7 +100,7 @@ const CreatePost = () => {
                         <textarea value={description} id='description' name='description' onChange={handleChange}></textarea>
 
                         <input type='file' name='image' onChange={e=>setImages(e.target.files[0])}></input>
-                        <input type='file' name ='profileImage' onChange={e=>setProfileImage(e.target.files[0])}></input>
+                        
                         <button type='submit'>Submit</button>
                 </div>
             </form>

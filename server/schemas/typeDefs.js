@@ -47,9 +47,9 @@ const typeDefs = gql`
     description: String!
     likes: Int
     comments: Int
-    images: String!
+    images: String
     profileImage: String!
-    user: User!
+    user: User
   }
 
   type Query {
@@ -60,12 +60,14 @@ const typeDefs = gql`
     users: [User]
     profile: User
     singleUser(username: String!): User
+    post:Post
+    profiles: [User]
   }
   
   type Mutation {
     saveMusic(title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
-    createPost(title: String!, description: String!, images: String!, profileImage: String!): Post
+    createPost(title: String!, description: String!, images: String!, ): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     logout: User
