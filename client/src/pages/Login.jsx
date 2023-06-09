@@ -19,12 +19,6 @@ const LoginForm = () => {
 
     console.log(userFormData)
 
-    // const form = event.currentTarget;
-    // if (form.checkValidity() === false) {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    // }
-
     try {
       const response = await loginUser({
         variables: userFormData
