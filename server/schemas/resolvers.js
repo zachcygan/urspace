@@ -169,7 +169,7 @@ const resolvers = {
     //     throw new Error('Error creating music');
     //   }
     // },
-    saveMusic: async (parent, { title, artist, url, coverart }) => {
+    saveMusic: async (parent, { title, artist, url, coverart },context) => {
       try {
         let music = await Music.findOne({ title });
         if(music){
@@ -181,7 +181,9 @@ const resolvers = {
           await music.save();
         }
         
-        return {message: "Music save/delete operation successful!"};
+        const savedUser = await User.findById(context.user._id);
+        savedUser.musics.push(music);
+        await savedUser.save();
       } catch (error) {
         console.error(error);
         throw new Error('Error in saveMusic mutation');
