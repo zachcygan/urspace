@@ -60,6 +60,12 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: "Post",
             },
+        ],
+        musics:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Music",
+            }
         ]
     },
     {
