@@ -170,31 +170,38 @@ const resolvers = {
     //   }
     // },
     saveMusic: async (parent, { title, artist, url, coverart }) => {
-    
       try {
         let music = await Music.findOne({ title });
         if(music){
-          throw new Error('Music already exists');
+       
+          await Music.findOneAndDelete({ title });
+        } else {
+         
+          music = new Music({ title, artist, url, coverart });
+          await music.save();
         }
-        music = new Music({ title, artist, url, coverart });
-        return await music.save();
+        
+        return {message: "Music save/delete operation successful!"};
       } catch (error) {
         console.error(error);
-        throw new Error('Error creating music');
+        throw new Error('Error in saveMusic mutation');
       }
     },
+    
     deleteMusic: async (parent, { title }) => {
       try {
-        const music = await Music.findOneAndDelete({ title });
+        const music = await Music.findOne({ title });
         if (!music) {
-          throw new Error('Music does not exists');
+          return "No music to delete";
         }
+        await Music.findOneAndDelete({ title });
         return "Music deleted successfully!";
       } catch (error) {
         console.error(error);
         throw new Error('Error deleting music');
       }
     },
+    
     register: async (parent, { username, email, password, firstName, lastName }) => {
       const user = await User.create({ username, email, password, firstName, lastName });
       const token = signToken(user);
