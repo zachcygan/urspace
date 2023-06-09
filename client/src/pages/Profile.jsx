@@ -40,6 +40,7 @@ const Profile = () => {
   const urlString = `/profile/${username}/edit`;
 
 
+    
    
     console.log(data)
     if (error) {

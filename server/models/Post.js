@@ -24,11 +24,14 @@ const postSchema = new Schema(
             type: String,
             default: '',
         },
-       
-        // user:{
-        //     type: Schema.Types.ObjectId,
-        //     ref:'User',
-        // }
+        profileImage:{
+            type: String,
+            default: '',
+        },
+        user:{
+            type: Schema.Types.ObjectId,
+            ref:'User',
+        }
     },
 );
 
