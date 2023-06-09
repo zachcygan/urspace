@@ -1,18 +1,15 @@
 import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql`
-  query getPosts {
+  query GetPosts {
     posts {
-      _id
       title
       description
       likes
       comments
       images
       profileImage
-      user{
-        username
-      }
+      user
     }
   }
 `;
@@ -83,7 +80,7 @@ export const UPLOAD_PROFILE_PICTURE = gql`
       username
       profileImage
     }
-  }
+    }
 `
 
 
