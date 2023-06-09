@@ -9,7 +9,7 @@ export const GET_POSTS = gql`
       comments
       images
       profileImage
-      user
+
     }
   }
 `;
@@ -54,7 +54,7 @@ export const GET_SINGLE_USER = gql`
         comments
         images
         profileImage
-        user
+       
       }
       bio
       profileImage

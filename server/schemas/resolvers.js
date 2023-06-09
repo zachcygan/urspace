@@ -102,7 +102,7 @@ const resolvers = {
       if (context.user) {
         try {
           const newPost = await Post.create({
-            user: context.user._id,
+            // user: context.user._id,
             title,
             description,
             images,

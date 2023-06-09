@@ -25,10 +25,10 @@ const postSchema = new Schema(
             default: '',
         },
        
-        user:{
-            type: Schema.Types.ObjectId,
-            ref:'User',
-        }
+        // user:{
+        //     type: Schema.Types.ObjectId,
+        //     ref:'User',
+        // }
     },
 );
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_USERS, GET_SINGLE_USER } from '../utils/queries';
+import { GET_USERS, GET_SINGLE_USER ,QUERY_GET_ME} from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
 
@@ -30,7 +30,7 @@ const uploadToCloudinary = async (file) => {
 
 const Profile = () => {
     const { username } = useParams();
-    const { loading, error, data } = useQuery(GET_SINGLE_USER, {
+    const { loading, error, data } = useQuery(QUERY_GET_ME, {
         variables: { username: username },
     });
     
