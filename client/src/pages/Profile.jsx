@@ -36,7 +36,7 @@ const Profile = () => {
   const { loading, error, data } = useQuery(GET_SINGLE_USER, {
     variables: { username: username },
   });
-//   const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+  const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
   const urlString = `/profile/${username}/edit`;
 
 

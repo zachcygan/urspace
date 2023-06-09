@@ -94,18 +94,13 @@ const CreatePost = () => {
             <div className='font-extrabold text-center text-[32px]'>Create Post</div>
 
             <form className='mt-16' onSubmit={handleSubmit}>
-                <div className='flex flex-col gap-5'>
-{/*                     
-                        <input type='text' id='name' name='name' placeholder='Name' value={user} onChange={handleChange} className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg'></input> */}
-                        
+                <div className='flex flex-col gap-5'>                        
                         <input type='text' id='title' name='title' placeholder='title' value={title} onChange={handleChange} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg'></input>
 
                         <textarea value={description} id='description' name='description' onChange={handleChange}></textarea>
 
                         <input type='file' name='image' onChange={e=>setImages(e.target.files[0])}></input>
                         <input type='file' name ='profileImage' onChange={e=>setProfileImage(e.target.files[0])}></input>
-                   
-
                         <button type='submit'>Submit</button>
                 </div>
             </form>

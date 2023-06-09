@@ -27,7 +27,7 @@ const Home = () => {
 
 
         </div>
-
+            
         <div className='flex flex-wrap justify-center'> 
             {data?.map((song,i)=>(
             <MusicCard 
