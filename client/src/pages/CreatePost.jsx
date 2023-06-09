@@ -1,7 +1,7 @@
 import {React , useState} from 'react';
 import {useMutation} from '@apollo/client';
 import { CREATE_POST } from '../utils/mutations';
-import  {GET_POSTS,QUERY_GET_ME } from '../utils/queries';
+import  {GET_POSTS,GET_ME } from '../utils/queries';
 const CreatePost = () => {
     // const [user,setUser] = useState('');
     const [title,setTitle] = useState('');

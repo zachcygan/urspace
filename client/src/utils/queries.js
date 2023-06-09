@@ -1,15 +1,18 @@
 import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql`
-  query GetPosts {
+  query getPosts {
     posts {
+      _id
       title
       description
       likes
       comments
       images
       profileImage
-
+      user{
+        username
+      }
     }
   }
 `;
@@ -54,23 +57,64 @@ export const GET_SINGLE_USER = gql`
         comments
         images
         profileImage
-       
       }
       bio
       profileImage
+      creationDate
     } 
   }
 `;
 
+export const updateUser = gql`
+  mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
+    updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {
+      username
+      email
+      firstName
+      lastName
+      bio
+    }
+  }
+`
+
+export const UPLOAD_PROFILE_PICTURE = gql`
+  mutation uploadProfilePicture($profileImage: String!, $username: String!) {
+    uploadProfilePicture(profileImage: $profileImage, username: $username) {
+      username
+      profileImage
+    }
+  }
+`
 
 
-export const QUERY_GET_ME = gql`
+export const GET_ME = gql`
   query me {
     me {
       _id
       username
       email
+      firstName
+      lastName
       profileImage
+      following {
+        _id
+        username
+      }
+      followers {
+        _id
+        username
+      }
+      posts {
+        _id
+        title
+        description
+        likes
+        comments
+        images
+        profileImage
+      }
+      bio
+      creationDate
     }
   }
 `;

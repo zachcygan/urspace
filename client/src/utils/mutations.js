@@ -3,15 +3,20 @@ import { gql } from '@apollo/client';
 
 
 export const CREATE_POST = gql`
-  mutation CreatePost($title: String!, $description: String!, $images: String) {
-    createPost(title: $title, description: $description, images: $images) {
-      user
-      title
-      description
-      images
-    
+mutation CreatePost($title: String!, $description: String!, $images: String!, $profileImage: String!) {
+  createPost(title: $title, description: $description, images: $images, profileImage: $profileImage) {
+    _id
+    title
+    description
+    likes
+    comments
+    images
+    profileImage
+    user {
+      username
     }
   }
+}
 `;
 
 export const ADD_USER = gql`
@@ -36,13 +41,24 @@ export const SAVE_MUSIC = gql`
             
         }
     }
-
 `;
 
-export const SAVE_PROFILE_PICTURE = gql`
-  mutation saveProfilePicture($profileImage: String!, $_id: ID!) {
-    saveProfilePicture(profileImage: $profileImage, _id: $_id) {
-      _id
+export const updateUser = gql`
+  mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
+    updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {
+      username
+      email
+      firstName
+      lastName
+      bio
+    }
+  }
+`
+
+export const UPLOAD_PROFILE_PICTURE = gql`
+  mutation uploadProfilePicture($profileImage: String!, $username: String!) {
+    uploadProfilePicture(profileImage: $profileImage, username: $username) {
+      username
       profileImage
     }
   }
@@ -76,5 +92,3 @@ mutation Register($username: String!, $email: String!, $password: String!, $firs
   }
 
 `;
-
-export default CREATE_POST;
