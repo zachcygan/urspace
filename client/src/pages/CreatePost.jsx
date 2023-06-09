@@ -90,7 +90,7 @@ const CreatePost = () => {
 
 
     return(
-        <section className='w-screen flex justify-center flex-col mx-auto'>
+        <section className='flex justify-center flex-col mx-auto'>
             <div className='font-extrabold text-center text-[32px]'>Create Post</div>
 
             <form className='mt-16' onSubmit={handleSubmit}>
