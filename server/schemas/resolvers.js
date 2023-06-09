@@ -42,6 +42,19 @@ const resolvers = {
       const music = await Music.findAll({});
       return music;
     },
+
+    searchPosts:async(parent,{keyword})=>{
+      try {
+        const posts = await Post.find(
+          {$text:{$search:keyword}},
+          {score:{$meta:"textScore"}}
+        ).sort({score:{$meta:"textScore"}});
+        return posts;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching posts");
+      }
+    }
   },
   Mutation: {
     login: async (parent, { email, password }) => {

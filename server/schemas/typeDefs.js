@@ -55,6 +55,7 @@ const typeDefs = gql`
   type Query {
     me: User
     posts: [Post]
+    searchPosts(keyword:String!): [Post]
     musics: [Music]
     music(_id: ID!): Music
     users: [User]

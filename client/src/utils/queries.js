@@ -18,7 +18,17 @@ export const GET_POSTS = gql`
     }
   }
 `;
-
+export const SEARCH_POSTS =gql`
+query SearchPosts($keyword: String!) {
+  searchPosts(keyword: $keyword) {
+    _id
+    title
+    description
+    user{
+      username
+    }
+  }
+}`;
 export const GET_USERS = gql`
   query getUser {
     users {
