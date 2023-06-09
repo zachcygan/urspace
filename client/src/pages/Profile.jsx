@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_SINGLE_USER, UPLOAD_PROFILE_PICTURE } from '../utils/queries';
+import { GET_SINGLE_USER } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
 
@@ -33,7 +33,7 @@ const Profile = () => {
   const { loading, error, data } = useQuery(GET_SINGLE_USER, {
     variables: { username: username },
   });
-  const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+//   const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
   const urlString = `/profile/${username}/edit`;
 
   if (error) {
@@ -45,12 +45,12 @@ const Profile = () => {
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       let response = await uploadToCloudinary(file);
 
-      uploadProfilePicture({
-        variables: {
-          profileImage: response,
-          username: username,
-        },
-      });
+    //   uploadProfilePicture({
+    //     variables: {
+    //       profileImage: response,
+    //       username: username,
+    //     },
+    //   });
 
       window.location.reload();
     } else {
