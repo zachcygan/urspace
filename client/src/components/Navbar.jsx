@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Searchbar} from '../components';
 import {useQuery} from '@apollo/client';
-import { QUERY_GET_ME } from '../utils/queries';
+import { GET_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 
 function classNames(...classes) {
@@ -14,7 +14,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-  const {loading,data} = useQuery(QUERY_GET_ME);
+  const {loading,data} = useQuery(GET_ME);
   const logout = (e)=>{
     e.preventDefault();
     Auth.logout();

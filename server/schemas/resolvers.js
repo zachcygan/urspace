@@ -62,15 +62,37 @@ const resolvers = {
 
       return { token, user };
     },
-    // will change later after login with auth working
-    // createPost:async(parent,{user,title,description,images,profileImage})=>{
-    //   try {
-    //     const newPost = new Post({
-    //       user,
-    //       title,
-    //       description,
-    //       images,
-    //       profileImage,
+    uploadProfilePicture: async (parent, args, context) => {
+      console.log(args)
+      const user = await User.findOneAndUpdate(
+        { username: args.username },
+        { profileImage: args.profileImage },
+        { new: true }
+      )
+
+      return user
+    },
+    updateUser: async (parent, args, context) => {
+      const user = await User.findOneAndUpdate(
+        { username: args.username },
+        {
+          email: args.email,
+          firstName: args.firstName, 
+          lastName: args.lastName,
+          bio: args.bio 
+        },
+        { new: true }
+      )
+
+      return user
+    },
+
+    // createPost: async (parent, { content }, context) => {
+    //   if (context.user) {
+    //     const post = new Post({
+    //       userId: context.user._id,
+    //       content,
+    //       createdAt: new Date().toISOString(),
     //     });
     //     const savedPost = await newPost.save();
     //     return savedPost;

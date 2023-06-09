@@ -56,23 +56,44 @@ export const GET_SINGLE_USER = gql`
         comments
         images
         profileImage
-        user
       }
       bio
       profileImage
+      creationDate
     } 
   }
 `;
 
 
 
-export const QUERY_GET_ME = gql`
+export const GET_ME = gql`
   query me {
     me {
       _id
       username
       email
+      firstName
+      lastName
       profileImage
+      following {
+        _id
+        username
+      }
+      followers {
+        _id
+        username
+      }
+      posts {
+        _id
+        title
+        description
+        likes
+        comments
+        images
+        profileImage
+      }
+      bio
+      creationDate
     }
   }
 `;
