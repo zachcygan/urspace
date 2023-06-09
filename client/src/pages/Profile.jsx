@@ -37,11 +37,9 @@ const Profile = () => {
     variables: { username: username },
   });
 //   const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
-  const urlString = `/profile/${username}/edit`;
 
+    const urlString = `/profile/${username}/edit`
 
-    
-   
     console.log(data)
     if (error) {
         console.log('error'+error)
