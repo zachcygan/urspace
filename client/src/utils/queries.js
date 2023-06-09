@@ -18,6 +18,18 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_MUSIC = gql`
+  query GetMusic {
+    musics {
+      _id
+      artist
+      coverart
+      title
+      url
+    }
+  }
+`;
+
 export const GET_USERS = gql`
   query getUser {
     users {
@@ -78,7 +90,7 @@ export const UPLOAD_PROFILE_PICTURE = gql`
       username
       profileImage
     }
-    }
+  }
 `
 
 

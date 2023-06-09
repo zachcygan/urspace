@@ -17,8 +17,6 @@ const musicSchema = new Schema(
         url:{
             type: String,
         },
-    
-
     }
     );
 

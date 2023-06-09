@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 
-import { GET_SINGLE_USER, GET_ME, GET_POSTS } from '../utils/queries';
+import { GET_SINGLE_USER, GET_ME, GET_POSTS, GET_MUSIC } from '../utils/queries';
 
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
@@ -40,12 +40,14 @@ const Profile = () => {
     const { loading: loading3, error: error3, data: data3 } = useQuery(GET_POSTS, {
         variables: { username: username },
     });
+    const { loading: loading4, error: error4, data: data4 } = useQuery(GET_MUSIC, {
+        variables: { username: username },
+    });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const urlString = `/profile/${username}/edit`;
 
 
-    console.log(data3);
-    console.log(data2);
+    console.log(data4);
     if (error) {
         console.log('error' + error)
     }
@@ -134,7 +136,7 @@ const Profile = () => {
                 </div>
 
                 <div className='rounded-lg bg-white shadow mt-10'>
-                    <SavedSongs />
+                    <SavedSongs songs={data4.musics}/>
                 </div>
             </div>
         </div>
