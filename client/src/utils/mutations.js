@@ -42,7 +42,11 @@ export const SAVE_MUSIC = gql`
         }
     }
 `;
-
+export const DELETE_MUSIC= gql`
+    mutation deleteMusic($title: String!) {
+        deleteMusic(title: $title) 
+    }
+`;
 export const updateUser = gql`
   mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
     updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {

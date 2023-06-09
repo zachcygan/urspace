@@ -158,15 +158,41 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
+    // saveMusic: async (parent, { title, artist, url, coverart }) => {
+    //   console.log(title, artist, url, coverart);
+    //   try {
+    //     const music = new Music({ title, artist, url, coverart });
+    //     return await music.save();
+    //   } catch (error) {
+    //     console.error(error);
+
+    //     throw new Error('Error creating music');
+    //   }
+    // },
     saveMusic: async (parent, { title, artist, url, coverart }) => {
-      console.log(title, artist, url, coverart);
+    
       try {
-        const music = new Music({ title, artist, url, coverart });
+        let music = await Music.findOne({ title });
+        if(music){
+          throw new Error('Music already exists');
+        }
+        music = new Music({ title, artist, url, coverart });
         return await music.save();
       } catch (error) {
         console.error(error);
-
         throw new Error('Error creating music');
+      }
+    },
+    deleteMusic: async (parent, { title }) => {
+      try {
+        const music = await Music.findOneAndDelete({ title });
+        if (!music) {
+          throw new Error('Music does not exists');
+        }
+        return "Music deleted successfully!";
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error deleting music');
       }
     },
     register: async (parent, { username, email, password, firstName, lastName }) => {
