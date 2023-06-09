@@ -35,7 +35,7 @@ const Profile = () => {
     });
     
 
-    
+    console.log(username)
     console.log(data)
     if (error) {
         console.log('error'+error)
