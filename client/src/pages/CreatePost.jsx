@@ -61,7 +61,7 @@ const CreatePost = () => {
             const { data } = await createPost({
               variables: { title, description, images: imagesUrl, profileImage: profileImageUrl }
             });
-            console.log(data.createPost);
+           return data;
           } catch (error) {
             console.error('Error while creating post:', error);
           }
