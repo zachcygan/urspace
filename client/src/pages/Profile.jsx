@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_USERS, GET_SINGLE_USER } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
+import { UPLOAD_PROFILE_PICTURE } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -27,15 +28,15 @@ const uploadToCloudinary = async (file) => {
 };
 
 
-
 const Profile = () => {
     const { username } = useParams();
     const { loading, error, data } = useQuery(GET_SINGLE_USER, {
         variables: { username: username },
     });
-    
+    const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
 
     
+    const urlString = `/profile/${username}/edit`
     console.log(data)
     if (error) {
         console.log('error'+error)
@@ -43,12 +44,28 @@ const Profile = () => {
 
     if (loading) {
         return <h2>LOADING...</h2>;
+    } else {
+        
     }
 
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        const url = await uploadToCloudinary(file);
-        console.log(url);
+        // const url = await uploadToCloudinary(file);
+        console.log(file);
+        if (file.type == 'image/jpeg' || file.type == 'image/png') {
+            let response = await uploadToCloudinary(file);
+
+            uploadProfilePicture({
+                variables: { 
+                    profileImage: response,
+                    username: username,
+             },
+            });
+
+            window.location.reload();
+        } else {
+            console.log('not an image');
+        }
     }
 
     return (
@@ -61,10 +78,7 @@ const Profile = () => {
                         <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
                     </div>
                     <div className=''>
-                        <input type="file" 
-                            onChange={uploadImage}
-                        />
-                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src="/src/assets/coco.jpg" alt="Placeholder" />
+                        <img className='rounded-full w-24 h-24 ml-32 lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
                         <div className='flex pt-5 font-bold text-2xl'>
                             <div className='ml-36'>{data.singleUser.username}</div>
                             <div className='ml-28'><span className='text-4xl'>{data.singleUser.followers.length}</span>Followers</div>
@@ -72,10 +86,33 @@ const Profile = () => {
                             <div className='ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
                         <div className='text-lg pt-10 pl-10'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id molestie purus, id consequat tel
+                            {data.singleUser.bio}
                         </div>
-                        <div className='text-lg pt-10 pl-10 pb-10'>
-                            ACCOUNT CREATION DATE
+                        <div className='flex justify-between'>
+                            <div className='text-lg pt-10 pl-10 pb-10'>
+                                Joined on {data.singleUser.creationDate}
+                            </div>
+                            <div className='mt-10 flex '>
+                                {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
+                                <label className='block h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                                    <input hidden type="file" className='absolute' accept=".png, .jpg, .jpeg"
+                                        onChange={
+                                            (e) => {
+                                                uploadImage(e);
+                                            }
+                                        }
+                                    />
+                                    Upload Image
+                                </label>
+                                <button className='m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                                    <a href={urlString}> Edit Profile</a>
+                                </button>
+                                {/* <button class="inline-flex items-center h-10 px-5 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800">
+                                    <span>With icon</span>
+                                    <svg class="w-4 h-4 ml-3 fill-current" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                                
+                                </button> */}
+                            </div>
                         </div>
                     </div>
                 </div>
