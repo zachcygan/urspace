@@ -26,17 +26,17 @@ const handlePauseClick = () => {
     return(
         <div className='flex flex-col'>
             <DetailsHeader artistId={artistId}songData={songData}/>
-
+            <div className='flex flex-row'>
             <div className='mb-10'>
-                <h2 className='text-white text-3xl font-bold'>
+                <h2 className=' font-extrabold text-3xl '>
                     Lyrics:
                 </h2>
 
                 <div className='mt-5'>
                     <p className=''>
                         {songData?.sections[1].type==='LYRICS'?songData?.sections[1].text.map((line,i)=>(
-                            <p className='text-gray-400 text-base my-1'>{line}</p>
-                        )):<p className='text-gray-400 text-base my-1'>No Lyrics Found</p>}
+                            <p className='text-black text-base my-1'>{line}</p>
+                        )):<p className='text-black text-base my-1'>No Lyrics Found</p>}
                     </p>
                 </div>
 
@@ -44,7 +44,12 @@ const handlePauseClick = () => {
                 
 
             </div>
+            <div className='flex flex-col'>
+            <h1 className=' font-extrabold text-3xl'>Recommended Titles:</h1>
             <RelatedSongs data={data} isPlaying={isPlaying} activeSong={activeSong} artistId={artistId}handlePauseClick={handlePauseClick} handlePlayClick={handlePlayClick} />
+            </div>                   
+
+            </div>
         </div>
     )
 };
