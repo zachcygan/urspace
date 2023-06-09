@@ -3,13 +3,17 @@ import { gql } from '@apollo/client';
 export const GET_POSTS = gql`
   query GetPosts {
     posts {
+      _id
       title
       description
       likes
       comments
       images
-      profileImage
-      user
+      user {
+        _id
+        username
+        profileImage
+      }
     }
   }
 `;
@@ -48,12 +52,6 @@ export const GET_SINGLE_USER = gql`
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       profileImage
@@ -103,12 +101,6 @@ export const GET_ME = gql`
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       creationDate

@@ -23,8 +23,8 @@ const resolvers = {
     posts: async (parent, args, context) => {
 
       if (context.user) {
-      const posts = await Post.find().populate("user");
-      return posts;
+        const posts = await Post.find().populate("user");
+        return posts;
       }
       throw new AuthenticationError(
         "You must be logged in to perform this action"
@@ -36,12 +36,17 @@ const resolvers = {
     },
     singleUser: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
+      const posts = await Post.find({ username: args.username }).populate("user");
       return user;
     },
     musics: async () => {
       const music = await Music.find();
       return music;
     },
+    getUsersPosts: async (parent, args, context) => {
+      const posts = await Post.find({ username: args.username }).populate("user");
+      return posts
+    }
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -102,7 +107,7 @@ const resolvers = {
     //   }
     // },
 
-    createPost: async (parent, { title, description, images, profileImage }, context) => {
+    createPost: async (parent, { title, description, images }, context) => {
       console.log(context.user);
       if (context.user) {
         try {
@@ -112,11 +117,10 @@ const resolvers = {
             title,
             description,
             images,
-            profileImage,
           });
           const savedPost = await newPost.save();
           
-          await User.findOneAndUpdate({_id:user._id},{$push:{posts:savedPost._id}},{new:true});
+          await User.findOneAndUpdate({_id:user._id},{$push:{posts:savedPost}},{new:true});
           const populatedPost = await Post.findById(savedPost._id).populate('user').exec();
     
           return populatedPost;

@@ -73,16 +73,6 @@ export default function Navbar() {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
-                  <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src={data?.me?.profileImage || "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}
-                        alt="profilePic"
-                      />
-                    </Menu.Button>
-                  </div>
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'
+import Posts from '../components/Posts';
 
 import {AiFillLike} from 'react-icons/ai';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
@@ -13,7 +14,7 @@ const CommunityPost = () => {
         
 
   const { loading, data } = useQuery(GET_POSTS);
-   const postData = data?.posts || [];
+  const postData = data?.posts || [];
 
   if(loading) return (<p>loading</p>)
  
@@ -26,34 +27,22 @@ const CommunityPost = () => {
         <Link to='/createpost' className='font-inter font-medium bg-[#6469ff] text-white px-4 py-2 rounded-md'>Create Post</Link>
       </div>
 
-
-      {postData.map((post) => {
-        return (
-          <div key={post._id} className=" bg-gray-100 p-4">
-            <div className="bg-white border rounded-sm max-w-md">
-              <div className="flex items-center px-4 py-3">
-                <img className="h-8 w-8 rounded-full" src={post.profileImage} />
-                <div className="ml-3 ">
-                  <span className="text-sm font-semibold antialiased block leading-tight">{post.username}</span>
-
-                </div>
-              </div>
-              <img src={post.images} />
-              <div className="flex items-center justify-between mx-4 mt-3 mb-2">
-                <div className="flex gap-5">
-
-                  <AiFillLike size='24px' />
-                  <BiCommentDetail size='24px' />
-                  <BiRepost size='24px' />
-                </div>
-                <GrFavorite size='24px' />
-              </div>
-              <div className="font-semibold text-sm mx-4 mt-2 mb-4">{post.likes + ' Likes'}</div>
-            </div>
-          </div>
-        )
-      })}
+      <Posts posts={postData}/>
+      {/* <div className="relative mt-8 flex items-center gap-x-4">
+        <img src={post.user.profileImage} alt="" className="h-10 w-10 rounded-full bg-gray-100" />
+        <div className="text-sm leading-6">
+          <p className="font-semibold text-gray-900">
+            <a >
+              <span className="absolute inset-0" />
+              {post.user.username}
+            </a>
+          </p>
+        </div>
+      </div> */}
     </div>
+
+    
   )
 }
+
 export default CommunityPost;
