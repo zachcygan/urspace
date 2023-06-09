@@ -7,7 +7,7 @@ const CreatePost = () => {
     const [title,setTitle] = useState('');
     const [description,setDescription] = useState('');
     const[images,setImages] = useState('');
-    const[profileImage,setProfileImage] = useState('');
+    // const[profileImage,setProfileImage] = useState('');
     // const[createPost] =useMutation(CREATE_POST);
     const [createPost] = useMutation(CREATE_POST, {
         update(cache, { data }) {
@@ -55,9 +55,10 @@ const CreatePost = () => {
 
         console.log(title,description);
         const imagesUrl = await uploadToCloudinary(images);
-        const profileImageUrl = await uploadToCloudinary(profileImage);
-        console.log(imagesUrl,profileImageUrl);
+        // const profileImageUrl = await uploadToCloudinary(profileImage);
+      
         try {
+          console.log({ title, description, images: imagesUrl});
             const { data } = await createPost({
               variables: { title, description, images: imagesUrl}
             });
@@ -82,9 +83,9 @@ const CreatePost = () => {
         else if(name === 'image'){
             setImages(value);
         }
-        else if(name === 'profileImage'){
-            setProfileImage(value);
-        }
+        // else if(name === 'profileImage'){
+        //     setProfileImage(value);
+        // }
     }
 
 
@@ -103,8 +104,8 @@ const CreatePost = () => {
                         <textarea value={description} id='description' name='description' onChange={handleChange}></textarea>
 
                         <input type='file' name='image' onChange={e=>setImages(e.target.files[0])}></input>
-                        <input type='file' name ='profileImage' onChange={e=>setProfileImage(e.target.files[0])}></input>
-                   
+                        {/* <input type='file' name ='profileImage' onChange={e=>setProfileImage(e.target.files[0])}></input>
+                    */}
 
                         <button type='submit'>Submit</button>
                 </div>

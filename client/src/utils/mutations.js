@@ -3,8 +3,8 @@ import { gql } from '@apollo/client';
 
 
 export const CREATE_POST = gql`
-  mutation CreatePost($title: String!, $description: String!, $images: String, $profileImage: String) {
-    createPost(title: $title, description: $description, images: $images, profileImage: $profileImage) {
+  mutation CreatePost($title: String!, $description: String!, $images: String) {
+    createPost(title: $title, description: $description, images: $images) {
       user
       title
       description
@@ -13,7 +13,7 @@ export const CREATE_POST = gql`
     }
   }
 `;
-s
+
 export const ADD_USER = gql`
     mutation addUser($username: String!, $email: String!, $password: String!) {
         addUser(username: $username, email: $email, password: $password) {

@@ -76,27 +76,46 @@ const resolvers = {
     //   }
     // },
 
-    createPost: async(parent, { title, description, images, profileImage }, context) => {
+    // createPost: async(parent, { title, description, images}, context) => {
 
+    //   console.log(context.user);
+    //   if (context.user) {
+    //     try {
+    //       const newPost = Post.create({
+    //         user: context.user._id, 
+    //         title,
+    //         description,
+    //         images,
+          
+    //       });
+    //       // const savedPost = await newPost.save();
+    //     return newPost;
+    //     } catch (error) {
+    //       console.error(error);
+    //       throw new Error("Error creating post");
+    //     }
+    //   }
+    //   throw new Error('Authentication Error. Please sign in.');
+    // },
+    createPost: async (parent, { title, description, images }, context) => {
       console.log(context.user);
       if (context.user) {
         try {
-          const newPost = new Post({
-            user: context.user._id, 
+          const newPost = await Post.create({
+            user: context.user._id,
             title,
             description,
             images,
-          
           });
-          const savedPost = await newPost.save();
-          return savedPost;
+          return newPost;
         } catch (error) {
           console.error(error);
           throw new Error("Error creating post");
         }
       }
-      throw new Error('Authentication Error. Please sign in.');
+      throw new Error("Authentication Error. Please sign in.");
     },
+    
 
     // uploadImage: async (parent, { file }, context) => {
     //   const result = await uploadFile(file)
