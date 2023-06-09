@@ -1,15 +1,18 @@
 import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql`
-  query GetPosts {
+  query getPosts {
     posts {
+      _id
       title
       description
       likes
       comments
       images
       profileImage
-      user
+      user{
+        username
+      }
     }
   }
 `;
