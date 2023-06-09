@@ -4,6 +4,7 @@ import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, Hi
 import { useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
 import { GET_ME } from '../utils/queries';
+import auth from '../utils/auth';
 
 const links = [
   {
@@ -22,7 +23,7 @@ const links = [
     icons: HiOutlineMenu
   },
   {
-    name: 'Login',
+    name: auth.loggedIn() ? 'Logout' : 'Login',
     to: '/login',
     icons: HiOutlineHashtag
   }
@@ -33,9 +34,9 @@ const NavLinks = ({ data, handleClick }) => (
     {links.map((item) => (
       <NavLink
         key={item.name}
-        to={typeof item.to === 'function' ? item.to(data.me.username) : item.to}
+        to={typeof item.to === 'function' ? item.to(data?.me.username) : item.to}
         className='flex flex-row justify-start items-center my-8 text-sm font-medium text-gray-400 hover:text-cyan-400'
-        onClick={handleClick}
+        onClick={(e) => handleClick(e)}
       >
         <item.icons />
         {item.name}
@@ -48,27 +49,33 @@ const Sidebar = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const { loading, error, data } = useQuery(GET_ME);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     // Define the logic for handling the click event here
     // For example, you can close the mobile menu if it's open
     if (mobileMenu) {
       setMobileMenu(false);
     }
+
+    // If the user is clicking on the login/logout link, then we need to logout the user
+    if (e.target.innerText === 'Logout') {
+        auth.logout();
+    }
   };
 
   if (loading) {
     return <div>Loading...</div>;
-  }
+  } 
 
-  if (error) {
-    console.log(error);
-    return <div>Error occurred while fetching data</div>;
-  }
+//   if (error) {
+//     console.log(error);
+//     return <div>Error occurred while fetching data</div>;
+//   }
 
   return (
-    <div className='md:flex flex-col w-[240px] py-10 px-4 bg-[#191624]'>
+    <div className='md:flex flex-col w-1/6 py-10 px-4 bg-[#191624]'>
       <h1 className='text-gray-400 font-bold'>Urspace</h1>
-      {data && <NavLinks data={data} handleClick={handleClick} />}
+      {/* {data && } */}
+      <NavLinks data={data} handleClick={handleClick} />
     </div>
   );
 };

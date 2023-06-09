@@ -21,7 +21,7 @@ export default function Navbar() {
   }
   console.log(data);
   return (
-    <Disclosure as="nav" className="bg-white shadow absolute justify-between w-full">
+    <Disclosure as="nav" className="bg-white shadow justify-between w-full">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
