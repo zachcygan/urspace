@@ -53,13 +53,13 @@ const CreatePost = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        console.log(title,description,images,profileImage);
+        console.log(title,description);
         const imagesUrl = await uploadToCloudinary(images);
         const profileImageUrl = await uploadToCloudinary(profileImage);
         console.log(imagesUrl,profileImageUrl);
         try {
             const { data } = await createPost({
-              variables: { title, description, images: imagesUrl, profileImage: profileImageUrl }
+              variables: { title, description, images: imagesUrl}
             });
             console.log(data.createPost);
           } catch (error) {

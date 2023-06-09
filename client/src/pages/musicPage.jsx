@@ -26,7 +26,7 @@ const handlePauseClick = () => {
     return(
         <div className='flex flex-col'>
             <DetailsHeader artistId={artistId}songData={songData}/>
-            <div className='flex flex-row'>
+            <div className='flex flex-row justify-between'>
             <div className='mb-10'>
                 <h2 className=' font-extrabold text-3xl '>
                     Lyrics:

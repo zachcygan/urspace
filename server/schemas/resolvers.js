@@ -86,7 +86,7 @@ const resolvers = {
             title,
             description,
             images,
-            profileImage,
+          
           });
           const savedPost = await newPost.save();
           return savedPost;

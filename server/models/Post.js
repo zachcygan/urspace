@@ -24,10 +24,7 @@ const postSchema = new Schema(
             type: String,
             default: '',
         },
-        profileImage:{
-            type: String,
-            default: '',
-        },
+       
         user:{
             type: Schema.Types.ObjectId,
             ref:'User',
