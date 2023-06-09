@@ -11,7 +11,7 @@ const people = [
     // More people...
 ]
 
-export default function SavedSongs() {
+export default function SavedSongs({ songs }) {
     
 
     return (
@@ -23,16 +23,16 @@ export default function SavedSongs() {
                 <div className="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-5 sm:pt-5"></div>
             </div>
             <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {people.map((person) => (
+                {songs.map((song) => (
                     <li
-                        key={person.email}
+                        key={song._id}
                         className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
                     >
                         <div className="flex flex-1 flex-col p-8">
-                            <img className="mx-auto h-32 w-32 flex-shrink-0 object-cover" src='/src/assets/coco.jpg' alt="" />
-                            <h3 className="mt-6 text-sm font-medium text-gray-900">Artist Name</h3>
+                            <img className="mx-auto h-32 w-32 flex-shrink-0 object-cover" src={song.coverart} alt="" />
+                            <h3 className="mt-6 text-sm font-medium text-gray-900">{song.artist}</h3>
                             <dl className="mt-1 flex flex-grow flex-col justify-between">
-                                <dd className="text-sm text-gray-500">Song Name</dd>
+                                <dd className="text-sm text-gray-500">{song.title}</dd>
                             </dl>
                         </div>
                     </li>

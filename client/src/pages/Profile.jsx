@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-
-import { GET_SINGLE_USER, GET_ME } from '../utils/queries';
-
+import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
-import { UPLOAD_PROFILE_PICTURE } from '../utils/mutations';
+import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -32,24 +30,29 @@ const uploadToCloudinary = async (file) => {
 
 const Profile = () => {
 
-  const { username } = useParams();
-  const { loading, error, data } = useQuery(GET_SINGLE_USER, {
-    variables: { username: username },
-  });
-  const { loading: loading2, error: error2, data: data2 } = useQuery(GET_ME);
-  const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
-  const urlString = `/profile/${username}/edit`;
+    const { username } = useParams();
+    const { loading, error, data } = useQuery(GET_SINGLE_USER, {
+        variables: { username: username },
+    });
+    const { loading: loading2, error: error2, data: data2 } = useQuery(GET_ME);
 
+    const { loading: loading3, error: error3, data: data3 } = useQuery(GET_SINGLE_USERS_POSTS, {
+        variables: { username: username },
+    });
+    const { loading: loading4, error: error4, data: data4 } = useQuery(GET_SINGLE_USERS_SONGS, {
+        variables: { username: username },
+    });
+    const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+    const [followUser] = useMutation(FOLLOW_USER);
+    const urlString = `/profile/${username}/edit`;
 
-    console.log(data2)
+    console.log(data4)
     if (error) {
-        console.log('error'+error)
+        console.log('error' + error)
     }
 
-    if (loading) {
+    if (loading || loading2 || loading3 || loading4) {
         return <h2>LOADING...</h2>;
-    } else {
-        
     }
 
     const uploadImage = async (e) => {
@@ -61,10 +64,10 @@ const Profile = () => {
 
 
             uploadProfilePicture({
-                variables: { 
+                variables: {
                     profileImage: response,
                     username: username,
-             },
+                },
             });
 
             window.location.reload();
@@ -93,11 +96,11 @@ const Profile = () => {
                         <div className='text-lg pt-10 pl-10'>
                             {data.singleUser.bio}
                         </div>
-                        <div className={`justify-between flex-col lg:flex-row ${username === data2.me.username ? 'flex' : 'hidden'}`}>
+                        <div className={`justify-between flex-col lg:flex-row`}>
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div className='mt-10 flex flex-col lg:flex-row item-center'>
+                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2.me.username ? 'flex' : 'hidden'}`}>
                                 {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
                                 <label className='m-1 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <p className='m-auto'>Upload Image</p>
@@ -109,20 +112,30 @@ const Profile = () => {
                                         }
                                     />
                                 </label>
-                                <button className='m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                                <button className='https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <a href={urlString}> Edit Profile</a>
                                 </button>
+                                
                             </div>
+                            <button onClick={followUser} className={`https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2.me.username ? 'hidden' : 'flex'}`}>
+                                    Follow
+                            </button>
                         </div>
                     </div>
                 </div>
-                
-                <div className='rounded-lg bg-white shadow mt-10'>
-                    <Posts />
+
+                <div className={`rounded-lg bg-white shadow mt-10 ${data.singleUser.posts ? '' : 'hidden'}`}>
+                    <div>
+                        <div className='flex justify-center'>
+                            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:mt-5">Posts</h2>
+                        </div>
+                        <div className="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-5 sm:pt-5"></div>
+                    </div>
+                    <Posts posts={data3.getUsersPosts} />
                 </div>
-                
+
                 <div className='rounded-lg bg-white shadow mt-10'>
-                    <SavedSongs />
+                    <SavedSongs songs={data4.getUsersSongs}/>
                 </div>
             </div>
         </div>
