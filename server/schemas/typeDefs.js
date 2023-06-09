@@ -16,6 +16,7 @@ const typeDefs = gql`
     followers: [Followers]
     posts: [Post]
     creationDate: String
+    musics: [Music]
   }
 
   type Music{
@@ -24,8 +25,9 @@ const typeDefs = gql`
     coverart: String
     title: String
     url: String
-
+    user: User
   }
+
   type Following {
     _id: ID!
     username: String!
@@ -63,12 +65,13 @@ const typeDefs = gql`
     getUsersPosts(username: String!): [Post]
     post:Post
     profiles: [User]
+    getUsersSongs(username: String!): [Music]
   }
   
   type Mutation {
     saveMusic(title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
-    createPost(title: String!, description: String!, images: String!, profileImage: String!): Post
+    createPost(title: String!, description: String!, images: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     logout: User

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-
-import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_MUSIC } from '../utils/queries';
-
+import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
 import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER } from '../utils/mutations';
@@ -41,19 +39,19 @@ const Profile = () => {
     const { loading: loading3, error: error3, data: data3 } = useQuery(GET_SINGLE_USERS_POSTS, {
         variables: { username: username },
     });
-    const { loading: loading4, error: error4, data: data4 } = useQuery(GET_MUSIC, {
+    const { loading: loading4, error: error4, data: data4 } = useQuery(GET_SINGLE_USERS_SONGS, {
         variables: { username: username },
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const [followUser] = useMutation(FOLLOW_USER);
     const urlString = `/profile/${username}/edit`;
 
-    console.log(data3)
+    console.log(data4)
     if (error) {
         console.log('error' + error)
     }
 
-    if (loading) {
+    if (loading || loading2 || loading3 || loading4) {
         return <h2>LOADING...</h2>;
     }
 
@@ -137,7 +135,7 @@ const Profile = () => {
                 </div>
 
                 <div className='rounded-lg bg-white shadow mt-10'>
-                    <SavedSongs songs={data4.musics}/>
+                    <SavedSongs songs={data4.getUsersSongs}/>
                 </div>
             </div>
         </div>

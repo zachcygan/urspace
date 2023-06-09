@@ -18,6 +18,24 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_SINGLE_USERS_SONGS = gql`
+  query GetUsersSongs($username: String!) {
+    getUsersSongs(username: $username) {
+      _id
+      artist
+      coverart
+      title
+      url
+      user {
+        username
+        profileImage
+        _id
+      }
+    }
+  }
+`;
+
+
 export const GET_SINGLE_USERS_POSTS = gql`
   query GetUsersPosts($username: String!) {
     getUsersPosts(username: $username) {
@@ -86,6 +104,9 @@ export const GET_SINGLE_USER = gql`
       bio
       profileImage
       creationDate
+      musics {
+        _id
+      }
     } 
   }
 `;
