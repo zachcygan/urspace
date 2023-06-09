@@ -21,15 +21,15 @@ const resolvers = {
       )
     },
     posts: async (parent, args, context) => {
-
-      if (context.user) {
-        const posts = await Post.find().populate("user");
+      try {
+        const posts = await Post.find().populate("user").exec();
         return posts;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching posts");
       }
-      throw new AuthenticationError(
-        "You must be logged in to perform this action"
-      )
     },
+    
     users: async () => {
       const user = await User.find();
       return user;
@@ -40,7 +40,7 @@ const resolvers = {
       return user;
     },
     musics: async () => {
-      const music = await Music.find();
+      const music = await Music.findAll({});
       return music;
     },
     getUsersPosts: async (parent, args, context) => {
@@ -118,6 +118,7 @@ const resolvers = {
             title,
             description,
             images,
+            profileImage,
           });
           const savedPost = await newPost.save();
           

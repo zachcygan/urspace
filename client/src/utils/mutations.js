@@ -5,14 +5,16 @@ import { gql } from '@apollo/client';
 export const CREATE_POST = gql`
 mutation CreatePost($title: String!, $description: String!, $images: String!) {
   createPost(title: $title, description: $description, images: $images) {
-    _id
+    _id  
     title
     description
     likes
     comments
     images
     user {
+      _id
       username
+      profileImage
     }
   }
 }
