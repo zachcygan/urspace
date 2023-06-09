@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMutation } from '@apollo/client';
-import { SAVE_MUSIC } from '../../utils/mutations';
+import { SAVE_MUSIC,DELETE_MUSIC } from '../../utils/mutations';
+
 import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
@@ -21,6 +22,8 @@ const MusicPlayer = () => {
 
   // saveMusic with likes
   const [saveMusic] = useMutation(SAVE_MUSIC);
+  const [deleteMusic] = useMutation(DELETE_MUSIC);
+  const [isSaved,setIsSaved] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,17 +31,42 @@ const MusicPlayer = () => {
   }, [currentIndex]);
 
 
-  const handleSaveMusic=()=>{
-    saveMusic({variables:{
-      title:activeSong.title,
-      artist:activeSong.subtitle,
+  // const handleSaveMusic=()=>{
+  //   // saveMusic({variables:{
+  //   //   title:activeSong.title,
+  //   //   artist:activeSong.subtitle,
       
-      url:activeSong.url,
-      coverart:activeSong.images.coverart,
+  //   //   url:activeSong.url,
+  //   //   coverart:activeSong.images.coverart,
     
-    }});
+  //   // }});
     
-  }
+  // }
+  const handleSaveMusic =async() => {
+    if(!isSaved){
+      try{
+        await saveMusic({variables:{
+          title:activeSong.title,
+          artist:activeSong.subtitle,
+          url:activeSong.url,
+          coverart:activeSong.images.coverart,
+        }});
+        setIsSaved(true);
+
+      }catch(e){
+        console.log(e);
+      }
+    }else{
+      try{
+        await deleteMusic({variables:{
+          title:activeSong.title,
+        }});
+        setIsSaved(false);
+      }catch(e){
+        console.log(e);
+      }
+    }
+  };
   const handlePlayPause = () => {
     if (!isActive) return;
 
@@ -85,6 +113,7 @@ const MusicPlayer = () => {
           handlePrevSong={handlePrevSong}
           handleNextSong={handleNextSong}
           handleSaveMusic={handleSaveMusic}
+          isSaved={isSaved}
         />
         <Seekbar
           value={appTime}

@@ -34,7 +34,7 @@ const NavLinks = ({ data, handleClick }) => (
     {links.map((item) => (
       <NavLink
         key={item.name}
-        to={typeof item.to === 'function' ? item.to(data?.me.username) : item.to}
+        to={typeof item.to === 'function' ? item.to(data?.me?.username||'') : item.to}
         className='flex flex-row justify-start items-center my-8 text-sm font-medium text-gray-400 hover:text-cyan-400'
         onClick={(e) => handleClick(e)}
       >
