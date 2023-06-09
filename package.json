@@ -4,20 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-       "client-install": "npm install --prefix client",
-        "client": "npm run dev --prefix client",
-        "server": "node server/server.js",
-        "build": "cd client && npm run build",
-        "start": "node server/server.js",
-        "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
-        "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
-        "install": "cd server && npm i && cd ../client && npm i"
-
+    "client-install": "npm install --prefix client",
+    "client": "npm run dev --prefix client",
+    "server": "node server/server.js",
+    "build": "cd client && npm run build",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "install": "cd server && npm i && cd ../client && npm i"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.0.1",
+    "moment": "^2.29.4"
   }
 }

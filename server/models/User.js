@@ -1,5 +1,6 @@
 const {  Schema, model  } = require('mongoose');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const userSchema = new Schema(
     {
@@ -32,10 +33,15 @@ const userSchema = new Schema(
         },
         bio: {
             type: String,
+            default: 'Edit your profile to add a bio',
         },
         profileImage: {
             type: String,
-            default: 'https://m.media-amazon.com/images/M/MV5BYWE4YzVlNWUtMGRjYi00YzM3LTk4NTEtZTY4MDQ3YmQ2OGUwXkEyXkFqcGdeQXVyMTQ3ODE2MDc5._V1_.jpg'
+            default: 'http://res.cloudinary.com/dk5mamh4v/image/upload/v1686246906/cggvneiqdp90z81yhy49.jpg'
+        },
+        creationDate: {
+                type: String,
+                default: moment().format('DD-MM-YYYY'),
         },
         following: [
             {
@@ -64,21 +70,25 @@ const userSchema = new Schema(
     }
 );
 
-userSchema
-    .virtual('followerCount')
-    .get(function () {
+userSchema.virtual('followerCount').get(function () {
         if (this.followers) return this.followers.length
     })
-userSchema
-    .virtual('followingCount')
-    .get(function () {
+userSchema.virtual('followingCount').get(function () {
         if (this.following) return this.following.length
     })
-userSchema
-    .virtual('postCount')
-    .get(function () {
+userSchema.virtual('postCount').get(function () {
         if (this.posts) return this.posts.length
     })
+
+userSchema.virtual('formattedAccountCreation').get(function () {
+    const day = this.creationDate.getDate();
+    const month = this.creationDate.getMonth() + 1; // Month is zero-based, so we add 1
+    const year = this.creationDate.getFullYear();
+
+    console.log('date virtual')
+      
+    return `${day}-${month}-${year}`;
+});
 
 userSchema.pre('save', async function (next) {
     if (this.isNew || this.isModified('password')) {
@@ -88,6 +98,7 @@ userSchema.pre('save', async function (next) {
 
     next();
 });
+
 userSchema.methods.isCorrectPassword = async function (password) {
 return bcrypt.compare(password, this.password);
 };

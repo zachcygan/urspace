@@ -9,4 +9,7 @@ import MusicPage from './MusicPage';
 import ArtistPage from './ArtistPage';
 import SavedMusic from './SavedMusic';
 import Register from './Register';
-export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register};
+import ProfileEdit from './ProfileEdit';
+
+export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register,ProfileEdit};
+
