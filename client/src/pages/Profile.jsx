@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 
-import { GET_SINGLE_USER, GET_ME, GET_POSTS, GET_MUSIC } from '../utils/queries';
+import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_MUSIC } from '../utils/queries';
 
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
-import { UPLOAD_PROFILE_PICTURE } from '../utils/mutations';
+import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -37,26 +37,23 @@ const Profile = () => {
         variables: { username: username },
     });
     const { loading: loading2, error: error2, data: data2 } = useQuery(GET_ME);
-    const { loading: loading3, error: error3, data: data3 } = useQuery(GET_POSTS, {
+
+    const { loading: loading3, error: error3, data: data3 } = useQuery(GET_SINGLE_USERS_POSTS, {
         variables: { username: username },
     });
     const { loading: loading4, error: error4, data: data4 } = useQuery(GET_MUSIC, {
         variables: { username: username },
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+    const [followUser] = useMutation(FOLLOW_USER);
     const urlString = `/profile/${username}/edit`;
 
-
-    console.log(data4);
+    console.log(data3)
     if (error) {
         console.log('error' + error)
     }
 
     if (loading) {
-        return <h2>LOADING...</h2>;
-    }
-
-    if (loading3) {
         return <h2>LOADING...</h2>;
     }
 
@@ -120,19 +117,23 @@ const Profile = () => {
                                 <button className='https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <a href={urlString}> Edit Profile</a>
                                 </button>
+                                
                             </div>
+                            <button onClick={followUser} className={`https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2.me.username ? 'hidden' : 'flex'}`}>
+                                    Follow
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div className={`rounded-lg bg-white shadow mt-10 ${data3 ? '' : 'hidden'}`}>
+                <div className={`rounded-lg bg-white shadow mt-10 ${data.singleUser.posts ? '' : 'hidden'}`}>
                     <div>
                         <div className='flex justify-center'>
                             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:mt-5">Posts</h2>
                         </div>
                         <div className="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-5 sm:pt-5"></div>
                     </div>
-                    <Posts posts={data3.posts} />
+                    <Posts posts={data3.getUsersPosts} />
                 </div>
 
                 <div className='rounded-lg bg-white shadow mt-10'>

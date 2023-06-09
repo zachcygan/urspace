@@ -18,6 +18,24 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_SINGLE_USERS_POSTS = gql`
+  query GetUsersPosts($username: String!) {
+    getUsersPosts(username: $username) {
+      _id
+      comments
+      description
+      images
+      likes
+      title
+      user {
+        username
+        profileImage
+        _id
+      }
+    }
+  }
+`;
+
 export const GET_MUSIC = gql`
   query GetMusic {
     musics {

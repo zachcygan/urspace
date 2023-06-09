@@ -44,9 +44,10 @@ const resolvers = {
       return music;
     },
     getUsersPosts: async (parent, args, context) => {
-      const posts = await Post.find({ username: args.username }).populate("user");
+      const user = await User.findOne({ username: args.username });
+      const posts = await Post.find({ user: user._id }).populate("user");
       return posts
-    }
+    },
   },
   Mutation: {
     login: async (parent, { email, password }) => {
@@ -131,7 +132,33 @@ const resolvers = {
       }
       throw new Error('Authentication Error. Please sign in.');
     },
+    followUser: async (parent, args, context) => {
+      if (context.user) {
+        try {
+          
+          const follower = await User.findById(context.user._id);
+          const followee = await User.findOneAndUpdate(
+            { username: args.username },
+            { $push: { followers: follower } },
+            { new: true }
+          );
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $push: { following: followee } },
+            { new: true }
+          );
+          console.log('success')
+          return [follower, followee];
+        } catch (err) {
+          console.error(err);
+          throw new Error("Error following user");
+        }
+      };
+      throw new Error('Authentication Error. Please sign in.');
+    },
     
+
+
     
 
     // uploadImage: async (parent, { file }, context) => {

@@ -74,6 +74,7 @@ const typeDefs = gql`
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
     uploadProfilePicture(profileImage: String!, username: String!): User
     updateUser(username: String!, email: String!, firstName: String!, lastName: String!, bio: String!): User
+    followUser(username: String!): User
   }  
 `;
 

@@ -30,6 +30,17 @@ export const ADD_USER = gql`
         }
     }
 `;
+
+export const FOLLOW_USER = gql`
+  mutation followUser($username: String!) {
+    followUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
+
+
 export const SAVE_MUSIC = gql`
     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
         saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
