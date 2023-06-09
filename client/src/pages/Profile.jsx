@@ -46,8 +46,21 @@ const Profile = () => {
     const [followUser] = useMutation(FOLLOW_USER);
     const urlString = `/profile/${username}/edit`;
 
-    console.log(data4)
-    if (error) {
+    const handleFollowUser = async (e) => {
+        try {
+            e.preventDefault();
+            const followedUser = await followUser({
+                variables: { username: username },
+            });
+            console.log(followedUser)
+            return followedUser;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    console.log(data)
+    if (error || error2 || error3 || error4) {
         console.log('error' + error)
     }
 
@@ -57,7 +70,6 @@ const Profile = () => {
 
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        // const url = await uploadToCloudinary(file);
         console.log(file);
         if (file.type == 'image/jpeg' || file.type == 'image/png') {
             let response = await uploadToCloudinary(file);
@@ -80,7 +92,7 @@ const Profile = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
 
             {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
-            <div className="container mx-auto sm:px-6 lg:px-8">{/* Content goes here */}
+            <div className="container mx-auto sm:px-6 lg:px-8">
                 <div className='rounded-lg bg-white shadow mt-10'>
                     <div className=''>
                         <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
@@ -100,7 +112,7 @@ const Profile = () => {
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2.me.username ? 'flex' : 'hidden'}`}>
+                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
                                 {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
                                 <label className='m-1 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <p className='m-auto'>Upload Image</p>
@@ -117,7 +129,7 @@ const Profile = () => {
                                 </button>
                                 
                             </div>
-                            <button onClick={followUser} className={`https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2.me.username ? 'hidden' : 'flex'}`}>
+                            <button onClick={handleFollowUser} className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}>
                                     Follow
                             </button>
                         </div>
