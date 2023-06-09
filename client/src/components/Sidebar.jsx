@@ -16,9 +16,11 @@ const links = [
         icons: HiOutlineUserGroup
     },
     {
+
         name: 'Profile',
         to: `/profile/:username`,
         icons: HiOutlineMenu
+
     },
     {
         name: 'Login',
