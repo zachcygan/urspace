@@ -1,5 +1,5 @@
 
-const { User, Comment, Post,Music } = require("../models");
+const { User, Comment, Post, Music } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 const fs = require('fs')
@@ -18,13 +18,17 @@ const resolvers = {
       }
       throw new AuthenticationError(
         "You must be logged in to perform this action"
-      )   
+      )
     },
-    posts: async (parent,args,context) => {
+    posts: async (parent, args, context) => {
 
-      console.log(context.user._id)
-      const posts = await Post.find();
+      if (context.user) {
+      const posts = await Post.find().populate("user");
       return posts;
+      }
+      throw new AuthenticationError(
+        "You must be logged in to perform this action"
+      )
     },
     users: async () => {
       const user = await User.find();
@@ -76,20 +80,21 @@ const resolvers = {
     //   }
     // },
 
-    createPost: async(parent, { title, description, images, profileImage }, context) => {
+    createPost: async (parent, { title, description, images, profileImage }, context) => {
 
       console.log(context.user);
       if (context.user) {
         try {
           const newPost = new Post({
-            user: context.user._id, 
+            user: context.user._id,
             title,
             description,
             images,
             profileImage,
-          });
-          const savedPost = await newPost.save();
-          return savedPost;
+          }).populate("user");
+          return newPost
+          // const savedPost = await newPost.save();
+          // return savedPost;
         } catch (error) {
           console.error(error);
           throw new Error("Error creating post");
@@ -102,7 +107,7 @@ const resolvers = {
     //   const result = await uploadFile(file)
     //   await unlinkFile(file.path)
     //   console.log(result)
-      
+
     //   return {imagePath: `/images/${result.Key}`}
     // },
 
@@ -126,23 +131,23 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
-    saveMusic: async(parent,{title,artist,url,coverart})=>{
-      console.log(title,artist,url,coverart);
+    saveMusic: async (parent, { title, artist, url, coverart }) => {
+      console.log(title, artist, url, coverart);
       try {
-        const music = new Music({title,artist,url,coverart});
+        const music = new Music({ title, artist, url, coverart });
         return await music.save();
       } catch (error) {
         console.error(error);
-        
+
         throw new Error('Error creating music');
       }
     },
-    register: async (parent, { username, email, password,firstName,lastName }) => {
-      const user = await User.create({username, email, password,firstName,lastName});
+    register: async (parent, { username, email, password, firstName, lastName }) => {
+      const user = await User.create({ username, email, password, firstName, lastName });
       const token = signToken(user);
       return { token, user };
     },
-    
+
   },
 };
 

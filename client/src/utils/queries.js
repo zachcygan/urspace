@@ -9,7 +9,9 @@ export const GET_POSTS = gql`
       comments
       images
       profileImage
-      user
+      user{
+        username
+      }
     }
   }
 `;

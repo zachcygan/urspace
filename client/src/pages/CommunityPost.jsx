@@ -13,8 +13,12 @@ const CommunityPost = () => {
         
 
   const { loading, data } = useQuery(GET_POSTS);
-  const postData = data?.posts || [];
+   const postData = data?.posts || [];
+
+  if(loading) return (<p>loading</p>)
+ 
   console.log(postData);
+
   return (
     <div className=' flex flex-col'>
       <div className='w-full flex justify-between items-center bg-white'>
