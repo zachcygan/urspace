@@ -29,7 +29,6 @@ const uploadToCloudinary = async (file) => {
 
 
 const Profile = () => {
-
     const { username } = useParams();
     const { loading, error, data } = useQuery(GET_SINGLE_USER, {
         variables: { username: username },
@@ -44,6 +43,8 @@ const Profile = () => {
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const [followUser] = useMutation(FOLLOW_USER);
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
     const urlString = `/profile/${username}/edit`;
 
     const handleFollowUser = async (e) => {
@@ -53,6 +54,8 @@ const Profile = () => {
                 variables: { username: username },
             });
             console.log(followedUser)
+
+            setFollowers(followers + 1);
             return followedUser;
         } catch (err) {
             console.log(err);
@@ -101,8 +104,8 @@ const Profile = () => {
                         <img className='rounded-full w-24 h-24 lg:ml-32 ml-25 m-auto lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
                         <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row'>
                             <div className='m-auto lg:ml-36'>{data.singleUser.username}</div>
-                            <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.followers.length}</span>Followers</div>
-                            <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
+                            <div value={followers} className='m-auto lg:ml-28'><span className='text-4xl'>{followers}</span>Followers</div>
+                            <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
                             <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
                         <div className='text-lg pt-10 pl-10'>
