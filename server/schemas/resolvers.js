@@ -103,20 +103,23 @@ const resolvers = {
     // },
 
     createPost: async (parent, { title, description, images, profileImage }, context) => {
-
       console.log(context.user);
       if (context.user) {
         try {
+          const user = await User.findById(context.user._id);
           const newPost = new Post({
-            user: context.user._id,
+            user: user._id, 
             title,
             description,
             images,
             profileImage,
-          }).populate("user");
-          return newPost
-          // const savedPost = await newPost.save();
-          // return savedPost;
+          });
+          const savedPost = await newPost.save();
+          
+          await User.findOneAndUpdate({_id:user._id},{$push:{posts:savedPost._id}},{new:true});
+          const populatedPost = await Post.findById(savedPost._id).populate('user').exec();
+    
+          return populatedPost;
         } catch (error) {
           console.error(error);
           throw new Error("Error creating post");
@@ -124,6 +127,8 @@ const resolvers = {
       }
       throw new Error('Authentication Error. Please sign in.');
     },
+    
+    
 
     // uploadImage: async (parent, { file }, context) => {
     //   const result = await uploadFile(file)
