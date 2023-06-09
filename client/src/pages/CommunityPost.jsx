@@ -13,8 +13,12 @@ const CommunityPost = () => {
         
 
   const { loading, data } = useQuery(GET_POSTS);
-  const postData = data?.posts || [];
+   const postData = data?.posts || [];
+
+  if(loading) return (<p>loading</p>)
+ 
   console.log(postData);
+
   return (
     <div className=' flex flex-col'>
       <div className='w-full flex justify-between items-center bg-white'>
@@ -25,12 +29,12 @@ const CommunityPost = () => {
 
       {postData.map((post) => {
         return (
-          <div className=" bg-gray-100 p-4">
+          <div key={post._id} className=" bg-gray-100 p-4">
             <div className="bg-white border rounded-sm max-w-md">
               <div className="flex items-center px-4 py-3">
                 <img className="h-8 w-8 rounded-full" src={post.profileImage} />
                 <div className="ml-3 ">
-                  <span className="text-sm font-semibold antialiased block leading-tight">{post.user}</span>
+                  <span className="text-sm font-semibold antialiased block leading-tight">{post.username}</span>
 
                 </div>
               </div>

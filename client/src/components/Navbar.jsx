@@ -21,14 +21,14 @@ export default function Navbar() {
   }
   console.log(data);
   return (
-    <Disclosure as="nav" className="bg-white shadow absolute justify-between w-full">
+    <Disclosure as="nav" className="bg-white shadow absolute justify-between w-full px-3">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+          <div className="mx-auto px-2 sm:px-4 lg:px-8 ">
             <div className="flex h-16 justify-between">
-              <div className="flex px-2 lg:px-0">
+              <div className="flex ">
                 <div className="flex flex-shrink-0 items-center text-cyan-950 text-2xl  ">
-                <h2>U R S P A C E</h2>
+                  <h2>U R S P A C E</h2>
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
