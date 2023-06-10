@@ -1,7 +1,5 @@
 import { gql } from '@apollo/client';
 
-
-
 export const CREATE_POST = gql`
 mutation CreatePost($title: String!, $description: String!, $images: String!) {
   createPost(title: $title, description: $description, images: $images) {
@@ -42,6 +40,14 @@ export const FOLLOW_USER = gql`
   }
 `;
 
+export const UNFOLLOW_USER = gql`
+  mutation unfollowUser($username: String!) {
+    unfollowUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
 
 // export const SAVE_MUSIC = gql`
 //     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
@@ -55,6 +61,7 @@ export const FOLLOW_USER = gql`
 //         }
 //     }
 // `;
+
 export const SAVE_MUSIC = gql`
     mutation saveMusic($userId: ID!, $key: String!, $artist: String!, $coverart: String!, $title: String!, $url:String!) {
         saveMusic(userId: $userId, key: $key, artist: $artist, coverart: $coverart, title: $title, url: $url) {
@@ -68,16 +75,19 @@ export const SAVE_MUSIC = gql`
         }
     }
 `;
+
 // export const DELETE_MUSIC= gql`
 //     mutation deleteMusic($title: String!) {
 //         deleteMusic(title: $title) 
 //     }
 // `;
+
 export const DELETE_MUSIC= gql`
     mutation deleteMusic($userId: ID!, $title: String!) {
         deleteMusic(userId: $userId, title: $title) 
     }
 `;
+
 export const updateUser = gql`
   mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
     updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {
@@ -127,3 +137,5 @@ mutation Register($username: String!, $email: String!, $password: String!, $firs
   }
 
 `;
+
+

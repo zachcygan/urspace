@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
 import SavedSongs from '../components/savedSongs';
-import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER } from '../utils/mutations';
+import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
     const url = 'https://api.cloudinary.com/v1_1/dk5mamh4v/upload';
@@ -42,29 +42,90 @@ const Profile = () => {
         variables: { username: username },
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+    const [unfollowUser] = useMutation(UNFOLLOW_USER);
     const [followUser] = useMutation(FOLLOW_USER);
     const [followers, setFollowers] = useState(0);
     const [following, setFollowing] = useState(0);
+    const [followButton, setFollowButton] = useState('Follow');
+    const [isFollowing, setIsFollowing] = useState(false);
     const urlString = `/profile/${username}/edit`;
 
-    const handleFollowUser = async (e) => {
-        try {
-            e.preventDefault();
-            const followedUser = await followUser({
-                variables: { username: username },
-            });
-            console.log(followedUser)
+    useEffect(() => {
+        if (data) {
+            setFollowers(data.singleUser.followers.length);
+            setFollowing(data.singleUser.following.length);
+        }
+    }, [data]);
 
-            setFollowers(followers + 1);
-            return followedUser;
-        } catch (err) {
-            console.log(err);
+    useEffect(() => {
+        if (data2) {
+            console.log('following',data2.me.following)
+            console.log('followers',data2.me.followers)
+            checkFollow();
+        }
+    }, [data2]);
+        
+    const checkFollow = () => {
+        if (data && data2) {
+            let following = false;
+            data2.me.following.forEach(followee => {
+                console.log(followee._id)
+                if (followee._id == data.singleUser._id) {
+                    following = true;
+                } 
+            });
+            console.log(following)
+            return following
         }
     }
+    
+    function FollowButton() {
+        const followingUser = checkFollow();
 
-    console.log(data)
+        const handleFollowUser = async (e) => {
+            try {
+                e.preventDefault();
+                const followedUser = await followUser({
+                    variables: { username: username },
+                });
+                setFollowers(followers + 1);
+                setFollowButton('Unfollow');
+                setIsFollowing(true);
+                return followedUser;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        const handleUnfollowUser = async (e) => {
+            try {
+                e.preventDefault();
+                const unfollowedUser = await unfollowUser({
+                    variables: { username: username },
+                });
+                setFollowers(followers - 1);
+                setFollowButton('Follow');
+                setIsFollowing(false);
+                return unfollowedUser;
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        
+        return  (
+            <button 
+            onClick={isFollowing ? handleUnfollowUser : handleFollowUser} 
+            className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}
+            >
+                <p value={followButton}>{followButton}</p>
+            </button>
+        )
+    } 
+
+    console.log(username)
     if (error || error2 || error3 || error4) {
-        console.log('error' + error)
+        console.log(error)
     }
 
     if (loading || loading2 || loading3 || loading4) {
@@ -105,7 +166,7 @@ const Profile = () => {
                         <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row'>
                             <div className='m-auto lg:ml-36'>{data.singleUser.username}</div>
                             <div value={followers} className='m-auto lg:ml-28'><span className='text-4xl'>{followers}</span>Followers</div>
-                            <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
+                            <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{following}</span>Following</div>
                             <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
                         <div className='text-lg pt-10 pl-10'>
@@ -132,9 +193,7 @@ const Profile = () => {
                                 </button>
                                 
                             </div>
-                            <button onClick={handleFollowUser} className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}>
-                                    Follow
-                            </button>
+                            <FollowButton />
                         </div>
                     </div>
                 </div>

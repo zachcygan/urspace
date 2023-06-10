@@ -86,6 +86,7 @@ const typeDefs = gql`
     uploadProfilePicture(profileImage: String!, username: String!): User
     updateUser(username: String!, email: String!, firstName: String!, lastName: String!, bio: String!): User
     followUser(username: String!): User
+    unfollowUser(username: String!): User
   }  
 `;
 
