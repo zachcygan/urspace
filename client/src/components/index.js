@@ -11,4 +11,6 @@ import Sidebar from './Sidebar';
 import DetailsHeader from './DetailsHeader';
 import RelatedSongs from './RelatedSongs';
 import SongBar from './SongBar';
-export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar,DetailsHeader,RelatedSongs,SongBar};
+import Notification from './Notification';
+import Loader from './Loader';
+export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar,DetailsHeader,RelatedSongs,SongBar,Notification,Loader};

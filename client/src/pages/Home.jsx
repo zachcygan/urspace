@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react';
 import {useQuery} from '@apollo/client';
 
 import {genres} from '../assets/constants'
-import { MusicCard } from '../components';
+import { MusicCard,Loader } from '../components';
 import { useGetTopChartsQuery } from '../API/ShazamCore';
 import { selectGenreListId } from '../redux/features/playerSlice';
 import { useGetSongsByGenreQuery } from '../API/ShazamCore';
@@ -15,7 +15,7 @@ const Home = () => {
     const {data,isFetching,error} = useGetSongsByGenreQuery(genreListId||'POP');
     const genreTitle = genres.find(({value})=>value===genreListId)?.title;
     console.log(data);
-    if(isFetching) return <div>Loading...</div>
+    if(isFetching) return <Loader/>;
     if(error) return <div>Error...</div>
 
     return (

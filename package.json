@@ -19,6 +19,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "concurrently": "^8.0.1",
+    "framer-motion": "^10.12.16",
     "moment": "^2.29.4"
   }
 }
