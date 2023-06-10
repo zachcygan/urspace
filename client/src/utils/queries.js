@@ -92,11 +92,9 @@ export const GET_SINGLE_USER = gql`
       lastName
       followers {
         _id
-        username
       }
       following {
         _id
-        username
       }
       posts {
         _id
@@ -144,11 +142,9 @@ export const GET_ME = gql`
       profileImage
       following {
         _id
-        username
       }
       followers {
         _id
-        username
       }
       posts {
         _id

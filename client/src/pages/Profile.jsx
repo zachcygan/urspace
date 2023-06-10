@@ -29,7 +29,6 @@ const uploadToCloudinary = async (file) => {
 
 
 const Profile = () => {
-
     const { username } = useParams();
     const { loading, error, data } = useQuery(GET_SINGLE_USER, {
         variables: { username: username },
@@ -44,10 +43,27 @@ const Profile = () => {
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const [followUser] = useMutation(FOLLOW_USER);
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
     const urlString = `/profile/${username}/edit`;
 
-    console.log(data4)
-    if (error) {
+    const handleFollowUser = async (e) => {
+        try {
+            e.preventDefault();
+            const followedUser = await followUser({
+                variables: { username: username },
+            });
+            console.log(followedUser)
+
+            setFollowers(followers + 1);
+            return followedUser;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    console.log(data)
+    if (error || error2 || error3 || error4) {
         console.log('error' + error)
     }
 
@@ -57,7 +73,6 @@ const Profile = () => {
 
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        // const url = await uploadToCloudinary(file);
         console.log(file);
         if (file.type == 'image/jpeg' || file.type == 'image/png') {
             let response = await uploadToCloudinary(file);
@@ -80,7 +95,7 @@ const Profile = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
 
             {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
-            <div className="container mx-auto sm:px-6 lg:px-8">{/* Content goes here */}
+            <div className="container mx-auto sm:px-6 lg:px-8">
                 <div className='rounded-lg bg-white shadow mt-10'>
                     <div className=''>
                         <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
@@ -89,8 +104,8 @@ const Profile = () => {
                         <img className='rounded-full w-24 h-24 lg:ml-32 ml-25 m-auto lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
                         <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row'>
                             <div className='m-auto lg:ml-36'>{data.singleUser.username}</div>
-                            <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.followers.length}</span>Followers</div>
-                            <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
+                            <div value={followers} className='m-auto lg:ml-28'><span className='text-4xl'>{followers}</span>Followers</div>
+                            <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.following.length}</span>Following</div>
                             <div className='m-auto lg:ml-28'><span className='text-4xl'>{data.singleUser.posts.length}</span>Posts</div>
                         </div>
                         <div className='text-lg pt-10 pl-10'>
@@ -100,7 +115,7 @@ const Profile = () => {
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2.me.username ? 'flex' : 'hidden'}`}>
+                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
                                 {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
                                 <label className='m-1 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <p className='m-auto'>Upload Image</p>
@@ -117,7 +132,7 @@ const Profile = () => {
                                 </button>
                                 
                             </div>
-                            <button onClick={followUser} className={`https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2.me.username ? 'hidden' : 'flex'}`}>
+                            <button onClick={handleFollowUser} className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}>
                                     Follow
                             </button>
                         </div>
