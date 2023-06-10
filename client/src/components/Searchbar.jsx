@@ -16,7 +16,10 @@ const SearchBar = () => {
         e.preventDefault();
         if(location.pathname.includes('/profile')) { // if the user is on a profile page
             navigate(`/profile/${searchTerm}`); // navigate to a profile with the username
-        } else {
+        } else if(location.pathname.includes('/posts')){
+            navigate(`/posts/search/${searchTerm}`);
+        }
+        else {
             navigate(`/search/${searchTerm}`); // search for the song
         }
     }

@@ -41,6 +41,8 @@ const resolvers = {
       const music = await Music.findAll({});
       return music;
     },
+
+ 
     getUsersPosts: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
       const posts = await Post.find({ user: user._id }).populate("user");
@@ -51,7 +53,41 @@ const resolvers = {
       const songs = await Music.find({ user: user._id }).populate("user");
       return songs;
     },
+
+    searchPosts: async(parent, {keyword}) => {
+      try {
+          // First find the users with matching usernames
+          const users = await User.find({ username: { $regex: keyword, $options: 'i' } });
+          // Extract the user IDs
+          const userIds = users.map(user => user._id);
+          // Search for posts either by title or user id
+          const posts = await Post.find(
+              { $or: [
+                  { title: { $regex: keyword, $options: 'i' } }, 
+                  { user: { $in: userIds } }
+              ]})
+              .populate('user')
+              .exec();
+          console.log(posts); // Log the posts here
+          return posts;
+      } catch (error) {
+          console.error(error);
+          throw new Error("Error fetching posts");
+      }
   },
+  searchProfiles:async(parent, {keyword}) => {
+    try {
+
+      const users = await User.find({username: {$regex: keyword, $options: 'i'}});
+      console.log(users);
+      return users;
+    } catch (error) {
+      console.error(error);
+          throw new Error("Error fetching posts");
+    }
+  },
+  },
+  
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

@@ -104,7 +104,7 @@ userSchema.pre('save', async function (next) {
 
     next();
 });
-
+userSchema.index({username:'text'});
 userSchema.methods.isCorrectPassword = async function (password) {
 return bcrypt.compare(password, this.password);
 };

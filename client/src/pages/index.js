@@ -10,6 +10,8 @@ import ArtistPage from './ArtistPage';
 import SavedMusic from './SavedMusic';
 import Register from './Register';
 import ProfileEdit from './ProfileEdit';
+import PostSearchPage from './PostSearchPage';
+import ProfileSearchPage from './ProfileSearchPage';
 
-export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register,ProfileEdit};
+export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register,ProfileEdit,PostSearchPage,ProfileSearchPage};
 

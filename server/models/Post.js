@@ -31,6 +31,7 @@ const postSchema = new Schema(
     },
 );
 
+postSchema.index({title:'text','user.username':'text'});
 const Post = model('Post', postSchema);
 
 module.exports = Post;
