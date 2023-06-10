@@ -61,6 +61,13 @@ const userSchema = new Schema(
                 ref: "Post",
             },
         ],
+        likedPosts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Post",
+                default: [],
+            },
+        ],
         musics:[
             {
                 type: Schema.Types.ObjectId,

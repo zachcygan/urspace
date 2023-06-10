@@ -11,7 +11,7 @@ import { GET_USERS } from '../utils/queries';
 const CommunityPost = () => {
         
 
-  const { loading, error,data } = useQuery(GET_POSTS);
+  const { loading, error, data } = useQuery(GET_POSTS);
   
 
   if(loading) return (<p>loading</p>)
@@ -22,7 +22,7 @@ const CommunityPost = () => {
  if(!data||!data.posts) return (<p>no post found</p>)
   // console.log(postData);
   const postData = data.posts;
-  console.log(postData);
+  // console.log(postData);
   return (
     <div className=' flex flex-col'>
       <div className='w-full flex justify-between items-center bg-white'>

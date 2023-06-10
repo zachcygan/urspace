@@ -9,8 +9,9 @@ import Controls from './Controls';
 import Player from './Player';
 import Seekbar from './Seekbar';
 import Track from './Track';
+import Loader from '../Loader';
 import VolumeBar from './VolumeBar';
-
+import { showNotification } from '../../redux/features/notificationSlice';
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
@@ -43,7 +44,7 @@ const MusicPlayer = () => {
     console.log(error);
   }
   if(loading){
-    return <h2>LOADING...</h2>;
+    return <Loader/>;
   }
  
 
@@ -74,6 +75,12 @@ const MusicPlayer = () => {
           coverart:activeSong.images.coverart,
         }});
         setIsSaved(true);
+        dispatch(showNotification({
+          message: `${activeSong.title} is saved!`,
+          type: 'success'
+        }));
+        localStorage.setItem('notification',JSON.stringify({message: `${activeSong.title} is saved!`,
+        type: 'success'}));
 
       }catch(e){
         console.log(e);
@@ -85,6 +92,12 @@ const MusicPlayer = () => {
           title:activeSong.title,
         }});
         setIsSaved(false);
+        dispatch(showNotification({
+          message: `${activeSong.title} removed from saved!`,
+          type: 'success'
+        }));
+        localStorage.setItem('notification',JSON.stringify({message: `${activeSong.title} removed from saved!`,
+        type: 'success'}));
       }catch(e){
         console.log(e);
       }

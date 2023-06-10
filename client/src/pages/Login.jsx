@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { LOGIN_USER } from '../utils/mutations';
-
+import { useDispatch,useSelector } from 'react-redux';
+import {showNotification} from '../redux/features/notificationSlice';
 import { Link } from 'react-router-dom';
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [showAlert, setShowAlert] = useState(false);
   const [loginUser, { error }] = useMutation(LOGIN_USER);
@@ -31,9 +33,22 @@ const LoginForm = () => {
       const { token, user } = await response.data.login;
       console.log(token, user);
       Auth.login(token);
+
+      dispatch(showNotification({
+        message: 'Login successful!',
+        type: 'success'
+      }));
+      localStorage.setItem('notification',JSON.stringify({message: 'Login successful!',
+      type: 'success'}));
     } catch (err) {
       console.error(err);
       setShowAlert(true);
+
+      dispatch(showNotification({
+        message: 'Login failed!, incorrect username or password',
+        type: 'error'
+      }));
+      localStorage.setItem('notification',JSON.stringify({message: 'Login failed!, incorrect username or password', type: 'error'}));
     }
 
     setUserFormData({
