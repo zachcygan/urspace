@@ -49,9 +49,24 @@ export const UNFOLLOW_USER = gql`
   }
 `;
 
+// export const SAVE_MUSIC = gql`
+//     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
+//         saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
+
+//             artist
+//             coverart
+//             title
+//             url
+          
+//         }
+//     }
+// `;
+
 export const SAVE_MUSIC = gql`
-    mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
-        saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
+    mutation saveMusic($userId: ID!, $key: String!, $artist: String!, $coverart: String!, $title: String!, $url:String!) {
+        saveMusic(userId: $userId, key: $key, artist: $artist, coverart: $coverart, title: $title, url: $url) {
+          
+            key
             artist
             coverart
             title
@@ -61,9 +76,15 @@ export const SAVE_MUSIC = gql`
     }
 `;
 
+// export const DELETE_MUSIC= gql`
+//     mutation deleteMusic($title: String!) {
+//         deleteMusic(title: $title) 
+//     }
+// `;
+
 export const DELETE_MUSIC= gql`
-    mutation deleteMusic($title: String!) {
-        deleteMusic(title: $title) 
+    mutation deleteMusic($userId: ID!, $title: String!) {
+        deleteMusic(userId: $userId, title: $title) 
     }
 `;
 
