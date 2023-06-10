@@ -25,8 +25,8 @@ const musicSchema = new Schema(
             type: String,
         }
     }
-    );
+);
 
-    const Music = model('Music', musicSchema);
+const Music = model('Music', musicSchema);
 
-    module.exports = Music;
+module.exports = Music;
