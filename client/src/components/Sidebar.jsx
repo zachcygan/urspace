@@ -48,7 +48,7 @@ const NavLinks = ({ data, handleClick }) => (
 const Sidebar = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const { loading, error, data } = useQuery(GET_ME);
-  console.log(data);
+  // console.log(data);
   const handleClick = (e) => {
     // Define the logic for handling the click event here
     // For example, you can close the mobile menu if it's open

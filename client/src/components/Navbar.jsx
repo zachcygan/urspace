@@ -19,7 +19,7 @@ export default function Navbar() {
     e.preventDefault();
     Auth.logout();
   }
-  console.log(data);
+  // console.log(data);
   return (
     <Disclosure as="nav" className="bg-white shadow justify-between w-full">
       {({ open }) => (
