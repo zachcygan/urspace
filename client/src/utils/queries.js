@@ -17,6 +17,40 @@ export const GET_POSTS = gql`
     }
   }
 `;
+export const SEARCH_POSTS =gql`
+query SearchPosts($keyword: String!) {
+  searchPosts(keyword: $keyword) {
+    _id
+    title
+    description
+    likes
+    comments
+    images
+   
+    user{
+      username
+      profileImage
+    }
+  }
+}`;
+export const SEARCH_PROFILES =gql`
+query SearchProfiles($keyword: String!) {
+  searchProfiles(keyword: $keyword) {
+    _id
+    username
+    profileImage
+    followers{
+      _id
+    }
+    following{
+      _id
+    }
+    firstName
+    lastName
+  }
+
+  }
+    `;
 
 export const GET_SINGLE_USERS_SONGS = gql`
   query GetUsersSongs($username: String!) {
