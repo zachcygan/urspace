@@ -36,7 +36,7 @@ const Profile = () => {
   const { loading, error, data } = useQuery(GET_SINGLE_USER, {
     variables: { username: username },
   });
-//   const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+  const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
 
 
 
@@ -55,7 +55,7 @@ const Profile = () => {
 
     const uploadImage = async (e) => {
         const file = e.target.files[0];
-        // const url = await uploadToCloudinary(file);
+
         console.log(file);
         if (file.type == 'image/jpeg' || file.type == 'image/png') {
             let response = await uploadToCloudinary(file);
