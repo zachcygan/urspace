@@ -17,7 +17,12 @@ const typeDefs = gql`
     posts: [Post]
     creationDate: String
     musics: [Music]
- 
+    likedPosts: [Post]
+  }
+
+  type Likes {
+    _id: ID!
+    username: String!
   }
 
   type Music{
@@ -49,7 +54,7 @@ const typeDefs = gql`
     _id: ID!
     title: String!
     description: String!
-    likes: Int
+    likes: [Likes]
     comments: Int
     images: String
     profileImage: String!
@@ -87,6 +92,8 @@ const typeDefs = gql`
     updateUser(username: String!, email: String!, firstName: String!, lastName: String!, bio: String!): User
     followUser(username: String!): User
     unfollowUser(username: String!): User
+    likePost(postId: ID!): Post
+    unlikePost(postId: ID!): Post
   }  
 `;
 

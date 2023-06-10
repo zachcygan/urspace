@@ -13,7 +13,7 @@ const CommunityPost = () => {
   
         
 
-  const { loading, error,data } = useQuery(GET_POSTS);
+  const { loading, error, data } = useQuery(GET_POSTS);
   
 
   if(loading) return (<p>loading</p>)
