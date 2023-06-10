@@ -43,8 +43,8 @@ const Profile = () => {
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const [followUser] = useMutation(FOLLOW_USER);
-    const [followers, setFollowers] = useState(0);
-    const [following, setFollowing] = useState(0);
+    const [followers, setFollowers] = useState(data.singleUser.followers.length || 0);
+    const [following, setFollowing] = useState(data.singleUser.following.length || 0);
     const urlString = `/profile/${username}/edit`;
 
     const handleFollowUser = async (e) => {
