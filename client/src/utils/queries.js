@@ -3,17 +3,16 @@ import { gql } from '@apollo/client';
 export const GET_POSTS = gql`
   query GetPosts {
     posts {
-      
+      _id
       title
       description
       likes
       comments
       images
-      profileImage
-      user{
+      user {
         _id
-       username
-       profileImage
+        username
+        profileImage
       }
     }
   }
@@ -24,11 +23,65 @@ query SearchPosts($keyword: String!) {
     _id
     title
     description
+    likes
+    comments
+    images
+   
     user{
       username
+      profileImage
     }
   }
 }`;
+
+export const GET_SINGLE_USERS_SONGS = gql`
+  query GetUsersSongs($username: String!) {
+    getUsersSongs(username: $username) {
+      _id
+      artist
+      coverart
+      title
+      url
+      user {
+        username
+        profileImage
+        _id
+      }
+    }
+  }
+`;
+
+
+export const GET_SINGLE_USERS_POSTS = gql`
+  query GetUsersPosts($username: String!) {
+    getUsersPosts(username: $username) {
+      _id
+      comments
+      description
+      images
+      likes
+      title
+      user {
+        username
+        profileImage
+        _id
+      }
+    }
+  }
+`;
+
+export const GET_MUSIC = gql`
+  query GetMusic {
+    musics {
+      _id
+      artist
+      coverart
+      title
+      url
+    }
+  }
+`;
+
 export const GET_USERS = gql`
   query getUser {
     users {
@@ -63,16 +116,13 @@ export const GET_SINGLE_USER = gql`
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       profileImage
       creationDate
+      musics {
+        _id
+      }
     } 
   }
 `;
@@ -95,7 +145,7 @@ export const UPLOAD_PROFILE_PICTURE = gql`
       username
       profileImage
     }
-    }
+  }
 `
 
 
@@ -118,12 +168,6 @@ export const GET_ME = gql`
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       creationDate

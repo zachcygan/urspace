@@ -5,10 +5,8 @@ const { signToken } = require("../utils/auth");
 const fs = require('fs')
 const util = require('util')
 const unlinkFile = util.promisify(fs.unlink)
-
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
-const { uploadFile, getFileStream } = require('../utils/s3')
 
 const resolvers = {
   Query: {
@@ -29,13 +27,14 @@ const resolvers = {
         throw new Error("Error fetching posts");
       }
     },
-    
+
     users: async () => {
       const user = await User.find();
       return user;
     },
     singleUser: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
+      const posts = await Post.find({ username: args.username }).populate("user");
       return user;
     },
     musics: async () => {
@@ -43,19 +42,42 @@ const resolvers = {
       return music;
     },
 
-    searchPosts:async(parent,{keyword})=>{
+ 
+    getUsersPosts: async (parent, args, context) => {
+      const user = await User.findOne({ username: args.username });
+      const posts = await Post.find({ user: user._id }).populate("user");
+      return posts
+    },
+    getUsersSongs: async (parent, args, context) => {
+      const user = await User.findOne({ username: args.username });
+      const songs = await Music.find({ user: user._id }).populate("user");
+      console.log('songs'+songs)
+      return songs;
+    },
+
+    searchPosts: async(parent, {keyword}) => {
       try {
-        const posts = await Post.find(
-          {$text:{$search:keyword}},
-          {score:{$meta:"textScore"}}
-        ).sort({score:{$meta:"textScore"}});
-        return posts;
+          // First find the users with matching usernames
+          const users = await User.find({ username: { $regex: keyword, $options: 'i' } });
+          // Extract the user IDs
+          const userIds = users.map(user => user._id);
+          // Search for posts either by title or user id
+          const posts = await Post.find(
+              { $or: [
+                  { title: { $regex: keyword, $options: 'i' } }, 
+                  { user: { $in: userIds } }
+              ]})
+              .populate('user')
+              .exec();
+          console.log(posts); // Log the posts here
+          return posts;
       } catch (error) {
-        console.error(error);
-        throw new Error("Error fetching posts");
+          console.error(error);
+          throw new Error("Error fetching posts");
       }
-    }
   },
+  },
+  
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -90,9 +112,9 @@ const resolvers = {
         { username: args.username },
         {
           email: args.email,
-          firstName: args.firstName, 
+          firstName: args.firstName,
           lastName: args.lastName,
-          bio: args.bio 
+          bio: args.bio
         },
         { new: true }
       )
@@ -115,23 +137,22 @@ const resolvers = {
     //   }
     // },
 
-    createPost: async (parent, { title, description, images, profileImage }, context) => {
+    createPost: async (parent, { title, description, images }, context) => {
       console.log(context.user);
       if (context.user) {
         try {
           const user = await User.findById(context.user._id);
           const newPost = new Post({
-            user: user._id, 
+            user: user._id,
             title,
             description,
             images,
-          
           });
           const savedPost = await newPost.save();
-          
-          await User.findOneAndUpdate({_id:user._id},{$push:{posts:savedPost._id}},{new:true});
+
+          await User.findOneAndUpdate({ _id: user._id }, { $push: { posts: savedPost } }, { new: true });
           const populatedPost = await Post.findById(savedPost._id).populate('user').exec();
-    
+
           return populatedPost;
         } catch (error) {
           console.error(error);
@@ -140,17 +161,30 @@ const resolvers = {
       }
       throw new Error('Authentication Error. Please sign in.');
     },
-    
-    
+    followUser: async (parent, args, context) => {
+      if (context.user) {
+        try {
 
-    // uploadImage: async (parent, { file }, context) => {
-    //   const result = await uploadFile(file)
-    //   await unlinkFile(file.path)
-    //   console.log(result)
-
-    //   return {imagePath: `/images/${result.Key}`}
-    // },
-
+          const follower = await User.findById(context.user._id);
+          const followee = await User.findOneAndUpdate(
+            { username: args.username },
+            { $push: { followers: follower } },
+            { new: true }
+          );
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $push: { following: followee } },
+            { new: true }
+          );
+          console.log('success')
+          return [follower, followee];
+        } catch (err) {
+          console.error(err);
+          throw new Error("Error following user");
+        }
+      };
+      throw new Error('Authentication Error. Please sign in.');
+    },
     createComment: async (parent, { input }, context) => {
       if (context.user) {
         const { postId, content } = input;
@@ -171,38 +205,30 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
-    // saveMusic: async (parent, { title, artist, url, coverart }) => {
-    //   console.log(title, artist, url, coverart);
-    //   try {
-    //     const music = new Music({ title, artist, url, coverart });
-    //     return await music.save();
-    //   } catch (error) {
-    //     console.error(error);
+    saveMusic: async (parent, { title, artist, url, coverart }, context) => {
+      if (context.user) {
+        try {
+          const user = await User.findById(context.user._id);
+          let music = await Music.findOne({ title });
+          if (music) {
 
-    //     throw new Error('Error creating music');
-    //   }
-    // },
-    saveMusic: async (parent, { title, artist, url, coverart },context) => {
-      try {
-        let music = await Music.findOne({ title });
-        if(music){
-       
-          await Music.findOneAndDelete({ title });
-        } else {
-         
-          music = new Music({ title, artist, url, coverart });
-          await music.save();
+            await Music.findOneAndDelete({ title });
+          } else {
+
+            music = new Music({ title, artist, url, coverart, user: user._id });
+            await music.save();
+          }
+
+          const savedUser = await User.findById(context.user._id);
+          savedUser.musics.push(music);
+          await savedUser.save();
+        } catch (error) {
+          console.error(error);
+          throw new Error('Error in saveMusic mutation');
         }
-        
-        const savedUser = await User.findById(context.user._id);
-        savedUser.musics.push(music);
-        await savedUser.save();
-      } catch (error) {
-        console.error(error);
-        throw new Error('Error in saveMusic mutation');
       }
     },
-    
+
     deleteMusic: async (parent, { title }) => {
       try {
         const music = await Music.findOne({ title });
@@ -216,7 +242,7 @@ const resolvers = {
         throw new Error('Error deleting music');
       }
     },
-    
+
     register: async (parent, { username, email, password, firstName, lastName }) => {
       const user = await User.create({ username, email, password, firstName, lastName });
       const token = signToken(user);
@@ -224,8 +250,7 @@ const resolvers = {
     },
 
   },
-};
+}
+  ;
 
 module.exports = resolvers
-
-

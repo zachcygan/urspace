@@ -24,10 +24,6 @@ const postSchema = new Schema(
             type: String,
             default: '',
         },
-        profileImage:{
-            type: String,
-            default: '',
-        },
         user:{
             type: Schema.Types.ObjectId,
             ref:'User',
@@ -35,6 +31,7 @@ const postSchema = new Schema(
     },
 );
 
+postSchema.index({title:'text','user.username':'text'});
 const Post = model('Post', postSchema);
 
 module.exports = Post;

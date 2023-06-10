@@ -5,13 +5,12 @@ import { gql } from '@apollo/client';
 export const CREATE_POST = gql`
 mutation CreatePost($title: String!, $description: String!, $images: String!) {
   createPost(title: $title, description: $description, images: $images) {
-  
+    _id  
     title
     description
     likes
     comments
     images
-  
     user {
       _id
       username
@@ -33,6 +32,17 @@ export const ADD_USER = gql`
         }
     }
 `;
+
+export const FOLLOW_USER = gql`
+  mutation followUser($username: String!) {
+    followUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
+
+
 export const SAVE_MUSIC = gql`
     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
         saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
