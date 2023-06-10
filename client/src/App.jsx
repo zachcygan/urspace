@@ -8,7 +8,7 @@ import auth from './utils/auth';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
-import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, MusicPage, ArtistPage, ProfileEdit,PostSearchPage } from './pages';
+import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, MusicPage, ArtistPage, ProfileEdit,PostSearchPage,ProfileSearchPage } from './pages';
 
 
 
@@ -60,7 +60,7 @@ function App() {
 
                 <Route path='/profile/:username/edit' element={<ProfileEdit />} />
                 <Route path='/posts/search/:searchTerm' element={<PostSearchPage />} />
-
+                <Route path='/profile/search/:searchTerm' element={<ProfileSearchPage />} />
               </Routes>
             </div>
           </div>

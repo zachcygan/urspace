@@ -58,6 +58,7 @@ const typeDefs = gql`
     me: User
     posts: [Post]
     searchPosts(keyword:String!): [Post]
+    searchProfiles(keyword:String!): [User]
     musics: [Music]
     music(_id: ID!): Music
     users: [User]

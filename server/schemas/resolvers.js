@@ -75,6 +75,17 @@ const resolvers = {
           throw new Error("Error fetching posts");
       }
   },
+  searchProfiles:async(parent, {keyword}) => {
+    try {
+
+      const users = await User.find({username: {$regex: keyword, $options: 'i'}});
+      console.log(users);
+      return users;
+    } catch (error) {
+      console.error(error);
+          throw new Error("Error fetching posts");
+    }
+  },
   },
   
   Mutation: {

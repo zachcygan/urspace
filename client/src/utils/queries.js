@@ -33,6 +33,24 @@ query SearchPosts($keyword: String!) {
     }
   }
 }`;
+export const SEARCH_PROFILES =gql`
+query SearchProfiles($keyword: String!) {
+  searchProfiles(keyword: $keyword) {
+    _id
+    username
+    profileImage
+    followers{
+      _id
+    }
+    following{
+      _id
+    }
+    firstName
+    lastName
+  }
+
+  }
+    `;
 
 export const GET_SINGLE_USERS_SONGS = gql`
   query GetUsersSongs($username: String!) {
