@@ -50,7 +50,7 @@ export const SAVE_MUSIC = gql`
             coverart
             title
             url
-            
+          
         }
     }
 `;

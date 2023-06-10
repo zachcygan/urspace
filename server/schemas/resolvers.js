@@ -51,7 +51,6 @@ const resolvers = {
     getUsersSongs: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
       const songs = await Music.find({ user: user._id }).populate("user");
-      console.log('songs'+songs)
       return songs;
     },
 
@@ -121,22 +120,6 @@ const resolvers = {
 
       return user
     },
-
-    // createPost: async (parent, { content }, context) => {
-    //   if (context.user) {
-    //     const post = new Post({
-    //       userId: context.user._id,
-    //       content,
-    //       createdAt: new Date().toISOString(),
-    //     });
-    //     const savedPost = await newPost.save();
-    //     return savedPost;
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw new Error("Error creating post");
-    //   }
-    // },
-
     createPost: async (parent, { title, description, images }, context) => {
       console.log(context.user);
       if (context.user) {
@@ -164,11 +147,11 @@ const resolvers = {
     followUser: async (parent, args, context) => {
       if (context.user) {
         try {
-
+          console.log(args.username)
           const follower = await User.findById(context.user._id);
           const followee = await User.findOneAndUpdate(
             { username: args.username },
-            { $push: { followers: follower } },
+            { $push: { followers: follower._id } },
             { new: true }
           );
           await User.findOneAndUpdate(
@@ -177,7 +160,7 @@ const resolvers = {
             { new: true }
           );
           console.log('success')
-          return [follower, followee];
+          return followee;
         } catch (err) {
           console.error(err);
           throw new Error("Error following user");
@@ -228,7 +211,6 @@ const resolvers = {
         }
       }
     },
-
     deleteMusic: async (parent, { title }) => {
       try {
         const music = await Music.findOne({ title });
@@ -242,7 +224,6 @@ const resolvers = {
         throw new Error('Error deleting music');
       }
     },
-
     register: async (parent, { username, email, password, firstName, lastName }) => {
       const user = await User.create({ username, email, password, firstName, lastName });
       const token = signToken(user);
