@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useMutation } from '@apollo/client';
+import { useMutation,useQuery } from '@apollo/client';
 import { SAVE_MUSIC,DELETE_MUSIC } from '../../utils/mutations';
-
+import {findUserMusic} from '../../utils/queries';
 import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
+import { useApolloClient } from '@apollo/client';
 import Controls from './Controls';
 import Player from './Player';
 import Seekbar from './Seekbar';
@@ -21,14 +22,30 @@ const MusicPlayer = () => {
 
 
   // saveMusic with likes
+  const client = useApolloClient();
+  const{data:userData,error,loading} = useQuery(findUserMusic);
   const [saveMusic] = useMutation(SAVE_MUSIC);
   const [deleteMusic] = useMutation(DELETE_MUSIC);
   const [isSaved,setIsSaved] = useState(false);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if (currentSongs&&currentSongs.length) dispatch(playPause(true));
   }, [currentIndex]);
+
+  const isSongSaved = (song) => {
+  
+    const songIsSaved = userData?.findUserMusic?.musics.some(music => music.key === song.key);
+   
+    return songIsSaved;
+  };
+  if(error){
+    console.log(error);
+  }
+  if(loading){
+    return <h2>LOADING...</h2>;
+  }
+ 
 
 
   // const handleSaveMusic=()=>{
@@ -42,10 +59,15 @@ const MusicPlayer = () => {
   //   // }});
     
   // }
+
   const handleSaveMusic =async() => {
+    const userId = userData?.findUserMusic?._id;
+
     if(!isSaved){
       try{
         await saveMusic({variables:{
+          userId,
+          key:activeSong.key,
           title:activeSong.title,
           artist:activeSong.subtitle,
           url:activeSong.url,
@@ -59,6 +81,7 @@ const MusicPlayer = () => {
     }else{
       try{
         await deleteMusic({variables:{
+          userId,
           title:activeSong.title,
         }});
         setIsSaved(false);
@@ -66,6 +89,7 @@ const MusicPlayer = () => {
         console.log(e);
       }
     }
+    await client.refetchQueries({ include: [findUserMusic] });
   };
   const handlePlayPause = () => {
     if (!isActive) return;
@@ -114,6 +138,8 @@ const MusicPlayer = () => {
           handleNextSong={handleNextSong}
           handleSaveMusic={handleSaveMusic}
           isSaved={isSaved}
+          isSongSaved={isSongSaved}
+          activeSong={activeSong}
         />
         <Seekbar
           value={appTime}
