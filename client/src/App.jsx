@@ -5,7 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 import auth from './utils/auth';
 
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
-import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar } from './components';
+import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar,Notification } from './components';
 import MusicPlayer from './components/MusicPlayer';
 
 import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, MusicPage, ArtistPage, ProfileEdit,PostSearchPage,ProfileSearchPage } from './pages';

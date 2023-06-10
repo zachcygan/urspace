@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import {Searchbar} from '../components';
+import {Searchbar,Notification} from '../components';
 import {useQuery} from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import Auth from '../utils/auth';
@@ -19,7 +19,7 @@ export default function Navbar() {
     e.preventDefault();
     Auth.logout();
   }
-  console.log(data);
+  // console.log(data);
   return (
     <Disclosure as="nav" className="bg-white shadow justify-between w-full">
       {({ open }) => (
@@ -32,7 +32,9 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
+              <Notification/>
                 <div className="w-full max-w-lg lg:max-w-xs">
+                
                   <label htmlFor="search" className="sr-only">
                     Search
                   </label>
@@ -48,6 +50,7 @@ export default function Navbar() {
                       type="search"
                     />
                   </div> */}
+                 
                   <Searchbar/>
                 </div>
               </div>
@@ -70,6 +73,7 @@ export default function Navbar() {
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
+              
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-4 flex-shrink-0">

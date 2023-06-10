@@ -1,11 +1,13 @@
 
 import { useState } from 'react';
 import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup } from 'react-icons/hi';
+import Loader from './Loader';
 import { useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
 import { GET_ME } from '../utils/queries';
 import auth from '../utils/auth';
-
+import { useSelector,useDispatch } from 'react-redux';
+import {showNotification} from '../redux/features/notificationSlice';
 const links = [
   {
     name: 'Home',
@@ -46,9 +48,11 @@ const NavLinks = ({ data, handleClick }) => (
 );
 
 const Sidebar = () => {
+
+  const dispatch = useDispatch();
   const [mobileMenu, setMobileMenu] = useState(false);
   const { loading, error, data } = useQuery(GET_ME);
-  console.log(data);
+  // console.log(data);
   const handleClick = (e) => {
     // Define the logic for handling the click event here
     // For example, you can close the mobile menu if it's open
@@ -59,11 +63,18 @@ const Sidebar = () => {
     // If the user is clicking on the login/logout link, then we need to logout the user
     if (e.target.innerText === 'Logout') {
         auth.logout();
+
+        dispatch(showNotification({
+          message: 'Logout successful!',
+          type: 'success'
+        }));
+        localStorage.setItem('notification',JSON.stringify({message: 'Logout successful!',
+        type: 'success'}));
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   } 
 
 //   if (error) {
