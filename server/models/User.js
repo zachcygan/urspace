@@ -60,7 +60,19 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: "Post",
             },
-        ]
+        ],
+        musics:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Music",
+                populate:{
+                    path:'key',
+                    model:'Music',
+                    select:'key'
+                }
+            }
+        ],
+       
     },
     {
         toJSON: {
@@ -80,15 +92,15 @@ userSchema.virtual('postCount').get(function () {
         if (this.posts) return this.posts.length
     })
 
-userSchema.virtual('formattedAccountCreation').get(function () {
-    const day = this.creationDate.getDate();
-    const month = this.creationDate.getMonth() + 1; // Month is zero-based, so we add 1
-    const year = this.creationDate.getFullYear();
+// userSchema.virtual('formattedAccountCreation').get(function () {
+//     const day = this.creationDate.getDate();
+//     const month = this.creationDate.getMonth() + 1; // Month is zero-based, so we add 1
+//     const year = this.creationDate.getFullYear();
 
-    console.log('date virtual')
+//     console.log('date virtual')
       
-    return `${day}-${month}-${year}`;
-});
+//     return `${day}-${month}-${year}`;
+// });
 
 userSchema.pre('save', async function (next) {
     if (this.isNew || this.isModified('password')) {
@@ -98,7 +110,7 @@ userSchema.pre('save', async function (next) {
 
     next();
 });
-
+userSchema.index({username:'text'});
 userSchema.methods.isCorrectPassword = async function (password) {
 return bcrypt.compare(password, this.password);
 };

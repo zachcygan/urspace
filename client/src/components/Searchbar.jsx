@@ -1,14 +1,27 @@
 import React,{useState,useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 import {FiSearch} from 'react-icons/fi';
 const SearchBar = () => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
+    const [currentPath,setCurrentPath] = useState('');
+    const location = useLocation();
+
+    useEffect(()=>{
+        setCurrentPath(window.location.pathname);
+    },[]);
 
     const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate(`/search/${searchTerm}`);
+        e.preventDefault();
+        if(location.pathname.includes('/profile')) { // if the user is on a profile page
+            navigate(`/profile/${searchTerm}`); // navigate to a profile with the username
+        } else if(location.pathname.includes('/posts')){
+            navigate(`/posts/search/${searchTerm}`);
+        }
+        else {
+            navigate(`/search/${searchTerm}`); // search for the song
+        }
     }
 
     return (

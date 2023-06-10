@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql`
-  query getPosts {
+  query GetPosts {
     posts {
       _id
       title
@@ -9,14 +9,112 @@ export const GET_POSTS = gql`
       likes
       comments
       images
-      profileImage
-      user{
+      user {
+        _id
         username
+        profileImage
+      }
+    }
+  }
+`;
+export const SEARCH_POSTS =gql`
+query SearchPosts($keyword: String!) {
+  searchPosts(keyword: $keyword) {
+    _id
+    title
+    description
+    likes
+    comments
+    images
+   
+    user{
+      username
+      profileImage
+    }
+  }
+}`;
+export const SEARCH_PROFILES =gql`
+query SearchProfiles($keyword: String!) {
+  searchProfiles(keyword: $keyword) {
+    _id
+    username
+    profileImage
+    followers{
+      _id
+    }
+    following{
+      _id
+    }
+    firstName
+    lastName
+  }
+
+  }
+    `;
+
+export const GET_SINGLE_USERS_SONGS = gql`
+  query GetUsersSongs($username: String!) {
+    getUsersSongs(username: $username) {
+      _id
+      artist
+      coverart
+      title
+      url
+      user {
+        username
+        profileImage
+        _id
       }
     }
   }
 `;
 
+
+export const GET_SINGLE_USERS_POSTS = gql`
+  query GetUsersPosts($username: String!) {
+    getUsersPosts(username: $username) {
+      _id
+      comments
+      description
+      images
+      likes
+      title
+      user {
+        username
+        profileImage
+        _id
+      }
+    }
+  }
+`;
+
+export const GET_MUSIC = gql`
+  query GetMusic {
+    musics {
+      _id
+      artist
+      coverart
+      title
+      url
+    }
+  }
+`;
+export const findUserMusic = gql`
+  query findUserMusic {
+    findUserMusic {
+      _id
+      musics{
+        _id
+        artist
+        coverart
+        title
+        key
+        url
+      }
+    }
+  }
+
+`;
 export const GET_USERS = gql`
   query getUser {
     users {
@@ -43,24 +141,19 @@ export const GET_SINGLE_USER = gql`
       lastName
       followers {
         _id
-        username
       }
       following {
         _id
-        username
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       profileImage
       creationDate
+      musics {
+        _id
+      }
     } 
   }
 `;
@@ -98,23 +191,19 @@ export const GET_ME = gql`
       profileImage
       following {
         _id
-        username
       }
       followers {
         _id
-        username
       }
       posts {
         _id
-        title
-        description
-        likes
-        comments
-        images
-        profileImage
       }
       bio
       creationDate
+      musics{
+        _id
+   
+      }
     }
   }
 `;

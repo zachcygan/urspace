@@ -1,19 +1,18 @@
 import { gql } from '@apollo/client';
 
-
-
 export const CREATE_POST = gql`
-mutation CreatePost($title: String!, $description: String!, $images: String!, $profileImage: String!) {
-  createPost(title: $title, description: $description, images: $images, profileImage: $profileImage) {
-    _id
+mutation CreatePost($title: String!, $description: String!, $images: String!) {
+  createPost(title: $title, description: $description, images: $images) {
+    _id  
     title
     description
     likes
     comments
     images
-    profileImage
     user {
+      _id
       username
+      profileImage
     }
   }
 }
@@ -31,15 +30,61 @@ export const ADD_USER = gql`
         }
     }
 `;
+
+export const FOLLOW_USER = gql`
+  mutation followUser($username: String!) {
+    followUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
+
+export const UNFOLLOW_USER = gql`
+  mutation unfollowUser($username: String!) {
+    unfollowUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
+
+// export const SAVE_MUSIC = gql`
+//     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
+//         saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
+
+//             artist
+//             coverart
+//             title
+//             url
+          
+//         }
+//     }
+// `;
+
 export const SAVE_MUSIC = gql`
-    mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
-        saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
+    mutation saveMusic($userId: ID!, $key: String!, $artist: String!, $coverart: String!, $title: String!, $url:String!) {
+        saveMusic(userId: $userId, key: $key, artist: $artist, coverart: $coverart, title: $title, url: $url) {
+          
+            key
             artist
             coverart
             title
             url
-            
+          
         }
+    }
+`;
+
+// export const DELETE_MUSIC= gql`
+//     mutation deleteMusic($title: String!) {
+//         deleteMusic(title: $title) 
+//     }
+// `;
+
+export const DELETE_MUSIC= gql`
+    mutation deleteMusic($userId: ID!, $title: String!) {
+        deleteMusic(userId: $userId, title: $title) 
     }
 `;
 
@@ -92,3 +137,5 @@ mutation Register($username: String!, $email: String!, $password: String!, $firs
   }
 
 `;
+
+
