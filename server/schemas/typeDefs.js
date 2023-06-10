@@ -17,6 +17,7 @@ const typeDefs = gql`
     posts: [Post]
     creationDate: String
     musics: [Music]
+ 
   }
 
   type Music{
@@ -26,6 +27,7 @@ const typeDefs = gql`
     title: String
     url: String
     user: User
+    key: String
   }
 
   type Following {
@@ -56,6 +58,7 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    findUserMusic:User
     posts: [Post]
     searchPosts(keyword:String!): [Post]
     searchProfiles(keyword:String!): [User]
@@ -71,13 +74,14 @@ const typeDefs = gql`
   }
   
   type Mutation {
-    saveMusic(title: String, artist: String, url: String, coverart: String): Music
+    saveMusic(userId:ID, key:String, title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
     createPost(title: String!, description: String!, images: String!): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     logout: User
-    deleteMusic(title: String!): String
+    deletePost(postId: ID!): Post
+    deleteMusic(userId:ID,title: String!): String
     register(username: String!, email: String!, password: String!, firstName:String!,lastName:String!): Auth
     uploadProfilePicture(profileImage: String!, username: String!): User
     updateUser(username: String!, email: String!, firstName: String!, lastName: String!, bio: String!): User

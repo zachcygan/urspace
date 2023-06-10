@@ -99,7 +99,22 @@ export const GET_MUSIC = gql`
     }
   }
 `;
+export const findUserMusic = gql`
+  query findUserMusic {
+    findUserMusic {
+      _id
+      musics{
+        _id
+        artist
+        coverart
+        title
+        key
+        url
+      }
+    }
+  }
 
+`;
 export const GET_USERS = gql`
   query getUser {
     users {
@@ -185,6 +200,10 @@ export const GET_ME = gql`
       }
       bio
       creationDate
+      musics{
+        _id
+   
+      }
     }
   }
 `;

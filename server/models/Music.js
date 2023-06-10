@@ -20,6 +20,9 @@ const musicSchema = new Schema(
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User',
+        },
+        key:{
+            type: String,
         }
     }
     );
