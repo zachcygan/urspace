@@ -159,7 +159,7 @@ const resolvers = {
       if (context.user) {
         try {
           console.log(args.username)
-          const follower = await User.findById(context.user._id);
+          const follower = await User.findById(context.user._id);          
           const followee = await User.findOneAndUpdate(
             { username: args.username },
             { $push: { followers: follower._id } },
@@ -175,6 +175,29 @@ const resolvers = {
         } catch (err) {
           console.error(err);
           throw new Error("Error following user");
+        }
+      };
+      throw new Error('Authentication Error. Please sign in.');
+    },
+    unfollowUser: async (parent, args, context) => {
+      if (context.user) {
+        try {
+          const follower = await User.findById(context.user._id);
+          const followee = await User.findOneAndUpdate(
+            { username: args.username },
+            { $pull: { followers: follower._id } },
+            { new: true }
+          );
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $pull: { following: followee._id } },
+            { new: true }
+          );
+          console.log('success')
+          return followee;
+        } catch (err) {
+          console.error(err);
+          throw new Error("Error unfollowing user");
         }
       };
       throw new Error('Authentication Error. Please sign in.');
