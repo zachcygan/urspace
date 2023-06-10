@@ -43,9 +43,16 @@ const Profile = () => {
     });
     const [uploadProfilePicture] = useMutation(UPLOAD_PROFILE_PICTURE);
     const [followUser] = useMutation(FOLLOW_USER);
-    const [followers, setFollowers] = useState(data.singleUser.followers.length || 0);
-    const [following, setFollowing] = useState(data.singleUser.following.length || 0);
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
     const urlString = `/profile/${username}/edit`;
+
+    useEffect(() => {
+        if (data) {
+            setFollowers(data.singleUser.followers.length || 0);
+            setFollowing(data.singleUser.following.length || 0);
+        }
+    }, [data]);
 
     const handleFollowUser = async (e) => {
         try {
@@ -62,9 +69,9 @@ const Profile = () => {
         }
     }
 
-    console.log(data)
+    console.log(username)
     if (error || error2 || error3 || error4) {
-        console.log('error' + error)
+        console.log(error)
     }
 
     if (loading || loading2 || loading3 || loading4) {
