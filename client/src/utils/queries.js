@@ -48,8 +48,7 @@ query SearchProfiles($keyword: String!) {
     firstName
     lastName
   }
-
-  }
+}
     `;
 
 export const GET_SINGLE_USERS_SONGS = gql`

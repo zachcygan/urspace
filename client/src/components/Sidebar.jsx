@@ -77,13 +77,15 @@ const Sidebar = () => {
     return <Loader />;
   } 
 
+  const smallScreen = window.innerWidth <= 1020 
+
 //   if (error) {
 //     console.log(error);
 //     return <div>Error occurred while fetching data</div>;
 //   }
 
   return (
-    <div className='md:flex flex-col w-1/6 py-10 px-4 bg-[#191624]'>
+    <div className={`md:flex flex-col w-1/6 py-10 px-4 bg-[#191624] ${smallScreen ? 'hidden' : ''}`}>
       <h1 className='text-gray-400 font-bold'>Urspace</h1>
       {/* {data && } */}
       <NavLinks data={data} handleClick={handleClick} />
