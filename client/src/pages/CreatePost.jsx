@@ -70,7 +70,8 @@ const CreatePost = () => {
     console.log(imagesUrl);
     try {
       const { data } = await createPost({
-        variables: { title, description, images: imagesUrl, selectedMusic: selectedMusic }
+     
+        variables: { title, description, images: imagesUrl ? imagesUrl : '', selectedMusic: selectedMusic }
       });
       window.location.assign(`/posts`);
       return data;

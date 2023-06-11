@@ -1,21 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { LIKE_POST, UNLIKE_POST } from '../utils/mutations';
-import { useMutation, useQuery } from '@apollo/client';
+import { gql,useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 
-export default function Posts({ posts }) {
+export default function Posts({ posts,handleLike }) {
   const { loading, error, data } = useQuery(GET_ME);
-  const [likePost] = useMutation(LIKE_POST);
+  // const [likePost] = useMutation(LIKE_POST,{
+  //   refetchQueries: [{ query: GET_ME }],
+  // });
+  const [likePost] = useMutation(LIKE_POST,{
+    refetchQueries: [{ query: GET_ME }],
+    update(cache, { data: { likePost } }) {
+      cache.modify({
+        id: cache.identify(likePost),
+        fields: {
+          likes(existingLikes = []) {
+            const newLikeRef = cache.writeFragment({
+              data: likePost.likes[likePost.likes.length - 1],
+              fragment: gql`
+                fragment NewLike on User {
+                  id
+                }
+              `
+            });
+            return [...existingLikes, newLikeRef];
+          }
+        }
+      });
+    },
+  });
   const [unlikePost] = useMutation(UNLIKE_POST);
   // const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+
   const [usersLikedPosts, setusersLikedPosts] = useState([]);
 
   useEffect(() => {
     if (data) {
       const me = data.me.likedPosts;
-      console.log(me)
-      setusersLikedPosts([...usersLikedPosts, me]);
+      console.log("liked Posts "+me);
+      const likedPostIds = data.me.likedPosts.map(post=>post._id);
+  
+      // setusersLikedPosts([...usersLikedPosts, me]);
+      setusersLikedPosts(likedPostIds)
       console.log(usersLikedPosts)
       
     }
@@ -33,16 +59,23 @@ export default function Posts({ posts }) {
 
 
     const handleLikePost = async (postId) => {
+
+      if(usersLikedPosts.includes(postId)){
+        console.log('User has already liked');
+        return;
+      }
       try {
         const likedPost = await likePost({
           variables: { postId: postId },
         });
+        console.log(likedPost);
         // setLiked(true);
-        setLikeCount(likeCount + 1);
+        setusersLikedPosts([...usersLikedPosts, postId]);
         return likedPost;
       } catch (err) {
         console.log(err);
       }
+      // handleLike(postId);
     }
 
     // const handleUnlikePost = async (postId) => {
