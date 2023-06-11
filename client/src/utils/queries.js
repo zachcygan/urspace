@@ -6,7 +6,9 @@ export const GET_POSTS = gql`
       _id
       title
       description
-      likes
+      likes {
+        _id
+      }
       comments
       images
       user {
@@ -25,8 +27,7 @@ query SearchPosts($keyword: String!) {
     description
     likes
     comments
-    images
-   
+    images 
     user{
       username
       profileImage
@@ -202,7 +203,9 @@ export const GET_ME = gql`
       creationDate
       musics{
         _id
-   
+      }
+      likedPosts {
+        _id
       }
     }
   }

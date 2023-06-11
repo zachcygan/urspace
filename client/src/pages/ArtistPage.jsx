@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DetailsHeader, RelatedSongs } from '../components';
+import { DetailsHeader, RelatedSongs,Loader } from '../components';
 
 import { useGetArtistDetailsQuery } from '../API/ShazamCore';
 
@@ -10,7 +10,7 @@ const ArtistPage = () => {
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data: artistData, isFetching: isFetchingArtistDetails, error } = useGetArtistDetailsQuery(artistId);
 
-  if (isFetchingArtistDetails) return <div>Loading...</div>;
+  if (isFetchingArtistDetails) return <Loader />;
 
   if (error) return <div>Error...</div>;
 
