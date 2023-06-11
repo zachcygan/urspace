@@ -78,6 +78,13 @@ export default function Posts({ posts }) {
             <div key={post._id} className='shadow rounded-lg'>
               <article className="flex flex-col items-start justify-between p-1">
                 <div className="relative w-full">
+
+                  <div className=' flex row border-8 border-black'>
+                  <img src={post?.selectedMusic?.coverart} alt="music cover" className='w-20 h-30'></img>
+                      <h2>{post?.selectedMusic?.artist}</h2>
+                      <h2>{post?.selectedMusic?.title}</h2>
+                      
+                  </div>
                   <img
                     src={post.images}
                     alt=""

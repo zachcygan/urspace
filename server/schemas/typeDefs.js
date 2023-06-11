@@ -66,6 +66,7 @@ const typeDefs = gql`
     images: String
     profileImage: String!
     user: User
+    selectedMusic: Music
   }
 
   type Query {
@@ -88,7 +89,7 @@ const typeDefs = gql`
   type Mutation {
     saveMusic(userId:ID, key:String, title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
-    createPost(title: String!, description: String!, images: String!): Post
+    createPost(title: String!, description: String!, images: String!,selectedMusic:ID): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     logout: User

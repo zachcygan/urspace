@@ -2,13 +2,24 @@ import { React, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_POST } from '../utils/mutations';
 import { GET_POSTS } from '../utils/queries';
+import {useQuery} from '@apollo/client';
+import { findUserMusic } from '../utils/queries';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+// import { set } from '../../../server/models/Comment';
 
 const CreatePost = () => {
   // const [user,setUser] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState('');
+  const [selectedMusic, setSelectedMusic] = useState(null);
+
+  const { loading, error, data:musicData } = useQuery(findUserMusic);
+
+  const handleMusicChange = (e) => {
+    setSelectedMusic(e.target.value);
+  
+  };
   // const[createPost] =useMutation(CREATE_POST);
   const [createPost] = useMutation(CREATE_POST, {
     update(cache, { data }) {
@@ -59,7 +70,7 @@ const CreatePost = () => {
     console.log(imagesUrl);
     try {
       const { data } = await createPost({
-        variables: { title, description, images: imagesUrl }
+        variables: { title, description, images: imagesUrl, selectedMusic: selectedMusic }
       });
       window.location.assign(`/posts`);
       return data;
@@ -149,6 +160,18 @@ const CreatePost = () => {
                 </div>
               </div>
             </div>
+            <select name="music" onChange={handleMusicChange}>
+  {loading ? (
+    <option>Loading...</option>
+  ) : error ? (
+    <option>Error :</option>
+  ) : (
+    musicData.findUserMusic.musics.map((music) => (
+      <option key={music._id} value={music._id}>{music.title}</option>
+    ))
+  )}
+</select>
+
             <button type='submit'>Submit</button>
           </div>
         </div>

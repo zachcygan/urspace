@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'
 import Posts from '../components/Posts';
-
+import { Loader } from '../components';
 import {AiFillLike} from 'react-icons/ai';
+
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
 import { GET_USERS } from '../utils/queries';
@@ -12,9 +13,9 @@ const CommunityPost = () => {
         
 
   const { loading, error, data } = useQuery(GET_POSTS);
-  
 
-  if(loading) return (<p>loading</p>)
+
+  if(loading) return (<Loader/>)
  if(error){
     console.log(error)
     return<p>error</p>
