@@ -55,7 +55,7 @@ const typeDefs = gql`
     title: String!
     description: String!
     likes: [Likes]
-    comments: Int
+    comments: String
     images: String
     profileImage: String!
     user: User
