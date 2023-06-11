@@ -237,6 +237,40 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
+    likePost: async (parent, args, context) => {
+      if (context.user) {
+        const post = await Post.findOneAndUpdate(
+          { _id: args.postId },
+          { $addToSet: { likes: context.user._id } },
+          { new: true }
+        );
+        const user = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { likedPosts: args.postId } },
+          { new: true }
+        );
+        if (!post) {
+          throw new Error("Post not found");
+        }
+        return post;
+      }
+      throw new AuthenticationError("You need to be logged in to perform this action")
+    },
+    unlikePost: async (parent, args, context) => {
+      if (context.user) {
+        const post = await Post.findOneAndUpdate(
+          { _id: args.postId },
+          { $pull: { likes: context.user._id } },
+          { new: true }
+        );
+        if (!post) {
+          throw new Error("Post not found");
+        }
+        return post;
+      }
+      throw new AuthenticationError("You need to be logged in to perform this action")
+    },
+
     // saveMusic: async (parent, { title, artist, url, coverart }, context) => {
     //   if (context.user) {
     //     try {

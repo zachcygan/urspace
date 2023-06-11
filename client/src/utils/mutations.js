@@ -6,7 +6,9 @@ mutation CreatePost($title: String!, $description: String!, $images: String!) {
     _id  
     title
     description
-    likes
+    likes {
+      _id
+    }
     comments
     images
     user {
@@ -61,6 +63,23 @@ export const UNFOLLOW_USER = gql`
 //         }
 //     }
 // `;
+
+export const LIKE_POST = gql`
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      _id
+    }
+  }
+`;
+
+export const UNLIKE_POST = gql`
+  mutation unlikePost($postId: ID!) {
+    unlikePost(postId: $postId) {
+      _id
+      likes
+    }
+  }
+`;
 
 export const SAVE_MUSIC = gql`
     mutation saveMusic($userId: ID!, $key: String!, $artist: String!, $coverart: String!, $title: String!, $url:String!) {
