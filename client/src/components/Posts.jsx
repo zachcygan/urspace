@@ -1,21 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { LIKE_POST, UNLIKE_POST } from '../utils/mutations';
-import { useMutation, useQuery } from '@apollo/client';
+import { gql,useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 
-export default function Posts({ posts }) {
+export default function Posts({ posts,handleLike }) {
   const { loading, error, data } = useQuery(GET_ME);
-  const [likePost] = useMutation(LIKE_POST);
+  // const [likePost] = useMutation(LIKE_POST,{
+  //   refetchQueries: [{ query: GET_ME }],
+  // });
+  const [likePost] = useMutation(LIKE_POST,{
+    refetchQueries: [{ query: GET_ME }],
+    update(cache, { data: { likePost } }) {
+      cache.modify({
+        id: cache.identify(likePost),
+        fields: {
+          likes(existingLikes = []) {
+            const newLikeRef = cache.writeFragment({
+              data: likePost.likes[likePost.likes.length - 1],
+              fragment: gql`
+                fragment NewLike on User {
+                  id
+                }
+              `
+            });
+            return [...existingLikes, newLikeRef];
+          }
+        }
+      });
+    },
+  });
   const [unlikePost] = useMutation(UNLIKE_POST);
   // const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+
   const [usersLikedPosts, setusersLikedPosts] = useState([]);
 
   useEffect(() => {
     if (data) {
       const me = data.me.likedPosts;
-      console.log(me)
-      setusersLikedPosts([...usersLikedPosts, me]);
+      console.log("liked Posts "+me);
+      const likedPostIds = data.me.likedPosts.map(post=>post._id);
+  
+      // setusersLikedPosts([...usersLikedPosts, me]);
+      setusersLikedPosts(likedPostIds)
       console.log(usersLikedPosts)
       
     }
@@ -33,16 +59,23 @@ export default function Posts({ posts }) {
 
 
     const handleLikePost = async (postId) => {
+
+      if(usersLikedPosts.includes(postId)){
+        console.log('User has already liked');
+        return;
+      }
       try {
         const likedPost = await likePost({
           variables: { postId: postId },
         });
+        console.log(likedPost);
         // setLiked(true);
-        setLikeCount(likeCount + 1);
+        setusersLikedPosts([...usersLikedPosts, postId]);
         return likedPost;
       } catch (err) {
         console.log(err);
       }
+      // handleLike(postId);
     }
 
     // const handleUnlikePost = async (postId) => {
@@ -78,6 +111,13 @@ export default function Posts({ posts }) {
             <div key={post._id} className='shadow rounded-lg'>
               <article className="flex flex-col items-start justify-between p-1">
                 <div className="relative w-full">
+
+                  <div className=' flex row border-8 border-black'>
+                  <img src={post?.selectedMusic?.coverart} alt="music cover" className='w-20 h-30'></img>
+                      <h2>{post?.selectedMusic?.artist}</h2>
+                      <h2>{post?.selectedMusic?.title}</h2>
+                      
+                  </div>
                   <img
                     src={post.images}
                     alt=""
