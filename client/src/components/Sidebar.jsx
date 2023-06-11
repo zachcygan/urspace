@@ -71,6 +71,8 @@ const Sidebar = () => {
         localStorage.setItem('notification',JSON.stringify({message: 'Logout successful!',
         type: 'success'}));
     }
+
+    window.reload();
   };
 
   if (loading) {
