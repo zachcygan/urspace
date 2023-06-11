@@ -35,7 +35,7 @@ const resolvers = {
     },
     posts: async (parent, args, context) => {
       try {
-        const posts = await Post.find().populate("user").exec();
+        const posts = await Post.find().populate("user").populate('selectedMusic').exec();
         return posts;
       } catch (error) {
         console.error(error);
@@ -146,7 +146,7 @@ const resolvers = {
 
       return user
     },
-    createPost: async (parent, { title, description, images }, context) => {
+    createPost: async (parent, { title, description, images,selectedMusic }, context) => {
       console.log(context.user);
       if (context.user) {
         try {
@@ -156,6 +156,7 @@ const resolvers = {
             title,
             description,
             images,
+            selectedMusic
           });
           const savedPost = await newPost.save();
 

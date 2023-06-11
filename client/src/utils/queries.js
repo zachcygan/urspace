@@ -15,8 +15,15 @@ export const GET_POSTS = gql`
         username
         profileImage
       }
+      selectedMusic {
+        
+        _id
+        artist
+        coverart
+        title
     }
   }
+}
 `;
 export const SEARCH_POSTS =gql`
 query SearchPosts($keyword: String!) {

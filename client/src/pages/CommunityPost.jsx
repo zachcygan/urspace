@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery,useMutation } from '@apollo/client';
 import { GET_POSTS } from '../utils/queries'
 import Posts from '../components/Posts';
-
+import { Loader } from '../components';
 import {AiFillLike} from 'react-icons/ai';
+import { LIKE_POST } from '../utils/mutations';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
 import { GET_USERS } from '../utils/queries';
@@ -12,13 +13,40 @@ const CommunityPost = () => {
         
 
   const { loading, error, data } = useQuery(GET_POSTS);
-  
+  const [likePost,{error:likeError}] = useMutation(LIKE_POST);
 
-  if(loading) return (<p>loading</p>)
+  const [posts,setPosts] = useState([]);
+
+  useEffect(() => {
+    if(data&&data.posts){
+      setPosts(data.posts);
+    }
+  }, [data]);
+
+  const handleLike = (postId) => {  
+  setPosts(prevPosts => 
+    prevPosts.map(post => 
+      post.id === postId 
+        ? { ...post, likes: post.likes + 1 } 
+        : post
+    )
+  );
+
+  likePost({
+    variables: {
+      postId: postId,
+    }
+  }).catch(err => console.log(err));
+};
+  if(loading) return (<Loader/>)
  if(error){
     console.log(error)
     return<p>error</p>
- } 
+ } ;
+ if (likeError) {
+  console.log(likeError);
+  return <p>Error liking post</p>
+}
  if(!data||!data.posts) return (<p>no post found</p>)
   // console.log(postData);
   const postData = data.posts;
@@ -37,7 +65,7 @@ const CommunityPost = () => {
           Learn how to grow your business with our expert advice.
         </p> */}
       </div>
-      <Posts posts={postData}/>
+      <Posts posts={posts} handleLike={handleLike}/>
 
       {/* <div className="relative mt-8 flex items-center gap-x-4">
         <img src={post.user.profileImage} alt="" className="h-10 w-10 rounded-full bg-gray-100" />
