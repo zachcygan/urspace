@@ -116,7 +116,7 @@ const Profile = () => {
         return  (
             <button 
             onClick={isFollowing ? handleUnfollowUser : handleFollowUser} 
-            className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}
+            className={`h-8 mr-4 items-center px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}
             >
                 <p value={followButton}>{followButton}</p>
             </button>
@@ -192,7 +192,7 @@ const Profile = () => {
                                     <a href={urlString}> Edit Profile</a>
                                 </button>
                             </div>
-                            <FollowButton />
+                            <FollowButton/>
                         </div>
                     </div>
                 </div>
