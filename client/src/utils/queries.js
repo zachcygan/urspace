@@ -9,7 +9,6 @@ export const GET_POSTS = gql`
       likes {
         _id
       }
-      comments
       images
       user {
         _id
@@ -78,7 +77,9 @@ export const GET_SINGLE_USERS_POSTS = gql`
       comments
       description
       images
-      likes
+      likes {
+        _id
+      }
       title
       user {
         username
