@@ -153,7 +153,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
+        <div className="mx-auto max-w-7xl sm:px-0 lg:px-8">
 
             {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
             <div className="container mx-auto sm:px-6 lg:px-8">
@@ -163,7 +163,7 @@ const Profile = () => {
                     </div>
                     <div className=''>
                         <img className='rounded-full w-24 h-24 lg:ml-32 ml-25 m-auto lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
-                        <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row'>
+                        <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row lg:pr-5'>
                             <div className='m-auto lg:ml-36'>{data.singleUser.username}</div>
                             <div value={followers} className='m-auto lg:ml-28'><span className='text-4xl'>{followers}</span>Followers</div>
                             <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{following}</span>Following</div>
@@ -172,13 +172,13 @@ const Profile = () => {
                         <div className='text-lg pt-10 pl-10'>
                             {data.singleUser.bio}
                         </div>
-                        <div className={`justify-between flex-col lg:flex-row`}>
+                        <div className={`flex flex-col lg:flex-row lg:justify-between`}>
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
+                            <div className={`mt-10 flex-col lg:flex-row item-center pr-4 ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
                                 {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
-                                <label className='m-1 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                                <label className='px-1 mx-1 mb-2 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <p className='m-auto'>Upload Image</p>
                                     <input hidden type="file" className='' accept=".png, .jpg, .jpeg"
                                         onChange={
@@ -191,14 +191,13 @@ const Profile = () => {
                                 <button className='https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <a href={urlString}> Edit Profile</a>
                                 </button>
-                                
                             </div>
                             <FollowButton />
                         </div>
                     </div>
                 </div>
 
-                <div className={`rounded-lg bg-white shadow mt-10 ${data.singleUser.posts ? '' : 'hidden'}`}>
+                <div className={`rounded-lg bg-white shadow -mx-5 w-fit mt-10 ${data.singleUser.posts ? '' : 'hidden'}`}>
                     <div>
                         <div className='flex justify-center'>
                             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:mt-5">Posts</h2>
