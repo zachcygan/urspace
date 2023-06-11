@@ -112,23 +112,23 @@ export default function Posts({ posts, handleLike }) {
               <article className="flex flex-col items-start justify-between p-1">
                 <div className="relative w-full">
 
-                  
+                  {post.images ? 
                   <img
                     src={post.images}
                     alt=""
                     className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
-                  />
+                  /> : null}
                   <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                 </div>
                 <div className="max-w-xl">
-                  
+                  {post.selectedMusic ?
                   <div className='flex p-1'>
                       <img src={post?.selectedMusic?.coverart} alt="music cover" className='w-20 h-30'></img>
                       <div className='align-middle '>
                         <h2 className='p-1 font-bold'>{post?.selectedMusic?.artist}</h2>
                         <h2 className='p-1 font-bold'>{post?.selectedMusic?.title}</h2>
                       </div>
-                  </div>
+                  </div> : null}
                   <div className='flex justify-between'>
                     <div className='likes-comments flex '>
                       <div className='flex'>{post?.likes?.length}<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-suit-heart like mr-4 ml-2" viewBox="0 0 16 16">
