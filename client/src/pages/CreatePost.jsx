@@ -59,7 +59,7 @@ const CreatePost = () => {
     console.log(imagesUrl);
     try {
       const { data } = await createPost({
-        variables: { title, description, images: imagesUrl }
+        variables: { title, description, images: imagesUrl ? imagesUrl : '' }
       });
       window.location.assign(`/posts`);
       return data;
