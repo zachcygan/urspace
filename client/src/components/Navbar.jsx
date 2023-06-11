@@ -1,10 +1,10 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Searchbar,Notification} from '../components';
-import {useQuery} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import auth from '../utils/auth';
 
@@ -23,7 +23,23 @@ export default function Navbar() {
     e.preventDefault();
     window.location.href = '/login';
   }
-  // console.log(data);
+
+  useEffect(()=>{
+    if(data){
+      console.log(data.me.username);
+    }
+  },[data])
+
+  const handleProfileToLogin = (e)=>{
+    e.preventDefault();
+    window.location.href = '/profile';
+  }
+
+  const routeToProfile = async ()=>{
+    window.location.href = `/profile/${data.me.username}`;
+  }
+
+  console.log(data);
   return (
     <Disclosure as="nav" className="bg-white shadow justify-between w-full">
       {({ open }) => (
@@ -93,7 +109,7 @@ export default function Navbar() {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  onClick={auth.loggedIn() ? handleProfileToLogin : routeToProfile }
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                 >
                   Profile
