@@ -16,10 +16,10 @@ const postSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         }],
-        comments: {
+        comments: [{
             type: Number,
             default: 0,
-        },
+        }],
         images:{
             type: String,
             default: '',
