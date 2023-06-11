@@ -83,7 +83,7 @@ const Sidebar = () => {
 //   }
 
   return (
-    <div className='md:flex flex-col w-1/6 py-10 px-4 bg-[#191624]'>
+    <div className='md:flex flex-col h-screen w-1/6 py-10 px-4 bg-[#191624]'>
       <h1 className='text-gray-400 font-bold'>Urspace</h1>
       {/* {data && } */}
       <NavLinks data={data} handleClick={handleClick} />
