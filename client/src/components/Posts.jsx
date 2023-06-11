@@ -9,14 +9,14 @@ export default function Posts({ posts }) {
   const [unlikePost] = useMutation(UNLIKE_POST);
   // const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [likedPosts, setLikedPosts] = useState([]);
+  const [usersLikedPosts, setusersLikedPosts] = useState([]);
 
   useEffect(() => {
     if (data) {
       const me = data.me.likedPosts;
       console.log(me)
-      setLikedPosts([...likedPosts, me]);
-      console.log(likedPosts)
+      setusersLikedPosts([...usersLikedPosts, me]);
+      console.log(usersLikedPosts)
       
     }
   }, [data]);
