@@ -51,18 +51,7 @@ export const UNFOLLOW_USER = gql`
   }
 `;
 
-// export const SAVE_MUSIC = gql`
-//     mutation saveMusic($artist: String!, $coverart: String!, $title: String!, $url:String!) {
-//         saveMusic(artist: $artist, coverart: $coverart, title: $title, url: $url) {
 
-//             artist
-//             coverart
-//             title
-//             url
-          
-//         }
-//     }
-// `;
 
 export const LIKE_POST = gql`
   mutation likePost($postId: ID!) {

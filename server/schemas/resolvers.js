@@ -271,29 +271,7 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in to perform this action")
     },
 
-    // saveMusic: async (parent, { title, artist, url, coverart }, context) => {
-    //   if (context.user) {
-    //     try {
-    //       const user = await User.findById(context.user._id);
-    //       let music = await Music.findOne({ title });
-    //       if (music) {
 
-    //         await Music.findOneAndDelete({ title });
-    //       } else {
-
-    //         music = new Music({ title, artist, url, coverart, user: user._id });
-    //         await music.save();
-    //       }
-
-    //       const savedUser = await User.findById(context.user._id);
-    //       savedUser.musics.push(music);
-    //       await savedUser.save();
-    //     } catch (error) {
-    //       console.error(error);
-    //       throw new Error('Error in saveMusic mutation');
-    //     }
-    //   }
-    // },
     saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
       try {
           const user = await User.findById(userId); // Find the user with the provided userId
@@ -320,91 +298,7 @@ const resolvers = {
           throw new Error('Error in saveMusic mutation');
       }
     },
-    // saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
-    //   try {
-    //       const user = await User.findById(userId).populate('musics'); // Populate the 'musics' field of the user document
-    
-    //       if (!user) throw new Error('User not found'); // If user is not found, throw an error
-    
-    //       let music = await Music.findOne({ key });
-    
-    //       if (!music) {
-    //           music = new Music({ key, title, artist, url, coverart, user: userId });
-    //           await music.save();
-    //           user.musics.push(music); // Push the music into the user's musics array
-    //       } else {
-    //           // If the user has already saved the music, do nothing.
-    //           if (!user.musics.some(savedMusic => savedMusic.key === key)) {
-    //               user.musics.push(music);
-    //           }
-    //       }
-    
-    //       await user.save(); // Save the updated user document
-    
-    //   } catch (error) {
-    //       console.error(error);
-    //       throw new Error('Error in saveMusic mutation');
-    //   }
-    // },
-
-
-    // saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
-    //   try {
-    //     const user = await User.findById(userId).populate('musics'); // Populate the 'musics' field of the user document
-    
-    //     if (!user) throw new Error('User not found'); // If user is not found, throw an error
-    
-    //     let music = await Music.findOne({ key });
-    
-    //     if (!music) {
-    //       music = new Music({ key, title, artist, url, coverart, user: userId });
-    //       await music.save();
-    //       user.musics.push(music); // Push the music into the user's musics array
-    //     } else {
-    //       // If the user has already saved the music, do nothing.
-    //       if (!user.musics.some(savedMusic => savedMusic.key === key)) {
-    //         user.musics.push(music);
-    //       }
-    //     }
-    
-    //     await user.populate('musics').execPopulate(); // Populate the 'musics' field after pushing the new music
-    //     await user.save(); // Save the updated user document
-    
-    //     return music; // Return the saved music if needed
-    
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw new Error('Error in saveMusic mutation');
-    //   }
-    // },
-    // saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
-    //   try {
-    //     const user = await User.findById(userId).populate({
-    //       path: 'musics',
-    //       populate: 'user'
-    //     }); // Populate the 'musics' field of the user document
-    
-    //     if (!user) throw new Error('User not found');
-    
-    //     let music = await Music.findOne({ key });
-    
-    //     if (!music) {
-    //       music = new Music({ key, title, artist, url, coverart, user: userId });
-    //       await music.save();
-    //       user.musics.push(music);
-    //     } else {
-    //       if (!user.musics.some(savedMusic => savedMusic.key === key)) {
-    //         user.musics.push(music);
-    //       }
-    //     }
-    
-    //     await user.save(); // Save the updated user document
-    
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw new Error('Error in saveMusic mutation');
-    //   }
-    // },
+   
     deleteMusic: async (parent, { userId, title }) => {
       try {
         const user = await User.findById(userId);
