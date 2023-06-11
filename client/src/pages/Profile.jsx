@@ -56,7 +56,7 @@ const Profile = () => {
             setFollowing(data.singleUser.following.length);
         }
     }, [data]);
-
+    console.log(data2)
     useEffect(() => {
         if (data2) {
             console.log('following',data2.me.following)
