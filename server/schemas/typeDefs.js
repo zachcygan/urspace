@@ -50,6 +50,13 @@ const typeDefs = gql`
     user: User!
   }
 
+  type Comments {
+    _id: ID!
+    content: String!
+    userId: String!
+    createdAt: String!
+  }
+
   type Post{
     _id: ID!
     title: String!
