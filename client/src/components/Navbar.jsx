@@ -7,7 +7,7 @@ import {Searchbar,Notification} from '../components';
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import auth from '../utils/auth';
-
+import {motion} from 'framer-motion';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -41,7 +41,11 @@ export default function Navbar() {
 
   console.log(data);
   return (
-    <Disclosure as="nav" className="bg-white shadow justify-between w-full">
+    <Disclosure as={motion.nav} className="bg-white shadow justify-between w-full"
+    initial={{ y: 0, opacity: 0 }} 
+    animate={{ y: 1, opacity: 1 }}
+    transition={{ ease: "easeOut", duration: 0.5 }}
+    whileHover={{ scale: 1.02, boxShadow: "0px 0px 8px rgb(0,0,0,0.2)" }}>
       {({ open }) => (
         <>
           <div className="mx-auto px-2 sm:px-4 lg:px-8 ">

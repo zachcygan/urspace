@@ -12,6 +12,9 @@ import Track from './Track';
 import Loader from '../Loader';
 import VolumeBar from './VolumeBar';
 import { showNotification } from '../../redux/features/notificationSlice';
+import { useNavigate } from 'react-router-dom';
+import auth from '../../utils/auth';
+
 const MusicPlayer = () => {
   const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
@@ -20,7 +23,7 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(0.3);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
-
+  const navigate = useNavigate();
 
   // saveMusic with likes
   const client = useApolloClient();
@@ -52,7 +55,15 @@ const MusicPlayer = () => {
 
   const handleSaveMusic =async() => {
     const userId = userData?.findUserMusic?._id;
-
+    if (!auth.loggedIn()) {
+      dispatch(showNotification({
+        message: 'Please login to save music!',
+        type: 'error'
+      }));
+      localStorage.setItem('notification', JSON.stringify({message: 'Please login to save music!', type: 'error'}));
+      navigate('/login');
+      return; // Stop further execution
+    }
     if(!isSaved){
       try{
         await saveMusic({variables:{
