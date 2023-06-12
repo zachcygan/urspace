@@ -2,7 +2,7 @@
   "name": "project3",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
     "client": "npm run dev --prefix client",
@@ -17,8 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.3",
-    "bootstrap-icons": "^1.10.5",
+
+ 
     "concurrently": "^8.0.1",
     "framer-motion": "^10.12.16",
     "moment": "^2.29.4"

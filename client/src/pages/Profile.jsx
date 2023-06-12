@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
-import SavedSongs from '../components/savedSongs';
+import { SavedSongs } from '../components';
 import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {

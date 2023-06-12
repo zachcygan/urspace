@@ -1,5 +1,6 @@
 
 import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+
 // import dotenv from 'dotenv';
 // dotenv.config();
 // const options = {
@@ -16,11 +17,12 @@ import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 //     .catch(err => console.error(err));
 
 export const shazamCoreApi = createApi({
+  
   reducerPath:'shazamCoreApi',
   baseQuery:fetchBaseQuery({
     baseUrl:'https://shazam-core.p.rapidapi.com/',
     prepareHeaders:(headers)=>{
-      headers.set('X-RapidAPI-Key',import.meta.env.VITE_SHAZAM_API_KEY);
+      headers.set('X-RapidAPI-Key',"d70bb1b6e1mshe04c414a121c6dep153cc2jsn32fdffc7620f");
       return headers;
       },
   }),
