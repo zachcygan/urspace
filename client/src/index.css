@@ -7,6 +7,17 @@
   font-family: 'Inter', sans-serif;
 }
 
+
+.str-chat__channel-list {
+  width: 30%;
+}
+.str-chat__channel {
+  width: 100%;
+}
+.str-chat__thread {
+  width: 45%;
+}
+
 @media screen and (min-width: 480px) {
   .card:nth-child(7n + 1) {
       grid-column: auto/span 2;

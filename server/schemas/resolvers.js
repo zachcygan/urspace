@@ -7,6 +7,8 @@ const util = require('util')
 const unlinkFile = util.promisify(fs.unlink)
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
+const stripe = require('stripe')('sk_test_51NHxMlE4g76XeEm5JbPVGlYuIbHRB2RS1wD7oyqXkvv1F5TAnpZJy57DuBLCgZvlKox18H9YyZBUICeNwL19UTST00QSrNolNr');
+const YOUR_DOMAIN = 'http://localhost:5173'
 
 const resolvers = {
   Query: {
@@ -101,7 +103,30 @@ const resolvers = {
           throw new Error("Error fetching posts");
     }
   },
+  checkout:async (parent, args, context) => {
+   const prices = await stripe.prices.list({
+        lookup_keys: [req.body.lookup_key],
+        expand: ['data.product'],
+      });
+
+      const session = await stripe.checkout.sessions.create({
+        billing_address_collection: 'auto',
+        line_items: [
+          {
+            price: prices.data[0].id,
+            // For metered billing, do not pass quantity
+            quantity: 1,
+    
+          },
+        ],
+        mode: 'subscription',
+        success_url: `${YOUR_DOMAIN}`,
+        cancel_url: `${YOUR_DOMAIN}`,
+      });
+      res.redirect(303, session.url);
+    }
   },
+
   
   Mutation: {
     login: async (parent, { email, password }) => {

@@ -12,6 +12,7 @@ import Register from './Register';
 import ProfileEdit from './ProfileEdit';
 import PostSearchPage from './PostSearchPage';
 import ProfileSearchPage from './ProfileSearchPage';
+import DonationPage from './DonationPage'
 
-export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register,ProfileEdit,PostSearchPage,ProfileSearchPage};
+export { Home, Login, MusicSearchField, Profile,CommunityPost,CreatePost,SearchPage,MusicPage,ArtistPage,SavedMusic,Register,ProfileEdit,PostSearchPage,ProfileSearchPage, DonationPage};
 

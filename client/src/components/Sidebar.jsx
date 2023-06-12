@@ -28,6 +28,11 @@ const links = [
     name: auth.loggedIn() ? 'Logout' : 'Login',
     to: '/login',
     icons: HiOutlineHashtag
+  },
+  {
+    name: 'Donate',
+    to: '/donate',
+    icons: HiOutlineHashtag
   }
 ];
 

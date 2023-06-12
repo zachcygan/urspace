@@ -18,7 +18,7 @@ export const GET_POSTS = gql`
     }
   }
 `;
-export const SEARCH_POSTS =gql`
+export const SEARCH_POSTS = gql`
 query SearchPosts($keyword: String!) {
   searchPosts(keyword: $keyword) {
     _id
@@ -33,7 +33,7 @@ query SearchPosts($keyword: String!) {
     }
   }
 }`;
-export const SEARCH_PROFILES =gql`
+export const SEARCH_PROFILES = gql`
 query SearchProfiles($keyword: String!) {
   searchProfiles(keyword: $keyword) {
     _id
@@ -210,4 +210,11 @@ export const GET_ME = gql`
     }
   }
 `;
+
+export const QUERY_CHECKOUT = gql`
+query getCheckout($amount: Int) {
+  checkout(amount:$amount) {
+    session
+  }
+}`
 

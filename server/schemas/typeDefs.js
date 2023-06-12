@@ -67,7 +67,9 @@ const typeDefs = gql`
     profileImage: String!
     user: User
   }
-
+  type Checkout {
+    session: ID!
+  }
   type Query {
     me: User
     findUserMusic:User
@@ -83,6 +85,7 @@ const typeDefs = gql`
     post:Post
     profiles: [User]
     getUsersSongs(username: String!): [Music]
+    checkout(amount:Int): Checkout
   }
   
   type Mutation {
