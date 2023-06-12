@@ -37,11 +37,11 @@ const handlePauseClick = () => {
 
 
                 <div className='mt-5'>
-                    <p className=''>
+                    
                         {songData?.sections[1].type==='LYRICS'?songData?.sections[1].text.map((line,i)=>(
                             <p className='text-black text-base my-1 font-semibold font-inter'>{line}</p>
                         )):<p className='text-black text-base my-1'>No Lyrics Found</p>}
-                    </p>
+                
                 </div>
                 </div>
 

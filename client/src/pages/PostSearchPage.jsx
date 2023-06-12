@@ -13,7 +13,8 @@ const PostSearchPage = () => {
     console.log(data)
     if(loading) return <Loader/>;
     if(error){
-        console.error(error)
+        console.error(JSON.stringify(error, null, 2));
+
         return <h2>ERROR</h2>
     }
    

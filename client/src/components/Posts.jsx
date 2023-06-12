@@ -35,15 +35,10 @@ export default function Posts({ posts, handleLike }) {
   const [usersLikedPosts, setusersLikedPosts] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      const me = data.me.likedPosts;
-      console.log(me);
-      const likedPostIds = data.me.likedPosts.map(post=>post._id);
-  
-      setusersLikedPosts([...usersLikedPosts, me]);
+    if (data?.me?.likedPosts) {
+     const likedPostIds = data.me.likedPosts.map(post=>post._id);
       setusersLikedPosts(likedPostIds)
-      console.log(usersLikedPosts)
-
+    
     }
   }, [data]);
 
@@ -69,7 +64,8 @@ export default function Posts({ posts, handleLike }) {
         });
         console.log(likedPost);
         // setLiked(true);
-        setusersLikedPosts([...usersLikedPosts, postId]);
+        setusersLikedPosts(prev => [...prev, postId]);
+        console.log(usersLikedPosts);
         return likedPost;
       } catch (err) {
         console.log(err);

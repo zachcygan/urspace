@@ -67,6 +67,7 @@ const resolvers = {
       return songs;
     },
     searchPosts: async (parent, { keyword }) => {
+      console.log(keyword);
       try {
         // First find the users with matching usernames
         const users = await User.find({ username: { $regex: keyword, $options: 'i' } });

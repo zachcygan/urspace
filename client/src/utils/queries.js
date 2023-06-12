@@ -31,7 +31,9 @@ query SearchPosts($keyword: String!) {
     _id
     title
     description
-    likes
+    likes{
+      _id
+    }
     comments
     images 
     user{
