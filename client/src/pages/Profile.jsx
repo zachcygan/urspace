@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
-import { SavedSongs } from '../components';
+import SavedSongs from '../components/savedSongs';
 import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
@@ -153,8 +153,8 @@ const Profile = () => {
         const file = e.target.files[0];
         console.log(file);
         if (file.type == 'image/jpeg' || file.type == 'image/png') {
-            let response = await uploadToCloudinary(file);
-
+            let response = await uploadToCloudinary(file); 
+            console.log(response);
 
             uploadProfilePicture({
                 variables: {
@@ -163,7 +163,7 @@ const Profile = () => {
                 },
             });
 
-            window.location.reload();
+            // window.location.reload();
         } else {
             console.log('not an image');
         }
@@ -176,7 +176,7 @@ const Profile = () => {
             <div className="container mx-auto sm:px-6 lg:px-8">
                 <div className='rounded-lg bg-white shadow mt-10'>
                     <div className=''>
-                        <img className='w-full h-60 object-cover object-bottom rounded-t-lg' src="/src/assets/landscape.png" alt="" />
+                        <img className='w-full h-60 object-cover rounded-t-lg' src="https://t4.ftcdn.net/jpg/04/18/89/65/240_F_418896520_a39fztdXigujTwxlfWbvxFAlYplAtfEJ.jpg" alt="" />
                     </div>
                     <div className=''>
                         <img className='rounded-full w-24 h-24 lg:ml-32 ml-25 m-auto lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
