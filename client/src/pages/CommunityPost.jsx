@@ -5,7 +5,7 @@ import { GET_POSTS } from '../utils/queries'
 import Posts from '../components/Posts';
 import { Loader } from '../components';
 import {AiFillLike} from 'react-icons/ai';
-import { LIKE_POST } from '../utils/mutations';
+
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
 import { GET_USERS } from '../utils/queries';
@@ -13,7 +13,7 @@ const CommunityPost = () => {
         
 
   const { loading, error, data } = useQuery(GET_POSTS);
-  const [likePost,{error:likeError}] = useMutation(LIKE_POST);
+ 
 
   const [posts,setPosts] = useState([]);
 
@@ -29,14 +29,9 @@ const CommunityPost = () => {
     console.log(error)
     return<p>error</p>
  } ;
- if (likeError) {
-  console.log(likeError);
-  return <p>Error liking post</p>
-}
+
  if(!data||!data.posts) return (<p>no post found</p>)
-  // console.log(postData);
-  const postData = data.posts;
-  // console.log(postData);
+  
   return (
     <div className=' flex flex-col'>
       <div className='w-full flex justify-between items-center bg-white'>
