@@ -38,6 +38,7 @@ const Notification = () => {
       };
       const color = colors[type] || colors.success;
     return(
+
         <motion.div 
           className={`${color.bg} ${color.border} ${color.text} border-t-4 rounded-b px-4 py-3 shadow-md rounded-xl mr-10`}
           role="alert"
@@ -55,6 +56,7 @@ const Notification = () => {
                 </div>
             </div>
         </motion.div>
+
     )
 };
 
