@@ -1,6 +1,7 @@
+
 import {useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Routes,useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import auth from './utils/auth';
@@ -15,7 +16,7 @@ import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, 
 
 
 const httpLink = createHttpLink({
-  uri: 'https://urrspace.herokuapp.com/graphql',
+  uri: 'https://urrspace.herokuapp.com/',
 });
 
 const authLink = setContext((_, { headers }) => {
