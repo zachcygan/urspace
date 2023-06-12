@@ -27,6 +27,10 @@ const postSchema = new Schema(
         user:{
             type: Schema.Types.ObjectId,
             ref:'User',
+        },
+        selectedMusic:{
+            type: Schema.Types.ObjectId,
+            ref:'Music',
         }
     },
 );

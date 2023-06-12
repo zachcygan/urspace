@@ -15,7 +15,7 @@ const ArtistPage = () => {
   if (error) return <div>Error...</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full justify-center items-center">
       <DetailsHeader
         artistId={artistId}
         artistData={artistData?.data[0]}

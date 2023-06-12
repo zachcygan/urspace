@@ -22,7 +22,6 @@ const typeDefs = gql`
 
   type Likes {
     _id: ID!
-    username: String!
   }
 
   type Music{
@@ -66,6 +65,7 @@ const typeDefs = gql`
     images: String
     profileImage: String!
     user: User
+    selectedMusic: Music
   }
   type Checkout {
     session: ID!
@@ -85,13 +85,14 @@ const typeDefs = gql`
     post:Post
     profiles: [User]
     getUsersSongs(username: String!): [Music]
+    getLikedPosts(username: String!): [Likes]
     checkout(amount:Int): Checkout
   }
   
   type Mutation {
     saveMusic(userId:ID, key:String, title: String, artist: String, url: String, coverart: String): Music
     addUser(username: String!, email: String!, password: String!): Auth
-    createPost(title: String!, description: String!, images: String!): Post
+    createPost(title: String!, description: String!, images: String!,selectedMusic:ID): Post
     login(email: String!, password: String!): Auth
     createComment(postId: ID!, content: String!): Post
     logout: User

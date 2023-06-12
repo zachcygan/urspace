@@ -2,15 +2,29 @@ import { React, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_POST } from '../utils/mutations';
 import { GET_POSTS } from '../utils/queries';
+import {useQuery} from '@apollo/client';
+import { findUserMusic } from '../utils/queries';
+import { Loader } from '../components';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+// import { set } from '../../../server/models/Comment';
 
 const CreatePost = () => {
   // const [user,setUser] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState('');
+  const [selectedMusic, setSelectedMusic] = useState(null);
+
+
+  const [activeMusic,setActiveMusic] = useState(null);
+  const { loading, error, data:musicData } = useQuery(findUserMusic);
+
+  const handleMusicChange = (e) => {
+    setSelectedMusic(e.target.value);
+  
+  };
   // const[createPost] =useMutation(CREATE_POST);
-  const [createPost] = useMutation(CREATE_POST, {
+  const [createPost,{loading:createLoading, error:createError}] = useMutation(CREATE_POST, {
     update(cache, { data }) {
       try {
         console.log(data);  // Log the data from the mutation
@@ -59,9 +73,15 @@ const CreatePost = () => {
     console.log(imagesUrl);
     try {
       const { data } = await createPost({
-        variables: { title, description, images: imagesUrl ? imagesUrl : '' }
+     
+        variables: { 
+          title, 
+          description,
+          images: imagesUrl ? imagesUrl : '',
+          selectedMusic: selectedMusic }
       });
       window.location.assign(`/posts`);
+      if(createLoading) return <Loader/>
       return data;
     } catch (error) {
       console.error('Error while creating post:', error);
@@ -88,12 +108,15 @@ const CreatePost = () => {
 
 
   return (
-    <section className='flex justify-center flex-col mx-auto'>
+    <section className='flex justify-center max-w-screen-2xl  flex-col mx-auto'>
       <div className='font-extrabold text-center text-[32px]'>Create Post</div>
 
-      <form className='mt-16' onSubmit={handleSubmit}>
-        <div className="px-4 py-6 sm:p-8">
+      <form className=' flex flex-row justify-between mt-16' onSubmit={handleSubmit}>
+     
+        <div className=" w-full px-4 py-6 sm:p-8">
+          
           <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          
             <div className="sm:col-span-4">
               <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
                 Title
@@ -149,9 +172,42 @@ const CreatePost = () => {
                 </div>
               </div>
             </div>
+            {/* <select name="music" onChange={handleMusicChange}>
+  {loading ? (
+    <option>Loading...</option>
+  ) : error ? (
+    <option>Error :</option>
+  ) : (
+    musicData.findUserMusic.musics.map((music) => (
+      <option key={music._id} value={music._id}>{music.title}</option>
+    ))
+  )}
+</select> */}
+
             <button type='submit'>Submit</button>
           </div>
         </div>
+        <div className='flex flex-col w-full'>
+            {loading ? (<Loader />
+) : error ? (
+  <p>Error</p>
+) : (
+  musicData.findUserMusic.musics.map((music) => (
+    <div 
+      key={music._id} 
+      onClick={() => {setSelectedMusic(music._id);
+         setActiveMusic(music._id)}}
+      className={`flex items-center my-2 p-4 rounded bg-gray-100 cursor-pointer ${activeMusic === music._id ? 'bg-gray-400' : 'bg-gray-100'} hover:bg-gray-200`}
+    >
+      <img src={music.coverart} alt={music.title} className="mr-4 w-16 h-16" />
+      <div>
+        <h2 className="text-xl">{music.title}</h2>
+        <p className="text-gray-600">{music.artist}</p>
+      </div>
+    </div>
+  ))
+)}
+            </div>
       </form>
     </section>
   )

@@ -15,8 +15,15 @@ export const GET_POSTS = gql`
         username
         profileImage
       }
+      selectedMusic {
+        
+        _id
+        artist
+        coverart
+        title
     }
   }
+}
 `;
 export const SEARCH_POSTS = gql`
 query SearchPosts($keyword: String!) {
@@ -156,6 +163,25 @@ export const GET_SINGLE_USER = gql`
         _id
       }
     } 
+  }
+`;
+
+export const GET_LIKED_POSTS = gql`
+  query GetLikedPosts($username: String!) {
+    getLikedPosts(username: $username) {
+      _id
+      title
+      description
+      likes {
+        _id
+      }
+      images
+      user {
+        _id
+        username
+        profileImage
+      }
+    }
   }
 `;
 
