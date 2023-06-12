@@ -128,19 +128,19 @@ export default function Posts({ posts, handleLike }) {
                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                       <a >
                         <span className="absolute inset-0" />
-                        {post.title}
+                        {post?.title}
                       </a>
                     </h3>
-                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post?.description}</p>
                   </div>
                   <div className='flex flex-row justify-between'>
                     <div className="relative mt-8 flex items-center gap-x-4">
-                      <img src={post.user.profileImage} alt="" className="h-10 w-10 rounded-full bg-gray-100" />
+                      <img src={post?.user?.profileImage} alt="" className="h-10 w-10 rounded-full bg-gray-100" />
                       <div className="text-sm leading-6">
                         <p className="font-semibold text-gray-900">
-                          <a href={`/profile/${post.user.username}`}>
+                          <a href={`/profile/${post?.user?.username}`}>
                             <span className="absolute inset-0" />
-                            {post.user.username}
+                            {post?.user?.username}
                           </a>
                         </p>
                       </div>

@@ -58,12 +58,12 @@ const typeDefs = gql`
 
   type Post{
     _id: ID!
-    title: String!
-    description: String!
+    title: String
+    description: String
     likes: [Likes]
     comments: String
     images: String
-    profileImage: String!
+    profileImage: String
     user: User
     selectedMusic: Music
   }
