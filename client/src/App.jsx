@@ -16,7 +16,7 @@ import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, 
 
 
 const httpLink = createHttpLink({
-  uri: 'https://urrspace.herokuapp.com/',
+  uri: 'https://urrspace.herokuapp.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
