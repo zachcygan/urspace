@@ -163,7 +163,7 @@ const Profile = () => {
                 },
             });
 
-            window.location.reload();
+            // window.location.reload();
         } else {
             console.log('not an image');
         }
