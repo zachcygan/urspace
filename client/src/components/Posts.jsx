@@ -37,11 +37,10 @@ export default function Posts({ posts, handleLike }) {
   useEffect(() => {
     if (data) {
       const me = data.me.likedPosts;
-      console.log(me)
-      console.log("liked Posts " + me);
-      const likedPostIds = data?.me?.likedPosts?.map(post => post._id);
-
-      // setusersLikedPosts([...usersLikedPosts, me]);
+      console.log(me);
+      const likedPostIds = data.me.likedPosts.map(post=>post._id);
+  
+      setusersLikedPosts([...usersLikedPosts, me]);
       setusersLikedPosts(likedPostIds)
       console.log(usersLikedPosts)
 

@@ -11,7 +11,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const {activeSong,isPlaying,genreListId}= useSelector(state=>state.player);
 
-
+ 
     const {data,isFetching,error} = useGetSongsByGenreQuery(genreListId||'POP');
     const genreTitle = genres.find(({value})=>value===genreListId)?.title;
     console.log(data);
