@@ -11,6 +11,7 @@
     "start": "node server/server.js",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "postinstall": "npm run build",
     "install": "cd server && npm i && cd ../client && npm i"
   },
   "keywords": [],
