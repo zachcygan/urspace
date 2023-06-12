@@ -104,12 +104,13 @@ export default function Posts({ posts, handleLike }) {
 
 
   return (
-    <div className="bg-white py-1 sm:py-32">
-      <div className="mx-auto max-w-7xl lg:px-8">
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+    <div className="bg-white py-1">
+      <div className="mx-auto max-w-7xl pb-21 lg:px-8">
+        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 flex flex-col gap-x-8 gap-y-10 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (
-            <div key={post._id} className='shadow rounded-lg'>
-              <article className="flex flex-col justify-between p-1">
+            <div key={post._id} className={`shadow rounded-lg h-min ${!post.selectedMusic && !post.images ? `row-span-1` : `row-span-2`}
+                                          ${post.selectedMusic && post.images ? `row-span-3` : ``}`}>
+              <article className={`flex flex-col p-1 overflow-y-auto grow-1`}>
                 <div className="relative w-full">
                   {post.images ?
                     <img
