@@ -3,7 +3,7 @@ import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { BsArrowRepeat, BsFillPauseFill, BsFillPlayFill, BsShuffle } from 'react-icons/bs';
 import {Link} from 'react-router-dom';
 import {GrFavorite} from 'react-icons/gr';
-import SavedSongs from '../savedSongs';
+
 
 const Controls = ({ isPlaying, repeat, setRepeat, shuffle, setShuffle, currentSongs, handlePlayPause, handlePrevSong, handleNextSong,handleSaveMusic,isSaved,isSongSaved,activeSong }) => (
   <div className="flex items-center justify-around md:w-36 lg:w-52 2xl:w-80">

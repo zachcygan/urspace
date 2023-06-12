@@ -4,6 +4,7 @@ import { DetailsHeader, RelatedSongs } from '../components';
 import {setActiveSong,playPause} from '../redux/features/playerSlice'
 import {Loader} from '../components';
 import { useGetSongDetailsQuery, useGetSongRelatedQuery} from '../API/ShazamCore';
+// yes
 const MusicPage = () => {
  const {songid,id:artistId} = useParams();
 const dispatch = useDispatch();
