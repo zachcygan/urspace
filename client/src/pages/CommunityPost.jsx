@@ -9,6 +9,7 @@ import {AiFillLike} from 'react-icons/ai';
 import {BiCommentDetail,BiRepost} from 'react-icons/bi';
 import {GrFavorite} from 'react-icons/gr';
 import { GET_USERS } from '../utils/queries';
+
 const CommunityPost = () => {
         
 

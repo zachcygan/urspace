@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { LIKE_POST, UNLIKE_POST } from '../utils/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-
+import auth from '../utils/auth';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {showNotification} from '../redux/features/notificationSlice';
 export default function Posts({ posts, handleLike }) {
   const { loading, error, data } = useQuery(GET_ME);
-  // const [likePost] = useMutation(LIKE_POST,{
-  //   refetchQueries: [{ query: GET_ME }],
-  // });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [likePost] = useMutation(LIKE_POST, {
     refetchQueries: [{ query: GET_ME }],
     // update(cache, { data: { likePost } }) {
@@ -48,6 +50,15 @@ export default function Posts({ posts, handleLike }) {
     
 
     const handleLikePost = async (postId) => {
+      if(!auth.loggedIn()){
+        dispatch(showNotification({
+          message: 'Please login to like post!',
+          type: 'error',
+        }));
+        localStorage.setItem('notification', JSON.stringify({ message: 'Please login to like post!', type: 'error' }));
+        navigate('/login');
+        return;
+      }
       if (usersLikedPosts.includes(postId)) {
         try {
           const unlikedPost = await unlikePost({
