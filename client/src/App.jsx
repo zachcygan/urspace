@@ -1,5 +1,6 @@
+import {useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes,useNavigate } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import auth from './utils/auth';
@@ -7,7 +8,8 @@ import auth from './utils/auth';
 // import {Footer,Likes,Comments,MusicCard,Navbar,Posts,SearchBar} from './components';
 import { Footer, Likes, Comments, MusicCard, Navbar, Posts, Searchbar, Sidebar,Notification } from './components';
 import MusicPlayer from './components/MusicPlayer';
-
+import { useDispatch } from 'react-redux';
+import { showNotification } from './redux/features/notificationSlice';
 import { Home, Login, Profile, CommunityPost, CreatePost, SearchPage, Register, MusicPage, ArtistPage, ProfileEdit,PostSearchPage,ProfileSearchPage } from './pages';
 
 
@@ -33,8 +35,25 @@ const client = new ApolloClient({
 
 
 function App() {
+  const dispatch = useDispatch();
   const { activeSong } = useSelector((state) => state.player);
 
+  const ProtectedRoute = ({ children }) => {
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (!auth.loggedIn()) {
+        dispatch(showNotification({
+          message: 'Please login to continue!',
+          type: 'error'
+        }));
+        localStorage.setItem('notification',JSON.stringify({message: 'Please login to continue!', type: 'error'}));
+        navigate('/login');
+      }
+    }, [navigate]);
+  
+    return children;
+  };
 
   return (
     <ApolloProvider client={client}>
@@ -49,9 +68,12 @@ function App() {
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/login' element={<Login />} />
-                <Route path='/profile/:username' element={auth.loggedIn() ? <Profile /> : <Login />} />
+                {/* <Route path='/profile/:username' element={auth.loggedIn() ? <Profile /> : <Login />} /> */}
+                <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route path='/profile/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path='/posts' element={<CommunityPost />} />
-                <Route path='/createpost' element={<CreatePost />} />
+                {/* <Route path='/createpost' element={<CreatePost />} /> */}
+                <Route path='/createpost' element={<ProtectedRoute><CreatePost /></ProtectedRoute>} />
                 <Route path='/search/:searchTerm' element={<SearchPage />} />
                 <Route path='/login/register' element={<Register />} />
 

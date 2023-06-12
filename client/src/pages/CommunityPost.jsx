@@ -23,21 +23,7 @@ const CommunityPost = () => {
     }
   }, [data]);
 
-  const handleLike = (postId) => {  
-  setPosts(prevPosts => 
-    prevPosts.map(post => 
-      post.id === postId 
-        ? { ...post, likes: post.likes + 1 } 
-        : post
-    )
-  );
 
-  likePost({
-    variables: {
-      postId: postId,
-    }
-  }).catch(err => console.log(err));
-};
   if(loading) return (<Loader/>)
  if(error){
     console.log(error)
@@ -65,7 +51,7 @@ const CommunityPost = () => {
           Learn how to grow your business with our expert advice.
         </p> */}
       </div>
-      <Posts posts={posts} handleLike={handleLike}/>
+      <Posts posts={posts}/>
 
       {/* <div className="relative mt-8 flex items-center gap-x-4">
         <img src={post.user.profileImage} alt="" className="h-10 w-10 rounded-full bg-gray-100" />

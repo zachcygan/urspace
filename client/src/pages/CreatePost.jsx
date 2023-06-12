@@ -4,6 +4,7 @@ import { CREATE_POST } from '../utils/mutations';
 import { GET_POSTS } from '../utils/queries';
 import {useQuery} from '@apollo/client';
 import { findUserMusic } from '../utils/queries';
+import { Loader } from '../components';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 // import { set } from '../../../server/models/Comment';
 
@@ -23,7 +24,7 @@ const CreatePost = () => {
   
   };
   // const[createPost] =useMutation(CREATE_POST);
-  const [createPost] = useMutation(CREATE_POST, {
+  const [createPost,{loading:createLoading, error:createError}] = useMutation(CREATE_POST, {
     update(cache, { data }) {
       try {
         console.log(data);  // Log the data from the mutation
@@ -73,9 +74,14 @@ const CreatePost = () => {
     try {
       const { data } = await createPost({
      
-        variables: { title, description, images: imagesUrl ? imagesUrl : '', selectedMusic: selectedMusic }
+        variables: { 
+          title, 
+          description,
+          images: imagesUrl ? imagesUrl : '',
+          selectedMusic: selectedMusic }
       });
       window.location.assign(`/posts`);
+      if(createLoading) return <Loader/>
       return data;
     } catch (error) {
       console.error('Error while creating post:', error);
@@ -182,8 +188,7 @@ const CreatePost = () => {
           </div>
         </div>
         <div className='flex flex-col w-full'>
-            {loading ? (
-  <p>Loading...</p>
+            {loading ? (<Loader />
 ) : error ? (
   <p>Error</p>
 ) : (

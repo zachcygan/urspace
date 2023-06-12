@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const DetailsHeader = ({ artistId, artistData, songData }) => (
-  <div className="relative w-full flex flex-col">
+  <div className="relative w-full flex flex-col bg-slate-200">
     <div className="w-full" />
 
     <div className="absolute inset-0 flex items-center mb-10">
