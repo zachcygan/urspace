@@ -13,4 +13,5 @@ import RelatedSongs from './RelatedSongs';
 import SongBar from './SongBar';
 import Notification from './Notification';
 import Loader from './Loader';
-export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar,DetailsHeader,RelatedSongs,SongBar,Notification,Loader};
+import SavedSongs from './savedSongs';
+export {Comments,Footer,Likes,Navbar,MusicCard,MusicDisplay,Posts,Searchbar,PlayPause,Sidebar,DetailsHeader,RelatedSongs,SongBar,Notification,Loader,SavedSongs};
