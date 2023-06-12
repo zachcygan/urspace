@@ -25,7 +25,7 @@ const handlePauseClick = () => {
   };
 
     return(
-        <div className='flex flex-col max-w-screen-2xl mb-10 '>
+        <div className='flex flex-col w-full mb-10 '>
             <DetailsHeader artistId={artistId}songData={songData}/>
             <div className='flex flex-row justify-between mt-10'>
             
