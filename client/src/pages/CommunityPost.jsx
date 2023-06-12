@@ -69,13 +69,6 @@ const CommunityPost = () => {
 }
 
 
-const like = () => {
-  const [likes, setLikes] = useState(0);
 
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
-
-};
 
 export default CommunityPost;
