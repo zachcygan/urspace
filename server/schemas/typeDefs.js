@@ -22,7 +22,6 @@ const typeDefs = gql`
 
   type Likes {
     _id: ID!
-    username: String!
   }
 
   type Music{
@@ -84,6 +83,7 @@ const typeDefs = gql`
     post:Post
     profiles: [User]
     getUsersSongs(username: String!): [Music]
+    getLikedPosts(username: String!): [Likes]
   }
   
   type Mutation {

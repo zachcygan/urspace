@@ -166,6 +166,25 @@ export const GET_SINGLE_USER = gql`
   }
 `;
 
+export const GET_LIKED_POSTS = gql`
+  query GetLikedPosts($username: String!) {
+    getLikedPosts(username: $username) {
+      _id
+      title
+      description
+      likes {
+        _id
+      }
+      images
+      user {
+        _id
+        username
+        profileImage
+      }
+    }
+  }
+`;
+
 export const updateUser = gql`
   mutation updateUser($username: String!, $email: String!, $firstName: String!, $lastName: String!, $bio: String!) {
     updateUser(username: $username, email: $email, firstName: $firstName, lastName: $lastName, bio: $bio) {
