@@ -11,6 +11,7 @@
     "start": "node server/server.js",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "postinstall": "npm run build",
     "install": "cd server && npm i && cd ../client && npm i"
   },
   "keywords": [],
@@ -18,9 +19,19 @@
   "license": "ISC",
   "dependencies": {
 
- 
+    "apollo-server-express": "^3.6.2",
+    "aws-sdk": "^2.1391.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.17.2",
+    "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^7.2.2",
     "concurrently": "^8.0.1",
     "framer-motion": "^10.12.16",
     "moment": "^2.29.4"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
