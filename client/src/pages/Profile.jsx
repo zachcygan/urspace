@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
-import { SavedSongs } from '../components';
+import SavedSongs from '../components/savedSongs';
 import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
@@ -153,8 +153,8 @@ const Profile = () => {
         const file = e.target.files[0];
         console.log(file);
         if (file.type == 'image/jpeg' || file.type == 'image/png') {
-            let response = await uploadToCloudinary(file);
-
+            let response = await uploadToCloudinary(file); 
+            console.log(response);
 
             uploadProfilePicture({
                 variables: {
