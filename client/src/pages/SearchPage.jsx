@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { MusicCard } from '../components';
 import{useGetSongsBySearchQuery} from '../API/ShazamCore';
-
+import { Loader } from '../components';
 const SearchPage = ()=>{
 
     const { searchTerm } = useParams();
@@ -13,7 +13,7 @@ const SearchPage = ()=>{
 
   const songs = data?.tracks?.hits.map((song) => song.track);
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching) return <Loader />;
 
   if (error) return <div>Error...</div>;
 
