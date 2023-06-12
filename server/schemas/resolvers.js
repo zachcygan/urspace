@@ -20,16 +20,16 @@ const resolvers = {
     },
     findUserMusic: async (parent, args, context) => {
       let user = await User.findById(context.user._id).populate("musics");
-      if(!user) throw new Error("Cannot find user");
+      if (!user) throw new Error("Cannot find user");
 
       user = user.toJSON();
-      user.musics = user.musics.map(music=>({
+      user.musics = user.musics.map(music => ({
         _id: music._id,
-    key: music.key,
-    title: music.title,
-    artist: music.artist,
-    url: music.url,
-    coverart: music.coverart,
+        key: music.key,
+        title: music.title,
+        artist: music.artist,
+        url: music.url,
+        coverart: music.coverart,
       }));
       return user;
     },
@@ -56,8 +56,6 @@ const resolvers = {
       const music = await Music.findAll({});
       return music;
     },
-
- 
     getUsersPosts: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
       const posts = await Post.find({ user: user._id }).populate("user");
@@ -68,41 +66,56 @@ const resolvers = {
       const songs = await Music.find({ user: user._id }).populate("user");
       return songs;
     },
-
-    searchPosts: async(parent, {keyword}) => {
+    searchPosts: async (parent, { keyword }) => {
       try {
-          // First find the users with matching usernames
-          const users = await User.find({ username: { $regex: keyword, $options: 'i' } });
-          // Extract the user IDs
-          const userIds = users.map(user => user._id);
-          // Search for posts either by title or user id
-          const posts = await Post.find(
-              { $or: [
-                  { title: { $regex: keyword, $options: 'i' } }, 
-                  { user: { $in: userIds } }
-              ]})
-              .populate('user')
-              .exec();
-          console.log(posts); // Log the posts here
-          return posts;
+        // First find the users with matching usernames
+        const users = await User.find({ username: { $regex: keyword, $options: 'i' } });
+        // Extract the user IDs
+        const userIds = users.map(user => user._id);
+        // Search for posts either by title or user id
+        const posts = await Post.find(
+          {
+            $or: [
+              { title: { $regex: keyword, $options: 'i' } },
+              { user: { $in: userIds } }
+            ]
+          })
+          .populate('user')
+          .exec();
+        console.log(posts); // Log the posts here
+        return posts;
       } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching posts");
+      }
+    },
+    searchProfiles: async (parent, { keyword }) => {
+      try {
+
+        const users = await User.find({ username: { $regex: keyword, $options: 'i' } });
+        console.log(users);
+        return users;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching posts");
+      }
+    },
+    getLikedPosts: async (parent, args, context) => {
+      if (context.user) {    
+        try {
+          const user = await User.findOne({ _id: context.user._id });
+          const posts = await Post.find({ likes: user._id });
+          console.log(posts);
+          return posts;
+        } catch (error) {
           console.error(error);
           throw new Error("Error fetching posts");
+        }
       }
+      throw new AuthenticationError("You must be logged in to perform this action")
+    },
   },
-  searchProfiles:async(parent, {keyword}) => {
-    try {
 
-      const users = await User.find({username: {$regex: keyword, $options: 'i'}});
-      console.log(users);
-      return users;
-    } catch (error) {
-      console.error(error);
-          throw new Error("Error fetching posts");
-    }
-  },
-  },
-  
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -146,7 +159,7 @@ const resolvers = {
 
       return user
     },
-    createPost: async (parent, { title, description, images,selectedMusic }, context) => {
+    createPost: async (parent, { title, description, images, selectedMusic }, context) => {
       console.log(context.user);
       if (context.user) {
         try {
@@ -175,7 +188,7 @@ const resolvers = {
       if (context.user) {
         try {
           console.log(args.username)
-          const follower = await User.findById(context.user._id);          
+          const follower = await User.findById(context.user._id);
           const followee = await User.findOneAndUpdate(
             { username: args.username },
             { $push: { followers: follower._id } },
@@ -297,38 +310,38 @@ const resolvers = {
     // },
     saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
       try {
-          const user = await User.findById(userId); // Find the user with the provided userId
-    
-          if (!user) throw new Error('User not found'); // If user is not found, throw an error
-    
-          let music = await Music.findOne({ key });
-    
-          if (!music) {
-              music = new Music({ key, title, artist, url, coverart, user: userId });
-              await music.save();
-              user.musics.push(music); // Push the music into the user's musics array
-          } else {
-              // If the user has already saved the music, do nothing.
-              if (!user.musics.includes(music._id)) {
-                  user.musics.push(music);
-              }
+        const user = await User.findById(userId); // Find the user with the provided userId
+
+        if (!user) throw new Error('User not found'); // If user is not found, throw an error
+
+        let music = await Music.findOne({ key });
+
+        if (!music) {
+          music = new Music({ key, title, artist, url, coverart, user: userId });
+          await music.save();
+          user.musics.push(music); // Push the music into the user's musics array
+        } else {
+          // If the user has already saved the music, do nothing.
+          if (!user.musics.includes(music._id)) {
+            user.musics.push(music);
           }
-    
-          await user.save(); // Save the updated user document
-    
+        }
+
+        await user.save(); // Save the updated user document
+
       } catch (error) {
-          console.error(error);
-          throw new Error('Error in saveMusic mutation');
+        console.error(error);
+        throw new Error('Error in saveMusic mutation');
       }
     },
     // saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
     //   try {
     //       const user = await User.findById(userId).populate('musics'); // Populate the 'musics' field of the user document
-    
+
     //       if (!user) throw new Error('User not found'); // If user is not found, throw an error
-    
+
     //       let music = await Music.findOne({ key });
-    
+
     //       if (!music) {
     //           music = new Music({ key, title, artist, url, coverart, user: userId });
     //           await music.save();
@@ -339,9 +352,9 @@ const resolvers = {
     //               user.musics.push(music);
     //           }
     //       }
-    
+
     //       await user.save(); // Save the updated user document
-    
+
     //   } catch (error) {
     //       console.error(error);
     //       throw new Error('Error in saveMusic mutation');
@@ -352,11 +365,11 @@ const resolvers = {
     // saveMusic: async (parent, { userId, key, title, artist, url, coverart }, context) => {
     //   try {
     //     const user = await User.findById(userId).populate('musics'); // Populate the 'musics' field of the user document
-    
+
     //     if (!user) throw new Error('User not found'); // If user is not found, throw an error
-    
+
     //     let music = await Music.findOne({ key });
-    
+
     //     if (!music) {
     //       music = new Music({ key, title, artist, url, coverart, user: userId });
     //       await music.save();
@@ -367,12 +380,12 @@ const resolvers = {
     //         user.musics.push(music);
     //       }
     //     }
-    
+
     //     await user.populate('musics').execPopulate(); // Populate the 'musics' field after pushing the new music
     //     await user.save(); // Save the updated user document
-    
+
     //     return music; // Return the saved music if needed
-    
+
     //   } catch (error) {
     //     console.error(error);
     //     throw new Error('Error in saveMusic mutation');
@@ -384,11 +397,11 @@ const resolvers = {
     //       path: 'musics',
     //       populate: 'user'
     //     }); // Populate the 'musics' field of the user document
-    
+
     //     if (!user) throw new Error('User not found');
-    
+
     //     let music = await Music.findOne({ key });
-    
+
     //     if (!music) {
     //       music = new Music({ key, title, artist, url, coverart, user: userId });
     //       await music.save();
@@ -398,9 +411,9 @@ const resolvers = {
     //         user.musics.push(music);
     //       }
     //     }
-    
+
     //     await user.save(); // Save the updated user document
-    
+
     //   } catch (error) {
     //     console.error(error);
     //     throw new Error('Error in saveMusic mutation');
@@ -412,15 +425,15 @@ const resolvers = {
         if (!user) {
           throw new Error("User not found");
         }
-    
+
         const music = await Music.findOne({ title, user: userId });
-    
+
         if (!music) {
           return "No music to delete";
         }
-    
+
         await Music.findOneAndDelete({ title, user: userId });
-    
+
         return "Music deleted successfully!";
       } catch (error) {
         console.error(error);

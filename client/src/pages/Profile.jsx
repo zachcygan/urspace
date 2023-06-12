@@ -46,7 +46,7 @@ const Profile = () => {
     const [followUser] = useMutation(FOLLOW_USER);
     const [followers, setFollowers] = useState(0);
     const [following, setFollowing] = useState(0);
-    const [followButton, setFollowButton] = useState('Follow');
+    const [followButtonText, setFollowButtonText] = useState('Follow');
     const [isFollowing, setIsFollowing] = useState(false);
     const urlString = `/profile/${username}/edit`;
 
@@ -56,31 +56,49 @@ const Profile = () => {
             setFollowing(data.singleUser.following.length);
         }
     }, [data]);
-    console.log(data2)
+
     useEffect(() => {
         if (data2) {
-            console.log('following',data2.me.following)
-            console.log('followers',data2.me.followers)
-            checkFollow();
+            console.log('following', data2.me.following)
+            console.log('followers', data2.me.followers)
         }
     }, [data2]);
-        
-    const checkFollow = () => {
+
+    useEffect(() => {
+        const checkFollowOnLoad = async () => {
+          if (data4) {
+            const followingUser = await checkFollow();
+            console.log(followingUser)
+            if (followingUser) {
+              setFollowButtonText('Unfollow');
+              setIsFollowing(true);
+            } else {
+              setFollowButtonText('Follow');
+              setIsFollowing(false);
+            }
+          }
+        };
+        checkFollowOnLoad();
+    }, []);
+
+    const checkFollow = async () => {
         if (data && data2) {
             let following = false;
             data2.me.following.forEach(followee => {
                 console.log(followee._id)
                 if (followee._id == data.singleUser._id) {
                     following = true;
-                } 
+                    setIsFollowing(true);
+                    setFollowButtonText('Unfollow');
+                }
             });
             console.log(following)
             return following
         }
     }
-    
+
     function FollowButton() {
-        const followingUser = checkFollow();
+        const test = checkFollow()
 
         const handleFollowUser = async (e) => {
             try {
@@ -89,7 +107,7 @@ const Profile = () => {
                     variables: { username: username },
                 });
                 setFollowers(followers + 1);
-                setFollowButton('Unfollow');
+                setFollowButtonText('Unfollow');
                 setIsFollowing(true);
                 return followedUser;
             } catch (err) {
@@ -104,7 +122,7 @@ const Profile = () => {
                     variables: { username: username },
                 });
                 setFollowers(followers - 1);
-                setFollowButton('Follow');
+                setFollowButtonText('Follow');
                 setIsFollowing(false);
                 return unfollowedUser;
             } catch (err) {
@@ -112,16 +130,15 @@ const Profile = () => {
             }
         }
 
-        
-        return  (
-            <button 
-            onClick={isFollowing ? handleUnfollowUser : handleFollowUser} 
-            className={`h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}
+        return (
+            <button
+                onClick={isFollowing ? handleUnfollowUser : handleFollowUser}
+                className={`h-8 mr-4 items-center px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800 ${username === data2?.me?.username ? 'hidden' : 'flex'}`}
             >
-                <p value={followButton}>{followButton}</p>
+                <p value={followButtonText}>{followButtonText}</p>
             </button>
         )
-    } 
+    }
 
     console.log(username)
     if (error || error2 || error3 || error4) {
@@ -153,7 +170,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-4 sm:px-0 lg:px-8">
+        <div className="mx-auto max-w-7xl sm:px-0 lg:px-8">
 
             {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
             <div className="container mx-auto sm:px-6 lg:px-8">
@@ -163,7 +180,7 @@ const Profile = () => {
                     </div>
                     <div className=''>
                         <img className='rounded-full w-24 h-24 lg:ml-32 ml-25 m-auto lg:w-40 lg:h-40 lg:-mt-24 -mt-14' src={data.singleUser.profileImage} alt="Placeholder" />
-                        <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row'>
+                        <div className='flex pt-5 font-bold text-2xl flex-col lg:flex-row lg:pr-5'>
                             <div className='m-auto lg:ml-36'>{data.singleUser.username}</div>
                             <div value={followers} className='m-auto lg:ml-28'><span className='text-4xl'>{followers}</span>Followers</div>
                             <div value={following} className='m-auto lg:ml-28'><span className='text-4xl'>{following}</span>Following</div>
@@ -172,13 +189,12 @@ const Profile = () => {
                         <div className='text-lg pt-10 pl-10'>
                             {data.singleUser.bio}
                         </div>
-                        <div className={`justify-between flex-col lg:flex-row`}>
+                        <div className={`flex flex-col lg:flex-row lg:justify-between`}>
                             <div className='text-lg pt-10 pl-10 pb-10'>
                                 Joined on {data.singleUser.creationDate}
                             </div>
-                            <div className={`mt-10 flex flex-col lg:flex-row item-center  ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
-                                {/* NEED TO CHECK CONTEXT TO SEE IF THE PERSON ON THE PAGE IS SAME USER TO VIEW/CLICK BUTTONS */}
-                                <label className='m-1 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
+                            <div className={`mt-10 flex-col lg:flex-row item-center pr-4 ${username === data2?.me?.username ? 'flex' : 'hidden'}`}>
+                                <label className='px-1 mx-1 mb-2 h-8 p-0 flex item-center text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <p className='m-auto'>Upload Image</p>
                                     <input hidden type="file" className='' accept=".png, .jpg, .jpeg"
                                         onChange={
@@ -191,7 +207,6 @@ const Profile = () => {
                                 <button className='https://fullerton.zoom.us/j/9962061673m-1 h-8 px-4 text-sm text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg cursor-pointer focus:shadow-outline hover:bg-indigo-800'>
                                     <a href={urlString}> Edit Profile</a>
                                 </button>
-                                
                             </div>
                             <FollowButton />
                         </div>
@@ -209,7 +224,7 @@ const Profile = () => {
                 </div>
 
                 <div className='rounded-lg bg-white shadow mt-10'>
-                    <SavedSongs songs={data4.getUsersSongs}/>
+                    <SavedSongs songs={data4.getUsersSongs} />
                 </div>
             </div>
         </div>
