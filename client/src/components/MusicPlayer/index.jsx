@@ -49,17 +49,6 @@ const MusicPlayer = () => {
  
 
 
-  // const handleSaveMusic=()=>{
-  //   // saveMusic({variables:{
-  //   //   title:activeSong.title,
-  //   //   artist:activeSong.subtitle,
-      
-  //   //   url:activeSong.url,
-  //   //   coverart:activeSong.images.coverart,
-    
-  //   // }});
-    
-  // }
 
   const handleSaveMusic =async() => {
     const userId = userData?.findUserMusic?._id;

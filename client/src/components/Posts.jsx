@@ -10,30 +10,32 @@ export default function Posts({ posts, handleLike }) {
   // });
   const [likePost] = useMutation(LIKE_POST, {
     refetchQueries: [{ query: GET_ME }],
-    update(cache, { data: { likePost } }) {
-      cache.modify({
-        id: cache.identify(likePost),
-        fields: {
-          likes(existingLikes = []) {
-            const newLikeRef = cache.writeFragment({
-              data: likePost.likes[likePost.likes.length - 1],
-              fragment: gql`
-                fragment NewLike on User {
-                  id
-                }
-              `
-            });
-            return [...existingLikes, newLikeRef];
-          }
-        }
-      });
-    },
+    // update(cache, { data: { likePost } }) {
+    //   cache.modify({
+    //     id: cache.identify(likePost),
+    //     fields: {
+    //       likes(existingLikes = []) {
+    //         const newLikeRef = cache.writeFragment({
+    //           data: likePost.likes[likePost.likes.length - 1],
+    //           fragment: gql`
+    //             fragment NewLike on User {
+    //               id
+    //             }
+    //           `
+    //         });
+    //         return [...existingLikes, newLikeRef];
+    //       }
+    //     }
+    //   });
+    // },
   });
-  const [unlikePost] = useMutation(UNLIKE_POST);
+  const [unlikePost] = useMutation(UNLIKE_POST,{
+    refetchQueries: [{ query: GET_ME }],
+  });
   // const [liked, setLiked] = useState(false);
 
   const [usersLikedPosts, setusersLikedPosts] = useState([]);
-
+  const [isLiked, setIsLiked] = useState(false);
   useEffect(() => {
     if (data?.me?.likedPosts) {
      const likedPostIds = data.me.likedPosts.map(post=>post._id);
@@ -43,27 +45,33 @@ export default function Posts({ posts, handleLike }) {
   }, [data]);
 
 
-  function LikeButton({ post }) {
-    // const user = getAllLikedPosts();
-    // let liked = false;
-    // post.likes.forEach((like) => {
-    //   if (like._id === user._id) {
-    //     liked = true;
-    //   }
-    // });
-
+    
 
     const handleLikePost = async (postId) => {
       if (usersLikedPosts.includes(postId)) {
-        console.log('User has already liked');
-        return;
-      }
+        try {
+          const unlikedPost = await unlikePost({
+            variables: { postId: postId },
+          });
+          setusersLikedPosts(usersLikedPosts.filter(id => id !== postId));
+          setIsLiked(false);
+      
+          return unlikedPost;
+        } catch (error) {
+          console.log(error);
+        }
+        
+       
+        
+        
+      }else{
       try {
         const likedPost = await likePost({
           variables: { postId: postId },
         });
         console.log(likedPost);
-        // setLiked(true);
+      
+        setIsLiked(true);
         setusersLikedPosts(prev => [...prev, postId]);
         console.log(usersLikedPosts);
         return likedPost;
@@ -71,31 +79,10 @@ export default function Posts({ posts, handleLike }) {
         console.log(err);
       }
       // handleLike(postId);
-    }
+    }}
 
-    // const handleUnlikePost = async (postId) => {
-    //   try {
-    //     const unlikedPost = await unlikePost({
-    //       variables: { postId: postId },
-    //     });
-    //     // setLiked(false);
-    //     setLikeCount(likeCount - 1);
-    //     return unlikedPost;
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
 
-    return (
-      <button
-        onClick={() => handleLikePost(post._id)}
-        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-        </svg>
-      </button>
-    )
-  }
+  
 
 
   return (
@@ -173,7 +160,21 @@ export default function Posts({ posts, handleLike }) {
                       </button>
                     </div>
                     <div className="-ml-px flex w-0 flex-1">
-                      <LikeButton post={post} />
+                      {/* <LikeButton post={post} /> */}
+                      {/* <button
+        onClick={() => handleLikePost(post._id)}
+        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      </button> */}
+       <button
+        onClick={() => handleLikePost(post._id)}
+        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" fill={usersLikedPosts.includes(post._id) ? "red" : "none"} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      </button>
                     </div>
                   </div>
                 </div>
