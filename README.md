@@ -66,7 +66,8 @@ Email: [zachcygan@gmail.com](mailto:zachcygan@gmail.com)
 
 ## Screenshots
 
-![screenshot of the website](public/assets/images/screenshot.png)
-![screenshot of the website](public/assets/images/screenshot2.png)
-![screenshot of the website](public/assets/images/screenshot3.png)
-![screenshot of the website](public/assets/images/screenshot4.png)
+![screenshot of the website](/client/src/assets/screenshot.png)
+![screenshot of the website](/client/src/assets/screenshot2.png)
+![screenshot of the website](/client/src/assets/screenshot3.png)
+![screenshot of the website](/client/src/assets/screenshot4.png)
+![screenshot of the website](/client/src/assets/screenshot5.png)
