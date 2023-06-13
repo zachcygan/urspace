@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_SINGLE_USER, GET_ME, GET_SINGLE_USERS_POSTS, GET_SINGLE_USERS_SONGS } from '../utils/queries';
 import Posts from '../components/Posts';
-import SavedSongs from '../components/savedSongs';
+import { SavedSongs } from '../components';
+import { Loader } from '../components';
 import { UPLOAD_PROFILE_PICTURE, FOLLOW_USER, UNFOLLOW_USER } from '../utils/mutations';
 
 const uploadToCloudinary = async (file) => {
@@ -170,7 +171,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl sm:px-0 lg:px-8">
+        <div className="mx-auto max-w-7xl sm:px-0 lg:px-8 ">
 
             {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
             <div className="container mx-auto sm:px-6 lg:px-8">
