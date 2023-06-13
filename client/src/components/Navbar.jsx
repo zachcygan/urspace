@@ -7,6 +7,7 @@ import {Searchbar,Notification} from '../components';
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import auth from '../utils/auth';
+import { DonationPage } from '../pages';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -41,10 +42,10 @@ export default function Navbar() {
 
   console.log(data);
   return (
-    <Disclosure as="nav" className="bg-white shadow justify-between w-full">
+    <Disclosure as="nav" className="bg-white shadow justify-between w-full dark">
       {({ open }) => (
         <>
-          <div className="mx-auto px-2 sm:px-4 lg:px-8 ">
+          <div className="mx-auto px-2 sm:px-4 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex ">
                 <div className="flex flex-shrink-0 items-center text-cyan-950 text-2xl  ">
@@ -115,6 +116,13 @@ export default function Navbar() {
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                 >
                   Profile
+                </Disclosure.Button>
+                <Disclosure.Button
+                  as="a"
+                  onClick={auth.loggedIn() ? handleProfileToLogin : DonationPage }
+                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                >
+                  Subscribe
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"

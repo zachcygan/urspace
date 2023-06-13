@@ -117,26 +117,36 @@ const resolvers = {
       throw new AuthenticationError("You must be logged in to perform this action")
     },
   checkout:async (parent, args, context) => {
-   const prices = await stripe.prices.list({
-        lookup_keys: [req.body.lookup_key],
-        expand: ['data.product'],
-      });
+
+    const url = new URL(context.headers.origin).origin;
+
+    const product = await stripe.products.create({
+      name: "Donation",
+      description: "donate money",
+    });
+
+   const price = await stripe.prices.create({
+    product: product.id,
+    unit_amount: 100,
+    currency: 'usd',
+  });
+
 
       const session = await stripe.checkout.sessions.create({
         billing_address_collection: 'auto',
         line_items: [
           {
-            price: prices.data[0].id,
+            price: price.id,
             // For metered billing, do not pass quantity
             quantity: 1,
     
           },
         ],
-        mode: 'subscription',
-        success_url: `${YOUR_DOMAIN}`,
-        cancel_url: `${YOUR_DOMAIN}`,
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`
       });
-      res.redirect(303, session.url);
+      return { session: session.id };
     }
   },
 

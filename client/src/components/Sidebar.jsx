@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup } from 'react-icons/hi';
+import { HiOutlineHashtag, HiOutlineHome, HiOutlineMenu, HiOutlinePhotograph, HiOutlineUserGroup, HiOutlineCash } from 'react-icons/hi';
 import Loader from './Loader';
 import { useQuery } from '@apollo/client';
 import { NavLink } from 'react-router-dom';
@@ -25,15 +25,15 @@ const links = [
     icons: HiOutlineMenu
   },
   {
+    name: 'Subscribe',
+    to: '/donate',
+    icons: HiOutlineCash
+  },
+  {
     name: auth.loggedIn() ? 'Logout' : 'Login',
     to: '/login',
     icons: HiOutlineHashtag
   },
-  {
-    name: 'Donate',
-    to: '/donate',
-    icons: HiOutlineHashtag
-  }
 ];
 
 const NavLinks = ({ data, handleClick }) => (
