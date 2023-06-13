@@ -187,7 +187,7 @@ const CreatePost = () => {
             <button type='submit'>Submit</button>
           </div>
         </div>
-        <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full overflow-y-auto' style={{maxHeight: '100vh'}}>
             {loading ? (<Loader />
 ) : error ? (
   <p>Error</p>
