@@ -10,11 +10,7 @@ export const GET_POSTS = gql`
         _id
       }
       images
-      comments{
-        content 
-        userId
-        createdAt
-      }
+   
       user {
         _id
         username
