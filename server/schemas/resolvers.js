@@ -35,13 +35,41 @@ const resolvers = {
     },
     posts: async (parent, args, context) => {
       try {
-        const posts = await Post.find().populate("user").populate('selectedMusic').exec();
+        const posts = await Post.find()
+        .populate("user")
+        .populate("selectedMusic")
+        .populate("comments")
+        .exec();
         return posts;
       } catch (error) {
         console.error(error);
         throw new Error("Error fetching posts");
       }
     },
+    getComments: async (parent, args, context) => {
+      try {
+        const comments = await Comment.find()
+        .populate("user")
+        .exec();
+        return comments;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching comments");
+      }
+    },
+    
+    // posts: async () => {
+    //   const posts = await Post.find();
+    //   return posts.map((post) => ({
+    //     ...post.toObject(),
+    //     comments: post.comments.map((comment) => ({
+    //       _id: comment._id,
+    //       content: comment.content,
+    //       createdAt: comment.createdAt,
+    //       userId: comment.userId,
+    //     })),
+    //   }));
+    // },
 
     users: async () => {
       const user = await User.find();
@@ -232,25 +260,80 @@ const resolvers = {
       };
       throw new Error('Authentication Error. Please sign in.');
     },
-    createComment: async (parent, { input }, context) => {
-      if (context.user) {
-        const { postId, content } = input;
-        const comment = new Comment({
-          userId: context.user._id,
-          content,
-          createdAt: new Date().toISOString(),
-        });
-        const post = await Post.findOneAndUpdate(
-          { _id: postId },
-          { $push: { comments: comment } },
-          { new: true }
-        );
-        if (!post) {
-          throw new Error("Post not found");
-        }
-        return comment;
-      }
-      throw new AuthenticationError("You need to be logged in to perform this action")
+    // createComment: async (parent, { input }, context) => {
+    //   if (context.user) {
+    //     const { postId, content } = input;
+    //     const comment = new Comment({
+    //       userId: context.user._id,
+    //       content,
+    //       createdAt: new Date().toISOString(),
+    //     });
+    //     const post = await Post.findOneAndUpdate(
+    //       { _id: postId },
+    //       { $push: { comments: comment } },
+    //       { new: true }
+    //     );
+    //     if (!post) {
+    //       throw new Error("Post not found");
+    //     }
+    //     return comment;
+    //   }
+    //   throw new AuthenticationError("You need to be logged in to perform this action")
+    // },
+    // createComment: async (parent, { postId, content }, context) => {
+    //   console.log(content);
+    //   if(context.user){
+    //     const newComment = new Comment({
+    //       content,
+    //       userId: context.user._id,
+    //       createdAt: new Date().toISOString(),
+    //     });
+    //     const post = await Post.findByIdAndUpdate(
+    //       postId,
+    //       { $push: { comments: newComment } },
+    //       { new: true }
+    //     );
+    //     if(post){
+    //       post.comments.unshift(newComment);
+          
+    //       await post.save();
+    //       const user = await User.findById(context.user._id);
+    //       user.comments.unshift(newComment);
+    //       await user.save();
+
+    //       await newComment.save();
+    //       return newComment;
+    //     }else{
+    //       throw new Error('Post not found');
+    //     }
+        
+
+    //   }
+    // },
+     createComment: async (parent, { postId, content,userId }, context) => {
+      console.log(context.user);
+      console.log(content);
+    try {
+      const newComment = new Comment({
+        content,
+        userId: context.user._id,
+        createdAt: new Date().toISOString(),
+      });
+      await newComment.save();
+      
+      const post = await Post.findByIdAndUpdate(
+        { _id: postId},
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+      await post.save();
+      
+      return newComment;
+    } catch (error) {
+      console.error(error);
+    }
+       
+      
     },
     likePost: async (parent, args, context) => {
       if (context.user) {

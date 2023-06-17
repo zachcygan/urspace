@@ -9,7 +9,9 @@ mutation CreatePost($title: String!, $description: String!, $images: String!, $s
     likes {
       _id
     }
-    comments
+    comments{
+      _id
+    }
     images
     user {
       _id
@@ -23,7 +25,16 @@ mutation CreatePost($title: String!, $description: String!, $images: String!, $s
   }
 }
 `;
-
+export const Create_Comment = gql`
+mutation CreateComment( $postId: ID!,$content: String!) {
+  createComment( postId: $postId,content: $content) {
+    _id
+    content
+    createdAt
+    userId
+  }
+}
+`;
 export const ADD_USER = gql`
     mutation addUser($username: String!, $email: String!, $password: String!) {
         addUser(username: $username, email: $email, password: $password) {

@@ -3,22 +3,23 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
 
-  type User {
-    _id: ID!
-    username: String!
-    email: String!
-    password: String!
-    firstName: String
-    lastName: String
-    bio: String
-    profileImage: String
-    following: [Following]
-    followers: [Followers]
-    posts: [Post]
-    creationDate: String
-    musics: [Music]
-    likedPosts: [Post]
-  }
+type User {
+  _id: ID!
+  username: String!
+  email: String!
+  comments: [Comments]
+  password: String!
+  firstName: String
+  lastName: String
+  bio: String
+  profileImage: String
+  following: [Following]
+  followers: [Followers]
+  posts: [Post]
+  creationDate: String
+  musics: [Music]
+  likedPosts: [Post]
+}
 
   type Likes {
     _id: ID!
@@ -52,22 +53,26 @@ const typeDefs = gql`
   type Comments {
     _id: ID!
     content: String!
-    userId: String!
+    userId: ID
     createdAt: String!
   }
 
-  type Post{
+  type Post {
     _id: ID!
     title: String
     description: String
     likes: [Likes]
-    comments: String
+    comments: [Comments]
     images: String
     profileImage: String
     user: User
     selectedMusic: Music
   }
-
+  input CommentInput{
+    content: String!
+    userId: ID
+    createdAt: String!
+  }
   type Query {
     me: User
     findUserMusic:User
@@ -75,6 +80,7 @@ const typeDefs = gql`
     searchPosts(keyword:String!): [Post]
     searchProfiles(keyword:String!): [User]
     musics: [Music]
+    getComments: [Comments]
     music(_id: ID!): Music
     users: [User]
     profile: User
@@ -91,7 +97,8 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     createPost(title: String!, description: String!, images: String!,selectedMusic:ID): Post
     login(email: String!, password: String!): Auth
-    createComment(postId: ID!, content: String!): Post
+    createComment(commentData: CommentInput!): Comments
+  
     logout: User
     deletePost(postId: ID!): Post
     deleteMusic(userId:ID,title: String!): String

@@ -43,6 +43,12 @@ const userSchema = new Schema(
                 type: String,
                 default: moment().format('DD-MM-YYYY'),
         },
+        comments:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Comment',
+            }
+        ],
         following: [
             {
                 type: Schema.Types.ObjectId,

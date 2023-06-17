@@ -10,11 +10,17 @@ export const GET_POSTS = gql`
         _id
       }
       images
+      comments{
+        content 
+        userId
+        createdAt
+      }
       user {
         _id
         username
         profileImage
       }
+     
       selectedMusic {
         
         _id
@@ -34,7 +40,7 @@ query SearchPosts($keyword: String!) {
     likes{
       _id
     }
-    comments
+  
     images 
     user{
       username
@@ -82,7 +88,7 @@ export const GET_SINGLE_USERS_POSTS = gql`
   query GetUsersPosts($username: String!) {
     getUsersPosts(username: $username) {
       _id
-      comments
+    
       description
       images
       likes {

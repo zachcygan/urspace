@@ -1,39 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { LIKE_POST, UNLIKE_POST } from '../utils/mutations';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { Create_Comment, LIKE_POST, UNLIKE_POST } from '../utils/mutations';
+import {  useMutation, useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import auth from '../utils/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {showNotification} from '../redux/features/notificationSlice';
-export default function Posts({ posts, handleLike }) {
+
+
+const CommentInput =({postId,commentHandle})=>{
+  const [commentText, setCommentText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(postId, commentText);
+    commentHandle(postId, commentText);
+    setCommentText('');
+  };
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-2">
+      <input
+        type="text"
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
+        placeholder="Enter your comment"
+        className="border border-gray-300 px-2 py-1 rounded"
+      />
+      <button
+        type="submit"
+        className="relative inline-flex items-center justify-end gap-x-3 rounded-br-lg border border-transparent py-1 px-2 text-sm font-semibold text-gray-900 bg-gray-200 hover:bg-gray-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+          />
+        </svg>
+        <span>Submit</span>
+      </button>
+    </form>
+  );
+}
+
+
+
+export default function Posts({ posts }) {
   const { loading, error, data } = useQuery(GET_ME);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [likePost] = useMutation(LIKE_POST, {
     refetchQueries: [{ query: GET_ME }],
-    // update(cache, { data: { likePost } }) {
-    //   cache.modify({
-    //     id: cache.identify(likePost),
-    //     fields: {
-    //       likes(existingLikes = []) {
-    //         const newLikeRef = cache.writeFragment({
-    //           data: likePost.likes[likePost.likes.length - 1],
-    //           fragment: gql`
-    //             fragment NewLike on User {
-    //               id
-    //             }
-    //           `
-    //         });
-    //         return [...existingLikes, newLikeRef];
-    //       }
-    //     }
-    //   });
-    // },
+ 
   });
   const [unlikePost] = useMutation(UNLIKE_POST,{
     refetchQueries: [{ query: GET_ME }],
   });
+  const [showCommentInput, setShowCommentInput] = useState(false);
+  const [createComment,{error:commentError}] =useMutation(Create_Comment);
   // const [liked, setLiked] = useState(false);
 
   const [usersLikedPosts, setusersLikedPosts] = useState([]);
@@ -46,8 +77,41 @@ export default function Posts({ posts, handleLike }) {
     }
   }, [data]);
 
+  if(commentError){
+    return <p>Error:{commentError.message}</p>
+  }
+  const commentHandle=async (postId,commentText)=>{
 
-    
+    try {
+      console.log(postId,commentText);
+      const {data} = await createComment({
+        variables: { postId: postId, content: commentText },
+      });
+
+      console.log(data);
+      // const newComment = data.createComment;
+
+      // const updatedPosts = posts.map((post) => {
+      //   if(post._id===postId){
+      //     const updatedComments = [...post.comments,newComment];
+      //     return {...post,comments:updatedComments};
+      //   }
+      //   return post;
+      // });
+      // return updatedPosts;
+      return data;
+    } catch (error) {
+      console.error(error);
+      if (commentError) {
+        return <p>Error creating comment: {commentError.message}</p>;
+      }
+    }
+
+  };
+  const handleCommentButtonClick=()=>{
+    setShowCommentInput(true);
+  }
+   
 
     const handleLikePost = async (postId) => {
       if(!auth.loggedIn()){
@@ -162,30 +226,48 @@ export default function Posts({ posts, handleLike }) {
                 <div className='border-t border-gray-600'>
                   <div className="-mt-px flex divide-x divide-gray-600">
                     <div className="flex w-0 flex-1">
-                      <button
-                        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+                      {/* <button
+                        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900" 
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                         </svg>
-                      </button>
+                      </button> */}
+                      {showCommentInput?(
+                        <CommentInput postId={post._id} commentHandle={commentHandle} />
+                      ):(
+                        <button
+          className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+          onClick={handleCommentButtonClick}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+            />
+          </svg>
+        </button>
+                      )
+                    }
+                     
                     </div>
                     <div className="-ml-px flex w-0 flex-1">
-                      {/* <LikeButton post={post} /> */}
-                      {/* <button
-        onClick={() => handleLikePost(post._id)}
-        className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-        </svg>
-      </button> */}
-       <button
+                  
+       {/* <button
         onClick={() => handleLikePost(post._id)}
         className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
         <svg xmlns="http://www.w3.org/2000/svg" fill={usersLikedPosts.includes(post._id) ? "red" : "none"} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
         </svg>
-      </button>
+      </button> */}
                     </div>
                   </div>
                 </div>
