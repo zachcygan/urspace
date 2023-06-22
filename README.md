@@ -36,7 +36,7 @@ After a user creates an account. They will be allowed to create posts, save musi
 
 ## Deployed
 
-https://urspace.herokuapp.com/
+https://urrspace.herokuapp.com/
 
 ## Credits
 
